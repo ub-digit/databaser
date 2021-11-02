@@ -1,0 +1,20 @@
+@import "./fonts.scss";
+@import "./variables.scss";
+@import "../../node_modules/bootstrap/scss/bootstrap.scss";
+
+a {
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+
+h1 {
+    font-family: "NimbusSanNovCon-SemBol", "Arial Narrow", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: normal;
+    margin-top: 24px;
+    margin-bottom: 34px;
+    line-height: 1.1rem;
+    font-size: 2rem;
+  }
