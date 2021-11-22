@@ -27,16 +27,22 @@ export default {
   props: {
     databases: Object,
     sortOrders: Array,
-    sortOrderSelected: String,
+    sortOrder: String,
   },
   watch: {
+    sortOrder: function() {
+      this.selected = this.sortOrder;
+    },
     selected : function () {
       this.$emit('updateSortOrderSelected', this.selected);
     }
   },
+    mounted() {
+
+  },
   data() {
     return {
-      selected: this.sortOrderSelected,
+      selected: this.sortOrder,
     }
   },
 };

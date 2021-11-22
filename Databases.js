@@ -5,6 +5,7 @@ const databases = {
   },
   data:  [
     {
+      is_popular: true,
       id: 1,
       title: "Database 1",
       alternate_titles: ["Database one"], 
@@ -38,7 +39,10 @@ const databases = {
       access_information_code: "available_to_the_university_of_gothenburg",
       publishers: ['SAGE'],
       media_types: [{id: 1, name: "mediatype_1"}, {id: 2, name: "mediatype_2"}],
-      topics: [{id:11, name: "Economic history"}, {id:12, name: "Economic future"}],
+      topics: [
+        {id:1, name: "Economy", second_level: [{id:12, name: "Economic future"}, {id:11, name: "Economic history"}] }, 
+        {id:2, name: "Gender studies"}
+      ],
       topics_recommended: [{id:11, name: "Economic history"}],
       is_recommended: true,
       malfunction_message_active: false,
@@ -52,6 +56,57 @@ const databases = {
         {id:7, code: "interlibrary_loan", description: "/.../links to the Licensed Work in electronic course packs and course management systems [is allowed]", permitted: true},
       ]
     }
-  ]
+  ],
+  filters: {
+    mediatypes: [
+      {
+        id: 1,
+        name: "mediatype_1",
+      },
+      {
+        id: 2,
+        name: "mediatype_2",
+      },
+      {
+        id: 3,
+        name: "mediatype_3",
+      },
+    ],
+    topics : [
+      {
+        id: 1,
+        name: "Economy",
+        topics: [
+          {
+            id: 11,
+            name: "Economic history",
+          },
+          {
+            id: 12,
+            name: "Economic future",
+          },
+        ],
+      },
+      {
+        id: 2,
+        name: "Gender studies",
+      },
+      {
+        id: 3,
+        name: "Technology",
+        topics: [
+          {
+            id: 22,
+            name: "Computer science",
+          },
+          {
+            id: 23,
+            name: "Engineering",
+          },
+        ],
+      },
+    ]
+  }
+
 }
 module.exports = databases;

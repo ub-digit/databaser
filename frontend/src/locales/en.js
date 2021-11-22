@@ -18,6 +18,10 @@ export const en = {
     }
   },
   components: {
+    search_bar: {
+      placeholder: "Title, subject, supplier...",
+      submit: "Search"
+    },
     the_header: {
       logo_link: "http://gu.se/en",
       header_level1_link: "http://www.ub.gu.se/en",
@@ -27,6 +31,16 @@ export const en = {
     the_footer: {},
     popular_db_list: {
       title: "Popular databases",
+    },
+    topics_filter: {
+      label_first_level: "Subject",
+      label_second_level: "Subject terms"
+    },
+    mediatype_filter: {
+      label: "Media type"
+    },
+    freely_accessible_filter: {
+      label: "Show freely accessible"
     },
     the_nav: {
       nav1: {

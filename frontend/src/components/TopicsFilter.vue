@@ -1,15 +1,15 @@
 <template>
   <div class="facet-filter">
-    <div class="facet-header d-flex justify-content-between" :class="{active: firstLevelSelectedTopic}" @click="resetFirstLevelSelected" v-if="firstLevelSelectedTopic">
+    <div class="facet-header d-flex justify-content-between" :class="{active: topicFirstLevel}" @click="clearAllTopicLevelsSelected()" v-if="topicFirstLevel">
       <span class="facet-header-text">{{
-        firstLevelSelectedTopicFull.name
+        topicFirstLevelFull.name
       }}</span>
       <span class="facet-header-action-indicator"
         ><font-awesome-icon icon="times"
       /></span>
     </div>
-    <div class="facet-header d-flex justify-content-between" @click="toggleSubjectExpanded" v-else>
-      <span class="facet-header-text">Subject</span>
+    <div class="facet-header d-flex justify-content-between" @click="toggleSubjectExpanded()" v-else>
+      <span class="facet-header-text">{{$t('components.topics_filter.label_first_level')}}</span>
       <span class="facet-header-action-indicator">
         <span v-if="subjectExpanded"
           ><font-awesome-icon icon="chevron-up"/></span
@@ -19,25 +19,20 @@
 
     <ul class="list-unstyled subject-list" v-if="subjectExpanded">
       <li v-for="topic in topics" :key="topic.id">
-        <a href="#" @click="setFirstLevelSelected(topic)">
+        <a href="javascript:" @click.prevent="setFirstLevelSelected(topic.id)">
           {{ topic.name }}
         </a>
       </li>
     </ul>
-    <div v-if="firstLevelSelectedTopic">
-      <div v-if="firstLevelSelectedTopicFull.topics">
-        <div
-          class="facet-header d-flex justify-content-between" :class="{active: secondLevelSelectedTopics.length > 0 }" @click="toggleSubjectTermsExpanded">
+    <div v-if="topicFirstLevel">
+      <div v-if="topicFirstLevelFull.topics">
+        <div class="facet-header d-flex justify-content-between" :class="{active: topicsSecondLevel.length > 0 }" @click="toggleSubjectTermsExpanded()">
           <span class="facet-header-text">
-            <span v-if="secondLevelSelectedTopics.length <= 0">
-              Subject terms
+            <span v-if="topicsSecondLevel.length <= 0">
+              {{$t('components.topics_filter.label_second_level')}}
             </span>
-            <ul id="second-level" class="list-inline" v-if="secondLevelSelectedTopics.length > 0">
-              <li
-                class="list-inline-item"
-                v-for="topic in secondLevelSelectedTopicsFull"
-                :key="topic.id"
-              >
+            <ul id="second-level" class="list-inline" v-if="topicsSecondLevel.length > 0">
+              <li class="list-inline-item" v-for="topic in topicsSecondLevelFull" :key="topic.id">
                 {{ topic.name }}
               </li>
             </ul>
@@ -49,11 +44,8 @@
           </span>
         </div>
         <ul class="list-unstyled subject-terms-list" v-if="subjectTermsExpanded">
-          <li
-            v-for="topic in firstLevelSelectedTopicFull.topics"
-            :key="topic.id"
-          >
-            <a href="#" @click="setSecondLevelSelected(topic)">
+          <li v-for="topic in topicFirstLevelFull.topics" :key="topic.id">
+            <a href="javascript:" @click.prevent="setSecondLevelSelected(topic)">
               <span v-if="isSecondLevelTopicSelected(topic)"><font-awesome-icon icon="minus"/></span
               ><span v-else><font-awesome-icon icon="plus"/></span>{{ topic.name }}
             </a>
@@ -67,59 +59,30 @@
 <script>
 export default {
   name: "TopicsFilter.vue",
-  props: {
-    topics: Array,
-    firstLevelSelectedTopicProp: Number,
-    secondLevelSelectedTopicsProp: Array,
-  },
+  props: ['topics', 'topicFirstLevel', 'topicsSecondLevel'],
   data() {
     return {
-      firstLevelSelectedTopic: null,
-      secondLevelSelectedTopics: [],
       subjectExpanded: false,
       subjectTermsExpanded: false,
     };
   },
-
   watch: {
-    firstLevelSelectedTopic: {
-      deep: true,
-      handler() {
-        if (!this.firstLevelSelectedTopic) {
-          this.secondLevelSelectedTopics = [];
-          this.subjectTermsExpanded = false;
-        }
-        this.$emit(
-          "updateFilterTopicsFirstLevel",
-          this.firstLevelSelectedTopic
-        );
-      },
-    },
-    secondLevelSelectedTopics: {
-      deep: true,
-      handler() {
-        this.$emit(
-          "updateFilterTopicsSecondLevel",
-          this.secondLevelSelectedTopics
-        );
-      },
-    },
   },
   computed: {
-    firstLevelSelectedTopicFull: function() {
+    topicFirstLevelFull: function() {
       if (this.topics) {
         const topic = this.topics.find(
-          (topic) => topic.id === this.firstLevelSelectedTopic
+          (topic) => topic.id === this.topicFirstLevel
         );
         return topic;
       }
     },
-    secondLevelSelectedTopicsFull: function() {
+    topicsSecondLevelFull: function() {
       let res = [];
       this.topics.forEach((topic) => {
         if (topic.topics) {
           topic.topics.filter((topic) => {
-            const found = this.secondLevelSelectedTopics.includes(topic.id);
+            const found = this.topicsSecondLevel.includes(topic.id);
             if (found) {
               res.push(topic);
             }
@@ -129,45 +92,64 @@ export default {
       return res;
     },
   },
+
   mounted() {
-    if (this.firstLevelSelectedTopicProp) {
-      this.firstLevelSelectedTopic = this.firstLevelSelectedTopicProp;
-    }
-    if (this.secondLevelSelectedTopicsProp) {
-      this.secondLevelSelectedTopics = [...this.secondLevelSelectedTopicsProp];
-    }
   },
   methods: {
     isSecondLevelTopicSelected: function(topic) {
-      const found = this.secondLevelSelectedTopics.includes(topic.id);
+      const found = this.topicsSecondLevel.includes(topic.id);
       return found;
     },
-    toggleSubjectExpanded: function() {
-      this.subjectExpanded = !this.subjectExpanded;
+    toggleSubjectExpanded: function(open) {
+      if (open === undefined) {
+        this.subjectExpanded = !this.subjectExpanded;
+      }
+      else {
+        this.subjectExpanded = open;
+      }
+
     },
-    toggleSubjectTermsExpanded: function() {
-      this.subjectTermsExpanded = !this.subjectTermsExpanded;
+    toggleSubjectTermsExpanded: function(open) {
+      if (open === undefined) {
+        this.subjectTermsExpanded = !this.subjectTermsExpanded;
+      }
+      else {
+        this.subjectTermsExpanded = open;
+      }
     },
+
+    clearAllTopicLevelsSelected: function() {
+      this.$emit("clearAllTopicLevelsSelected")
+      this.toggleSubjectExpanded(false);
+      this.toggleSubjectTermsExpanded(false);
+    },
+
     setFirstLevelSelected: function(topic) {
-      this.firstLevelSelectedTopic = topic.id;
-      this.toggleSubjectExpanded();
+      if (topic) {
+        this.toggleSubjectExpanded(false);
+      }
+      this.$emit("updateFilterTopicsFirstLevel", topic.toString());
     },
     setSecondLevelSelected: function(topic) {
-      const found = this.secondLevelSelectedTopics.includes(topic.id);
-      if (!found) {
-        this.secondLevelSelectedTopics.push(topic.id);
-      } else {
-        const index = this.secondLevelSelectedTopics.indexOf(topic.id);
-        if (index > -1) {
-          this.secondLevelSelectedTopics.splice(index, 1);
+      let topicsSecondLevel = [...this.topicsSecondLevel];
+      if (!topic) { // reset on null
+        topicsSecondLevel = [];
+      }
+      else {
+        const found = topicsSecondLevel.includes(topic.id);
+        if (!found) {
+          topicsSecondLevel.push(topic.id);
+        } else {
+          const index = topicsSecondLevel.indexOf(topic.id);
+          if (index > -1) {
+            topicsSecondLevel.splice(index, 1);
+          }
         }
       }
-      this.toggleSubjectTermsExpanded();
+      this.$emit("updateFilterTopicsSecondLevel",topicsSecondLevel);
+      this.toggleSubjectTermsExpanded(false);
     },
-    resetFirstLevelSelected: function() {
-      this.firstLevelSelectedTopic = null;
-    },
-  },
+  }, 
 };
 </script>
 

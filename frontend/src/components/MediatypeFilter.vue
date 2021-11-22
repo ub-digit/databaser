@@ -1,6 +1,6 @@
 <template>
     <div class="facet-filter" v-if="mediatypes.length > 0">
-        <div class="facet-header d-flex justify-content-between" :class="{active: selectedMediatype}" @click="resetSelectedMediatype" v-if="selectedMediatype">
+        <div class="facet-header d-flex justify-content-between" :class="{active: mediatype}" @click="setMediatypeSelected()" v-if="mediatype">
             <span class="facet-header-text">{{
                 selectedMediatypeFull.name
             }}</span>
@@ -8,8 +8,8 @@
                 ><font-awesome-icon icon="times"
             /></span>
         </div>
-        <div class="facet-header d-flex justify-content-between" @click="toggleMediatypeExpanded" v-else>
-            <span class="facet-header-text">Media type</span>
+        <div class="facet-header d-flex justify-content-between" @click="toggleMediatypeExpanded(null)" v-else>
+            <span class="facet-header-text">{{$t('components.mediatype_filter.label')}}</span>
             <span class="facet-header-action-indicator">
                 <font-awesome-icon v-if="mediatypeExpanded" icon="chevron-up"/>
                 <font-awesome-icon v-else icon="chevron-down"/>
@@ -18,7 +18,7 @@
 
         <ul class="list-unstyled mediatype-list" v-if="mediatypeExpanded">
             <li v-for="mediatype in mediatypes" :key="mediatype.id">
-                <a href="#" @click="setMediatypeSelected(mediatype)">
+                <a href="javascript:" @click.prevent="setMediatypeSelected(mediatype.id)">
                     {{ mediatype.name }}
                 </a>
             </li>
@@ -27,49 +27,46 @@
 </template>
 
 <script>
-    export default {
-        name: 'MediatypeFilter',
-        props: {
-            mediatypes: Array,
-            selectedMediatypeProp: Number,
-        },
-        data() {
-            return {
-                selectedMediatype: null,
-                mediatypeExpanded: false,
+export default {
+    name: 'MediatypeFilter',
+    props: {
+        mediatypes: Array,
+        mediatype: Number,
+    },
+    data() {
+        return {
+            mediatypeExpanded: false,
+        }
+    },
+    watch: {
+    },
+    computed: {
+        selectedMediatypeFull: function() {
+            if (this.mediatypes) {
+                return this.mediatypes.find((mediatype) => mediatype.id === this.mediatype);
             }
         },
-        watch: {
-            selectedMediatype: function () {
-                this.mediatypeExpanded = false;
-                this.$emit("updateFilterMediatype", this.selectedMediatype);
-            }
-        },
-        computed: {
-            selectedMediatypeFull: function() {
-                if (this.mediatypes) {
-                    const mediatype = this.mediatypes.find((mediatype) => mediatype.id === this.selectedMediatype);
-                    return mediatype;
-                }
-            },
-        },
-        mounted() {
-            if (this.selectedMediatypeProp)  {
-                this.selectedMediatype = this.selectedMediatypeProp;
-            }
-        },
-        methods: {
-            toggleMediatypeExpanded: function() {
+    },
+    mounted() {
+
+    },
+    methods: {
+        toggleMediatypeExpanded: function(open) {
+            if (!open) {
                 this.mediatypeExpanded = !this.mediatypeExpanded;
-            },
-            setMediatypeSelected: function (mediatype) {
-                this.selectedMediatype = mediatype.id;
-            },
-            resetSelectedMediatype: function () {
-                this.selectedMediatype = null;   
+            }
+            else {
+                this.mediatypeExpanded = open;
             }
         },
-    }
+        setMediatypeSelected: function (mediatype) {
+            if (mediatype) {
+                this.toggleMediatypeExpanded(false);
+            }
+            this.$emit("updateFilterMediatype", mediatype);
+        }
+    },
+}
 </script>
 
 <style lang="scss" scoped>
@@ -85,4 +82,4 @@ ul {
         }
     }
 }
-</style>
+</style>selectedMediatype

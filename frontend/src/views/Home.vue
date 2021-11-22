@@ -13,23 +13,28 @@
       <PopularDBList :databases="popularDatabases" />
     </div>
 
+    <div class="searchbar">
+      <SearchBar :search="search" @updateSearch="updateSearch" />
+    </div>
+
     <div class="row">
       <div class="col-12 col-md-4">
-        <aside v-if="topics.length > 0" class="facet-filter-area">
+        <aside v-if="databases._meta" class="facet-filter-area">
           <TopicsFilter
-            :topics="topics"
-            :firstLevelSelectedTopicProp="filterTopicsFirstLevel"
-            :secondLevelSelectedTopicsProp="filterTopicsSecondLevel"
+            :topics="databases.filters.topics"
+            :topicFirstLevel="topicFirstLevel"
+            :topicsSecondLevel="topicsSecondLevel"
             @updateFilterTopicsSecondLevel="updateFilterTopicsSecondLevel"
             @updateFilterTopicsFirstLevel="updateFilterTopicsFirstLevel"
+            @clearAllTopicLevelsSelected="clearAllTopicLevelsSelected"
           />
-          <mediatypeFilter :mediatypes="mediatypes" :selectedMediatypeProp="filterMediatype" @updateFilterMediatype="updateFilterMediatype"/>
-          <FreelyAccessibleFilter :showFree="filterShowFree" @updateShowFreeFilter="updateShowFreeFilter"/>
+          <mediatypeFilter :mediatypes="databases.filters.mediatypes" :mediatype="mediatype" @updateFilterMediatype="updateFilterMediatype"/>
+          <FreelyAccessibleFilter :showFree="showFree" @updateShowFreeFilter="updateShowFreeFilter"/>
         </aside>
-      </div>
+      </div>  
       <div class="col">
-        <main v-if="databases._meta">
-            <DatabaseList :databases="databases" :sortOrderSelected="sortOrderSelected" :sortOrders="sortOrders" @updateSortOrderSelected="updateSortOrderSelected"/>
+        <main v-if="databases._meta"> <!--- todo: fix zero state inside component -->
+            <DatabaseList :databases="databases" :sortOrder="sortOrder" :sortOrders="sortOrders" @updateSortOrderSelected="updateSortOrderSelected"/>
         </main>
       </div>
     </div>
@@ -43,140 +48,138 @@ import TopicsFilter from "../components/TopicsFilter.vue";
 import DatabaseList from "../components/DatabaseList.vue";
 import MediatypeFilter from "../components/MediatypeFilter.vue";
 import FreelyAccessibleFilter from "../components/FreelyAccessibleFilter.vue";
+import SearchBar from "../components/SearchBar.vue";
 export default {
   name: "Home",
+  props: {
+    lang: {
+      default: 'en',
+      type: String
+    },
+    sortOrder: {
+      default: "asc",
+      type: String
+    },
+    topicFirstLevel: {
+      type: Number,
+      default: null
+    }, 
+    topicsSecondLevel: {
+      type: Array,
+      default: []
+    },
+    mediatype: {
+      type: Number,
+      default: null
+    },
+    showFree: {
+      type: Boolean,
+      default: false
+    },
+    search: {
+      type: String,
+      default: null
+    }
+  },
   components: {
     PopularDBList,
     TopicsFilter,
     DatabaseList,
     MediatypeFilter,
-    FreelyAccessibleFilter
+    FreelyAccessibleFilter,
+    SearchBar
+  },
+  watch: {
+    '$i18n.locale'(lang) {
+      this.updateRouterParam({lang: lang});
+    },
+    async '$route.query'(params) {
+      const query = this.$route.query;
+      this.databases = await this.$store.dispatch("fetchDatabases", {
+          topicsfirstlevel: params.topicFirstLevel, 
+          topicsSecondLevel: params.topicsSecondLevel,
+          mediatype: params.mediatype, 
+          show_free: params.showFree, 
+          sortOrder: params.sortOrder,
+          search: params.search,
+          lang: params.lang // this.$i18n.locale  
+      });
+    },
+
+
   },
   data() {
     return {
       popularDatabases: [],
       databases: [],
-      topics: [],
-      mediatypes: [],
-      filterTopicsFirstLevel: null,
-      filterTopicsSecondLevel: [],
-      filterMediatype: null,
-      filterShowFree: false,
       sortOrders: [
         {id:'asc', text:"Ascending"}, 
-        {id:'desc', text:"Decending"}, 
+        {id:'desc', text:"Descending"}, 
         {id:'rel', text:"Relevance"}
         ],
-      sortOrderSelected: "asc"
     };
   },
   async created() {
-    const filterTopicsFirstLevel = this.$route.query.filterTopicsFirstLevel;
-    if (filterTopicsFirstLevel) {
-      this.filterTopicsFirstLevel = parseInt(filterTopicsFirstLevel);
-    }
-    const filterTopicsSecondLevel = this.$route.query.filterTopicsSecondLevel;
-    if (filterTopicsSecondLevel) {
-      if (Array.isArray(filterTopicsSecondLevel)) {
-        this.filterTopicsSecondLevel = [...filterTopicsSecondLevel].map(Number);
-      } else {
-        this.filterTopicsSecondLevel.push(parseInt(filterTopicsSecondLevel));
-      }
-    }
-    const filterMediatype = this.$route.query.filterMediatype;
-    if (filterMediatype) {
-      this.filterMediatype = parseInt(filterMediatype);
-    }
-    const filterShowFree = this.$route.query.filterShowFree;
-    if (filterShowFree) {
-      this.filterShowFree = filterShowFree;
-    }
-    const sortOrderSelected = this.$route.query.sortOrder;
-    if (sortOrderSelected) {
-      this.sortOrderSelected = sortOrderSelected;
-    }
+    this.$i18n.locale = this.lang;
+  },
 
-    this.databases = await this.$store.dispatch("fetchDatabases");
-    this.topics = await this.$store.dispatch("fetchTopics");
-    this.mediatypes = await this.$store.dispatch("fetchMediatypes");
+  async updated() {
+  },
+  async mounted() {
+    this.databases = await this.$store.dispatch("fetchDatabases", {
+      topicsfirstlevel: this.topicFirstLevel, 
+      topicsSecondLevel: this.topicsSecondLevel,
+      mediatype: this.mediatype, 
+      show_free: this.showFree, 
+      sortOrder: this.sortOrder,
+      search: this.search,
+      lang: this.lang // this.$i18n.locale  
+    });
     this.popularDatabases = await this.$store.dispatch("fetchPopularDatabases");
-
-  },
-  watch: {
-    sortOrderSelected: function () {
-      this.updateRouterParam();
-      this.getDatabases();
-    },
-    filterTopicsFirstLevel: function() {
-      this.updateRouterParam();
-      this.getDatabases();
-    },
-    filterTopicsSecondLevel: function() {
-      this.updateRouterParam();
-      this.getDatabases();
-    },
-    filterMediatype: function () {
-      this.updateRouterParam();
-      this.getDatabases();
-    },
-    filterShowFree: function () {
-      this.updateRouterParam();
-      this.getDatabases();
-    }
   },
 
-  async mounted() {},
   methods: {
-    getDatabases: async function() {
-      this.databases = await this.$store.dispatch("fetchDatabases", this.allTopics);
+    updateRouterParam: function(obj) {
+      if (!obj) {
+        obj = {};
+      }
+      const old_query = this.$route.query;
+      const query = {...old_query, ...obj};
+      this.$router.push({query})
     },
-    updateRouterParam: function() {
-      this.$router.replace({ query: {} });
-      const query = {};
-      if (this.sortOrderSelected) {
-        query.sortOrder = this.sortOrderSelected;
-      }
-      if (this.filterTopicsFirstLevel) {
-          query.filterTopicsFirstLevel = this.filterTopicsFirstLevel;
-      }
-      if (this.filterTopicsSecondLevel.length) {
-          query.filterTopicsSecondLevel =  this.filterTopicsSecondLevel;
-      } 
-      if (this.filterMediatype) {
-          query.filterMediatype = this.filterMediatype;
-      }
-      if (this.filterShowFree) {
-        query.filterShowFree = this.filterShowFree;
-      }
-      this.$router.replace({
-        query
-      })
+    updateSearch: function(search) {
+      this.updateRouterParam({search: search})
     },
     updateSortOrderSelected: function (sortOrder) {
-      this.sortOrderSelected = sortOrder;
+      this.updateRouterParam({sortOrder: sortOrder});
     },
-    updateFilterTopicsSecondLevel: function(topics) {
-      this.filterTopicsSecondLevel = [...topics];
+    clearAllTopicLevelsSelected: function() {
+      this.updateRouterParam({topicFirstLevel: undefined, topicsSecondLevel: undefined})
     },
     updateFilterTopicsFirstLevel: function(topic) {
-      this.filterTopicsFirstLevel = topic;
+      this.updateRouterParam({topicFirstLevel: topic});
     },
-
+    updateFilterTopicsSecondLevel: function(topics) {
+      let topicsSecondLevel = null; 
+      if (topics) {
+        topicsSecondLevel = [...topics]
+      }
+      this.updateRouterParam({topicsSecondLevel: topicsSecondLevel});
+    },
     updateFilterMediatype: function (mediatype) {
-      this.filterMediatype = mediatype;
+      this.updateRouterParam({mediatype: mediatype});
     },
-    updateShowFreeFilter: function () {
-      this.filterShowFree = !this.filterShowFree;
+    updateShowFreeFilter: function (show) {
+      let showFree = undefined;
+      if (show) {
+        showFree = true;
+      }
+      this.updateRouterParam({showFree: showFree });
+
     }
   },
   computed: {
-    allTopics: function() {
-      let topics = [...this.filterTopicsSecondLevel];
-      if (this.filterTopicsFirstLevel) {
-        topics.push(this.filterTopicsFirstLevel);
-      }
-      return topics;
-    },
+
   },
 };
 </script>

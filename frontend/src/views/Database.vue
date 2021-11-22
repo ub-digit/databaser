@@ -42,9 +42,15 @@
           <div class="col">
             <p>
               <strong>{{$t("views.database.subjects")}}:</strong>
-              <ul class="list-inline">
-                <li class="list-inline-item" v-for="(topic, index) in database.topics" :key="topic.id" >
-                  <a :href="topic.id">{{topic.name}}</a><span v-if="index+1 < database.topics.length">, </span>
+              <ul class="list-unstyled">
+                <li v-for="(topic, index) in database.topics" :key="topic.id" >
+                  <router-link :to="{path: '/', query: {topicFirstLevel: topic.id}}">{{topic.name}}</router-link>
+                  <ul v-if="topic.second_level">
+                    <li v-for="topic_second in topic.second_level" :key="topic_second.id">
+                     <router-link :to="{path: '/', query: {topicFirstLevel: topic.id, topicsSecondLevel: topic_second.id}}" >{{topic_second.name}}</router-link> 
+                    </li>
+                  </ul>
+                 <!-- <a :href="topic.id">{{topic.name}}</a><span v-if="index+1 < database.topics.length">, </span> -->
                 </li>
               </ul>
             </p>
@@ -56,7 +62,7 @@
               <strong>{{$t("views.database.mediatypes")}}:</strong>
               <ul class="list-inline">
                 <li class="list-inline-item" v-for="(media_type, index) in database.media_types" :key="media_type.id" >
-                  <a :href="media_type.id">{{media_type.name}}</a><span v-if="index+1 < database.media_types.length">, </span>
+                  <router-link :to="{ path: '/', query: { mediatype: media_type.id }}">{{media_type.name}}</router-link><span v-if="index+1 < database.media_types.length">, </span>
                 </li>
               </ul>
             </p>
