@@ -15,7 +15,10 @@ const databases = {
       access_information_code: "freely_available",
       publishers: ['SAGE'],
       media_types: [{id: 1, name: "mediatype_1"}, {id: 2, name: "mediatype_2"}],
-      topics: [{id:11, name: "Economic history"}, {id:12, name: "Economic future"}],
+      topics: [
+        {id:1, name: "Economy"}, 
+        {id:2, name: "Gender studies"}
+      ],
       topics_recommended: [{id:11, name: "Economic history"}],
       is_recommended: true,
       malfunction_message_active: false,

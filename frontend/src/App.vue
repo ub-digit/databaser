@@ -15,6 +15,9 @@ export default {
     TheHeader,
     TheNav,
   },
+  mounted() {
+    document.title = this.$t('application_title');
+  },
 };
 </script>
 

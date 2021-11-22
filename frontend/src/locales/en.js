@@ -1,6 +1,7 @@
 import mediatypes from "../../../Mediatypes";
 
-export const en = {
+export const en = { 
+  application_title: 'Databases - Gothenburg university library',
   shared: {
     access_information_code: {
       freely_available: "Freely available",
