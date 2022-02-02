@@ -43,10 +43,14 @@ const databases = {
       publishers: ['SAGE'],
       media_types: [{id: 1, name: "mediatype_1"}, {id: 2, name: "mediatype_2"}],
       topics: [
-        {id:1, name: "Economy", second_level: [{id:12, name: "Economic future"}, {id:11, name: "Economic history"}] }, 
+        {id:1, name: "Economy", sub_topics: [{id:12, name: "Economic future"}, {id:11, name: "Economic history"}] }, 
         {id:2, name: "Gender studies"}
       ],
-      topics_recommended: [{id:11, name: "Economic history"}],
+      topics_recommended: [
+        {id:11, name: "Economic history", parentID: 1}, 
+        {id:2, name: "Gender studies", parentID: null},
+        {id:3, name: "Technology", sub_topics: [{id:22, name: "Computer science"}]}
+      ],
       is_recommended: true,
       malfunction_message_active: false,
       malfunction_message: 'down for maintenance',

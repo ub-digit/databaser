@@ -34,8 +34,8 @@ export const en = {
       title: "Popular databases",
     },
     topics_filter: {
-      label_first_level: "Subject",
-      label_second_level: "Subject terms"
+      label_topic: "Subject",
+      label_sub_topics: "Subject terms"
     },
     mediatype_filter: {
       label: "Media type"
