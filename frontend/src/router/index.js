@@ -58,13 +58,11 @@ const getTopic = function(route) {
 
 const getSubTopics = function(route) {
   let sub_topics = [];
-  const topicsSecondLevel = route.query.sub_topics;
-
   if (route.query.sub_topics) {
     if (Array.isArray(route.query.sub_topics)) {
       sub_topics = [...route.query.sub_topics].map(Number);
     } else {
-      sub_topics.push(parseInt(topicsSecondLevel));
+      sub_topics.push(parseInt(route.query.sub_topics));
     }
   }
   return sub_topics;
