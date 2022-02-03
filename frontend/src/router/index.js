@@ -20,7 +20,7 @@ const routes = [
 
 
 function queryHandler(route) {
-  return {sortOrder: getSortOrder(route), topicFirstLevel: getTopicFirstLevel(route), topicsSecondLevel: getTopicsSecondLevel(route), 
+  return {sortOrder: getSortOrder(route), topic: getTopic(route), sub_topics: getSubTopics(route), 
             mediatype: getMediatype(route), showFree: getFree(route), lang: getLang(route),
             search: getSearch(route)};
 }
@@ -52,22 +52,20 @@ const getMediatype = function(route) {
 const getSortOrder = function(route) {
   return route.query.sortOrder;
 }
-const getTopicFirstLevel = function(route) {
-  return route.query.topicFirstLevel ? parseInt(route.query.topicFirstLevel) : undefined;
+const getTopic = function(route) {
+  return route.query.topic ? parseInt(route.query.topic) : undefined;
 }
 
-const getTopicsSecondLevel = function(route) {
-  let topicsSecondeLevelArr = [];
-  const topicsSecondLevel = route.query.topicsSecondLevel;
-
-  if (route.query.topicsSecondLevel) {
-    if (Array.isArray(route.query.topicsSecondLevel)) {
-      topicsSecondeLevelArr = [...route.query.topicsSecondLevel].map(Number);
+const getSubTopics = function(route) {
+  let sub_topics = [];
+  if (route.query.sub_topics) {
+    if (Array.isArray(route.query.sub_topics)) {
+      sub_topics = [...route.query.sub_topics].map(Number);
     } else {
-      topicsSecondeLevelArr.push(parseInt(topicsSecondLevel));
+      sub_topics.push(parseInt(route.query.sub_topics));
     }
   }
-  return topicsSecondeLevelArr;
+  return sub_topics;
 }
 
 const router = createRouter({

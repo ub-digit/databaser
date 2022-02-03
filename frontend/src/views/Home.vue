@@ -22,11 +22,11 @@
         <aside v-if="databases._meta" class="facet-filter-area">
           <TopicsFilter
             :topics="databases.filters.topics"
-            :topicFirstLevel="topicFirstLevel"
-            :topicsSecondLevel="topicsSecondLevel"
-            @updateFilterTopicsSecondLevel="updateFilterTopicsSecondLevel"
-            @updateFilterTopicsFirstLevel="updateFilterTopicsFirstLevel"
-            @clearAllTopicLevelsSelected="clearAllTopicLevelsSelected"
+            :topic="topic"
+            :sub_topics="sub_topics"
+            @updateFilterSubTopics="updateFilterSubTopics"
+            @updateFilterTopic="updateFilterTopic"
+            @clearAllSelected="clearAllSelected"
           />
           <mediatypeFilter :mediatypes="databases.filters.mediatypes" :mediatype="mediatype" @updateFilterMediatype="updateFilterMediatype"/>
           <FreelyAccessibleFilter :showFree="showFree" @updateShowFreeFilter="updateShowFreeFilter"/>
@@ -60,11 +60,11 @@ export default {
       default: "asc",
       type: String
     },
-    topicFirstLevel: {
+    topic: {
       type: Number,
       default: null
     }, 
-    topicsSecondLevel: {
+    sub_topics: {
       type: Array,
       default: []
     },
@@ -96,8 +96,8 @@ export default {
     async '$route.query'(params) {
       const query = this.$route.query;
       this.databases = await this.$store.dispatch("fetchDatabases", {
-          topicsfirstlevel: params.topicFirstLevel, 
-          topicsSecondLevel: params.topicsSecondLevel,
+          topic: params.topic, 
+          sub_topics: params.sub_topics,
           mediatype: params.mediatype, 
           show_free: params.showFree, 
           sortOrder: params.sortOrder,
@@ -127,8 +127,8 @@ export default {
   },
   async mounted() {
     this.databases = await this.$store.dispatch("fetchDatabases", {
-      topicsfirstlevel: this.topicFirstLevel, 
-      topicsSecondLevel: this.topicsSecondLevel,
+      topic: this.topic, 
+      sub_topics: this.sub_topics,
       mediatype: this.mediatype, 
       show_free: this.showFree, 
       sortOrder: this.sortOrder,
@@ -153,18 +153,18 @@ export default {
     updateSortOrderSelected: function (sortOrder) {
       this.updateRouterParam({sortOrder: sortOrder});
     },
-    clearAllTopicLevelsSelected: function() {
-      this.updateRouterParam({topicFirstLevel: undefined, topicsSecondLevel: undefined})
+    clearAllSelected: function() {
+      this.updateRouterParam({topic: undefined, sub_topics: undefined})
     },
-    updateFilterTopicsFirstLevel: function(topic) {
-      this.updateRouterParam({topicFirstLevel: topic});
+    updateFilterTopic: function(topic) {
+      this.updateRouterParam({topic: topic});
     },
-    updateFilterTopicsSecondLevel: function(topics) {
-      let topicsSecondLevel = null; 
+    updateFilterSubTopics: function(topics) {
+      let sub_topics = null; 
       if (topics) {
-        topicsSecondLevel = [...topics]
+        sub_topics = [...topics]
       }
-      this.updateRouterParam({topicsSecondLevel: topicsSecondLevel});
+      this.updateRouterParam({sub_topics: sub_topics});
     },
     updateFilterMediatype: function (mediatype) {
       this.updateRouterParam({mediatype: mediatype});
