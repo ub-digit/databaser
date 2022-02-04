@@ -83,7 +83,7 @@ const databases = {
       {
         id: 1,
         name: "Economy",
-        topics: [
+        sub_topics: [
           {
             id: 11,
             name: "Economic history",
@@ -101,7 +101,7 @@ const databases = {
       {
         id: 3,
         name: "Technology",
-        topics: [
+        sub_topics: [
           {
             id: 22,
             name: "Computer science",
