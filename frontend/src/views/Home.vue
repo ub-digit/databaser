@@ -207,6 +207,7 @@ export default {
     cursor: pointer;
     background: #f0f0f0;
     padding: 15px;
+    border: none;
     border-bottom: 1px solid #cccccc;
   }
   .facet-filter {

@@ -1,20 +1,22 @@
 <template>
   <div class="facet-filter">
-    <div class="facet-header d-flex justify-content-between" :class="{active: topic}" @click="clearAllSelected()" v-if="topic">
-      <span class="facet-header-text">{{
-        topicFull.name
-      }}</span>
-      <span class="facet-header-action-indicator"
-        ><font-awesome-icon icon="times"
-      /></span>
-    </div>
-    <div class="facet-header d-flex justify-content-between" @click="toggleTopicExpanded()" v-else>
-      <span class="facet-header-text">{{$t('components.topics_filter.label_topic')}}</span>
-      <span class="facet-header-action-indicator">
-        <span v-if="topicExpanded"
-          ><font-awesome-icon icon="chevron-up"/></span
-        ><span v-else><font-awesome-icon icon="chevron-down"/></span>
-      </span>
+    <div class="d-grid gap-2">
+      <button role="button" class="facet-header d-flex justify-content-between" :class="{active: topic}" @click="clearAllSelected()" v-if="topic">
+        <span class="facet-header-text">{{
+          topicFull.name
+        }}</span>
+        <span class="facet-header-action-indicator"
+          ><font-awesome-icon icon="times"
+        /></span>
+      </button>
+      <button role="button" class="facet-header d-flex justify-content-between" @click="toggleTopicExpanded()" v-else>
+        <span class="facet-header-text">{{$t('components.topics_filter.label_topic')}}</span>
+        <span class="facet-header-action-indicator">
+          <span v-if="topicExpanded"
+            ><font-awesome-icon icon="chevron-up"/></span
+          ><span v-else><font-awesome-icon icon="chevron-down"/></span>
+        </span>
+      </button>
     </div>
 
     <ul class="list-unstyled subject-list" v-if="topicExpanded">
@@ -26,7 +28,8 @@
     </ul>
     <div v-if="topic">
       <div v-if="topicFull.sub_topics">
-        <div class="facet-header d-flex justify-content-between" :class="{active: sub_topics.length > 0 }" @click="toggleSubTopicsExpanded()">
+        <div class="d-grid gap-2">
+        <button role="button" class="facet-header d-flex justify-content-between" :class="{active: sub_topics.length > 0 }" @click="toggleSubTopicsExpanded()">
           <span class="facet-header-text">
             <span v-if="sub_topics.length <= 0">
               {{$t('components.topics_filter.label_sub_topics')}}
@@ -42,6 +45,7 @@
               ><font-awesome-icon icon="chevron-up"/></span
             ><span v-else><font-awesome-icon icon="chevron-down"/></span>
           </span>
+        </button>
         </div>
         <ul class="list-unstyled subject-terms-list" v-if="subTopicsExpanded">
           <li v-for="topic in topicFull.sub_topics" :key="topic.id">
