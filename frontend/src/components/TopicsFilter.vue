@@ -25,7 +25,7 @@
       </li>
     </ul>
     <div v-if="topic">
-      <div v-if="topicFull.topics">
+      <div v-if="topicFull.sub_topics">
         <div class="facet-header d-flex justify-content-between" :class="{active: sub_topics.length > 0 }" @click="toggleSubTopicsExpanded()">
           <span class="facet-header-text">
             <span v-if="sub_topics.length <= 0">
@@ -44,7 +44,7 @@
           </span>
         </div>
         <ul class="list-unstyled subject-terms-list" v-if="subTopicsExpanded">
-          <li v-for="topic in topicFull.topics" :key="topic.id">
+          <li v-for="topic in topicFull.sub_topics" :key="topic.id">
             <a href="javascript:" @click.prevent="setSubTopicslSelected(topic)">
               <span v-if="isSubTopicSelected(topic)"><font-awesome-icon icon="minus"/></span
               ><span v-else><font-awesome-icon icon="plus"/></span>{{ topic.name }}
@@ -80,8 +80,8 @@ export default {
     subTopicsFull: function() {
       let res = [];
       this.topics.forEach((topic) => {
-        if (topic.topics) {
-          topic.topics.filter((topic) => {
+        if (topic.sub_topics) {
+          topic.sub_topics.filter((topic) => {
             const found = this.sub_topics.includes(topic.id);
             if (found) {
               res.push(topic);
