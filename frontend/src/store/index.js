@@ -17,7 +17,6 @@ export default (app) => {
     actions: {
 
       async fetchDatabases({ _, state }, payload) {
-        console.log("payload:", payload);
         try {
           const result = await axios.get(`${state.baseURL}/databases`, {params: {payload}});
           return result.data;
