@@ -20,8 +20,8 @@ const routes = [
 
 
 function queryHandler(route) {
-  return {sortOrder: getSortOrder(route), topic: getTopic(route), sub_topics: getSubTopics(route), 
-            mediatype: getMediatype(route), showFree: getFree(route), lang: getLang(route),
+  return {sort_order: getSortOrder(route), topic: getTopic(route), sub_topics: getSubTopics(route), 
+            mediatype: getMediatype(route), show_free: getFree(route), lang: getLang(route),
             search: getSearch(route)};
 }
 
@@ -40,7 +40,7 @@ const getLang = function(route) {
 }
 
 const getFree = function(route) {
-  if (route.query.showFree === "true") {
+  if (route.query.show_free === "true") {
     return true;
   }
   return false;
@@ -50,7 +50,7 @@ const getMediatype = function(route) {
 }
 
 const getSortOrder = function(route) {
-  return route.query.sortOrder;
+  return route.query.sort_order;
 }
 const getTopic = function(route) {
   return route.query.topic ? parseInt(route.query.topic) : undefined;

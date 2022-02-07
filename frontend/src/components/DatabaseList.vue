@@ -27,7 +27,7 @@ export default {
   props: {
     databases: Object,
     sortOrders: Array,
-    sortOrder: String,
+    sort_order: String,
   },
   watch: {
     sortOrder: function() {
@@ -42,7 +42,7 @@ export default {
   },
   data() {
     return {
-      selected: this.sortOrder,
+      selected: this.sort_order,
     }
   },
 };
