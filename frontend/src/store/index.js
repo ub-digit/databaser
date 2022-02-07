@@ -8,8 +8,7 @@ export default (app) => {
     state() {
       return {
         baseURL: app.baseURL,
-        databases: [],
-        topics: [],
+
       }
     },
     mutations: {
@@ -44,7 +43,6 @@ export default (app) => {
       },
     },
     getters: {
-      allDatabases: (state) => state.databases,
     },
   }));
 }
