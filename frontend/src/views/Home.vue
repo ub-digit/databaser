@@ -29,12 +29,12 @@
             @clearAllSelected="clearAllSelected"
           />
           <mediatypeFilter :mediatypes="databases.filters.mediatypes" :mediatype="mediatype" @updateFilterMediatype="updateFilterMediatype"/>
-          <FreelyAccessibleFilter :showFree="showFree" @updateShowFreeFilter="updateShowFreeFilter"/>
+          <FreelyAccessibleFilter :show_free="show_free" @updateShowFreeFilter="updateShowFreeFilter"/>
         </aside>
       </div>  
       <div class="col">
         <main v-if="databases._meta"> <!--- todo: fix zero state inside component -->
-            <DatabaseList :databases="databases" :sortOrder="sortOrder" :sortOrders="sortOrders" @updateSortOrderSelected="updateSortOrderSelected"/>
+            <DatabaseList :databases="databases" :sort_order="sort_order" :sortOrders="sortOrders" @updateSortOrderSelected="updateSortOrderSelected"/>
         </main>
       </div>
     </div>
@@ -56,7 +56,7 @@ export default {
       default: 'en',
       type: String
     },
-    sortOrder: {
+    sort_order: {
       default: "asc",
       type: String
     },
@@ -72,7 +72,7 @@ export default {
       type: Number,
       default: null
     },
-    showFree: {
+    show_free: {
       type: Boolean,
       default: false
     },
@@ -99,8 +99,8 @@ export default {
           topic: params.topic, 
           sub_topics: params.sub_topics,
           mediatype: params.mediatype, 
-          show_free: params.showFree, 
-          sortOrder: params.sortOrder,
+          show_free: params.show_free, 
+          sort_order: params.sortOrder,
           search: params.search,
           lang: params.lang // this.$i18n.locale  
       });
@@ -131,7 +131,7 @@ export default {
       sub_topics: this.sub_topics,
       mediatype: this.mediatype, 
       show_free: this.showFree, 
-      sortOrder: this.sortOrder,
+      sort_order: this.sort_order,
       search: this.search,
       lang: this.lang // this.$i18n.locale  
     });
@@ -150,8 +150,8 @@ export default {
     updateSearch: function(search) {
       this.updateRouterParam({search: search})
     },
-    updateSortOrderSelected: function (sortOrder) {
-      this.updateRouterParam({sortOrder: sortOrder});
+    updateSortOrderSelected: function (sort_order) {
+      this.updateRouterParam({sort_order: sort_order});
     },
     clearAllSelected: function() {
       this.updateRouterParam({topic: undefined, sub_topics: undefined})
@@ -174,7 +174,7 @@ export default {
       if (show) {
         showFree = true;
       }
-      this.updateRouterParam({showFree: showFree });
+      this.updateRouterParam({show_free: showFree });
 
     }
   },
