@@ -134,8 +134,16 @@ export default {
   components: {
     AccessInformation
   },
+
+  props: {
+    lang: {
+      default: 'en',
+      type: String
+    }
+  },
   async mounted() {
     const id = this.$route.params.id;
+    const lang = this.$route.params.lang;
     this.database = await this.$store.dispatch("fetchDatabase", id);
   },
   computed: {

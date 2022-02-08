@@ -52,10 +52,6 @@ import SearchBar from "../components/SearchBar.vue";
 export default {
   name: "Home",
   props: {
-    lang: {
-      default: 'en',
-      type: String
-    },
     sort_order: {
       default: "asc",
       type: String
@@ -90,9 +86,7 @@ export default {
     SearchBar
   },
   watch: {
-    '$i18n.locale'(lang) {
-      this.updateRouterParam({lang: lang});
-    },
+
     async '$route.query'(params) {
       const query = this.$route.query;
       this.databases = await this.$store.dispatch("fetchDatabases", {
@@ -102,7 +96,6 @@ export default {
           show_free: params.show_free, 
           sort_order: params.sortOrder,
           search: params.search,
-          lang: params.lang // this.$i18n.locale  
       });
     },
 
@@ -120,7 +113,7 @@ export default {
     };
   },
   async created() {
-    this.$i18n.locale = this.lang;
+  //  this.$i18n.locale = this.lang;
   },
 
   async updated() {
@@ -133,7 +126,7 @@ export default {
       show_free: this.showFree, 
       sort_order: this.sort_order,
       search: this.search,
-      lang: this.lang // this.$i18n.locale  
+      lang: this.$i18n.locale  
     });
     this.popularDatabases = await this.$store.dispatch("fetchPopularDatabases");
   },

@@ -8,14 +8,12 @@ export default (app) => {
     state() {
       return {
         baseURL: app.baseURL,
-
       }
     },
     mutations: {
   
     },
     actions: {
-
       async fetchDatabases({ _, state }, payload) {
         try {
           const result = await axios.get(`${state.baseURL}/databases`, {params: {payload}});
