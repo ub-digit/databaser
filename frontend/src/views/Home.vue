@@ -113,7 +113,6 @@ export default {
     };
   },
   async created() {
-  //  this.$i18n.locale = this.lang;
   },
 
   async updated() {

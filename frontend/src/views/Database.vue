@@ -136,10 +136,6 @@ export default {
   },
 
   props: {
-    lang: {
-      default: 'en',
-      type: String
-    }
   },
   async mounted() {
     const id = this.$route.params.id;
