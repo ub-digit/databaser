@@ -139,7 +139,6 @@ export default {
   },
   async mounted() {
     const id = this.$route.params.id;
-    const lang = this.$route.params.lang;
     this.database = await this.$store.dispatch("fetchDatabase", id);
   },
   computed: {
