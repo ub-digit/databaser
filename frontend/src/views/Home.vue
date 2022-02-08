@@ -148,7 +148,14 @@ export default {
       this.$router.push({query})
     },
     updateSearch: function(search) {
-      this.updateRouterParam({search: search})
+      const settings = {
+        search: search,
+        topic: undefined,
+        show_free: undefined,
+        sub_topics: undefined,
+        mediatype: undefined
+      }
+      this.updateRouterParam(settings)
     },
     updateSortOrderSelected: function (sort_order) {
       this.updateRouterParam({sort_order: sort_order});
