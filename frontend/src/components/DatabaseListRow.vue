@@ -15,11 +15,7 @@
 export default {
   name: "DatabaseListRow",
   props: {
-    database: Object,
-    lang: {
-      default: 'en',
-      type: String
-    },
+    database: Object
   },
 };
 </script>
