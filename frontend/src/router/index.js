@@ -3,8 +3,6 @@ import Home from "../views/Home.vue";
 import Database from "../views/Database.vue";
 import Index from "../views/Index.vue";
 
-
-
 const routes = [
   {
     path: "/",
@@ -28,7 +26,6 @@ const routes = [
 
 ];
 
-
 function queryHandler(route) {
   return {sort_order: getSortOrder(route), topic: getTopic(route), sub_topics: getSubTopics(route), 
             mediatype: getMediatype(route), show_free: getFree(route), search: getSearch(route)};
@@ -37,13 +34,6 @@ function queryHandler(route) {
 const getSearch = function(route){
   if (route.query.search) {
     return route.query.search;
-  }
-  return undefined;
-}
-
-const getLang = function(route) {
-  if (route.query.lang) {
-    return route.query.lang;
   }
   return undefined;
 }
