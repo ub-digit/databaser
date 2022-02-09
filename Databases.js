@@ -13,7 +13,7 @@ const databases = {
       urls: [{title: 'link text', url: 'http://www.ub.gu.se'}, {title: 'link 2 text', url: 'http://www.ub.gu.se'}],
       public_access: true,
       access_information_code: "freely_available",
-      publishers: ['SAGE'],
+      publishers: [{id:1, name:'SAGE'}],
       media_types: [{id: 1, name: "mediatype_1"}, {id: 2, name: "mediatype_2"}],
       topics: [
         {id:1, name: "Economy"}, 
@@ -40,7 +40,7 @@ const databases = {
       urls: [{title: 'link text', url: 'http://www.ub.gu.se'}],
       public_access: false,
       access_information_code: "available_to_the_university_of_gothenburg",
-      publishers: ['SAGE'],
+      publishers: [{id:1, name:'SAGE'}],
       media_types: [{id: 1, name: "mediatype_1"}, {id: 2, name: "mediatype_2"}],
       topics: [
         {id:1, name: "Economy", sub_topics: [{id:12, name: "Economic future"}, {id:11, name: "Economic history"}] }, 
