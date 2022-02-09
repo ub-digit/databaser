@@ -24,14 +24,14 @@ export default {
   },
   mounted() {
     document.title = this.$t('application_title');
-    this.$i18n.locale = this.lang;
   },
 
   watch: {
     '$i18n.locale'(newVal, oldVal) {
       const old_query = this.$route.query;
       const query = {...old_query, ...{lang: newVal }};
-      this.$router.replace({query})
+      this.$router.replace({query: query});
+      setTimeout(function() {location.reload()},0);
     },
     '$route.query'(newVal, oldVal) {
       const old_query = this.$route.query;
