@@ -44,10 +44,10 @@
               <strong>{{$t("views.database.subjects")}}:</strong>
               <ul class="list-unstyled">
                 <li v-for="(topic, index) in database.topics" :key="topic.id" >
-                  <router-link :to="{path: '/', query: {topicFirstLevel: topic.id}}">{{topic.name}}</router-link>
-                  <ul v-if="topic.second_level">
-                    <li v-for="topic_second in topic.second_level" :key="topic_second.id">
-                     <router-link :to="{path: '/', query: {topicFirstLevel: topic.id, topicsSecondLevel: topic_second.id}}" >{{topic_second.name}}</router-link> 
+                  <router-link :to="{path: '/', query: {topic: topic.id}}">{{topic.name}}</router-link>
+                  <ul v-if="topic.sub_topics">
+                    <li v-for="sub_topic in topic.sub_topics" :key="sub_topic.id">
+                     <router-link :to="{path: '/', query: {topic: topic.id, sub_topics: sub_topic.id}}" >{{sub_topic.name}}</router-link> 
                     </li>
                   </ul>
                  <!-- <a :href="topic.id">{{topic.name}}</a><span v-if="index+1 < database.topics.length">, </span> -->
