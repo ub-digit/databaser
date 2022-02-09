@@ -22,9 +22,9 @@ export default (app) => {
           console.log(error.message);
         }
       },
-      async fetchPopularDatabases({_, state }) {
+      async fetchPopularDatabases({_, state }, payload) {
         try {
-          const result = await axios.get(`${state.baseURL}/databases/popular`);
+          const result = await axios.get(`${state.baseURL}/databases/popular`, {params: {payload}});
           return result.data;
         } catch (error) {
           console.log(error.message);
