@@ -19,7 +19,7 @@
             </div>
           </div>
           <div class="col-auto align-self-top">
-            <locale-toggler />
+            <locale-toggler/>
           </div>
         </div>
       </div>

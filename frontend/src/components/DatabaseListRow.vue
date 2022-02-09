@@ -2,7 +2,7 @@
   <div>
     <router-link
       class="database-link"
-      :to="{ name: 'Database', params: { id: database.id } }"
+      :to="{ name: 'Database', params: { id: database.id }}"
       >{{ database.title }}</router-link
     >
     <div class="database-body">
@@ -15,7 +15,7 @@
 export default {
   name: "DatabaseListRow",
   props: {
-    database: Object,
+    database: Object
   },
 };
 </script>

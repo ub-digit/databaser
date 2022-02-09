@@ -1,28 +1,37 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 import Database from "../views/Database.vue";
+import Index from "../views/Index.vue";
 
 
 
 const routes = [
   {
     path: "/",
-    name: "Home",
-    component: Home,
-    props: queryHandler
+    name: "Index",
+    component: Index,
+    props: route => ({ lang: route.query.lang }),
+    children: [
+      {
+        path: "/",
+        name: "Home",
+        component: Home,
+        props: queryHandler
+      },
+      {
+        path: "/database/:id",
+        name: "Database",
+        component: Database,
+      },
+    ]
   },
-  {
-    path: "/database/:id",
-    name: "Database",
-    component: Database,
-  },
+
 ];
 
 
 function queryHandler(route) {
   return {sort_order: getSortOrder(route), topic: getTopic(route), sub_topics: getSubTopics(route), 
-            mediatype: getMediatype(route), show_free: getFree(route), lang: getLang(route),
-            search: getSearch(route)};
+            mediatype: getMediatype(route), show_free: getFree(route), search: getSearch(route)};
 }
 
 const getSearch = function(route){

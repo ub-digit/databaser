@@ -8,10 +8,11 @@ const messages = {
 };
 
 
+
 const i18n = createI18n({
- // locale: url_lang || "en",
+  locale: "en",
   fallbackLocale: "en",
-  messages,
+  messages
 });
 
 export { i18n };

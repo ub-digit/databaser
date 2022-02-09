@@ -134,6 +134,9 @@ export default {
   components: {
     AccessInformation
   },
+
+  props: {
+  },
   async mounted() {
     const id = this.$route.params.id;
     this.database = await this.$store.dispatch("fetchDatabase", id);
