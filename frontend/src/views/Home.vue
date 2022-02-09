@@ -86,20 +86,9 @@ export default {
     SearchBar
   },
   watch: {
-
     async '$route.query'(params) {
-      const query = this.$route.query;
-      this.databases = await this.$store.dispatch("fetchDatabases", {
-          topic: params.topic, 
-          sub_topics: params.sub_topics,
-          mediatype: params.mediatype, 
-          show_free: params.show_free, 
-          sort_order: params.sortOrder,
-          search: params.search,
-      });
+      this.fetchData();
     },
-
-
   },
   data() {
     return {
@@ -118,19 +107,22 @@ export default {
   async updated() {
   },
   async mounted() {
-    this.databases = await this.$store.dispatch("fetchDatabases", {
-      topic: this.topic, 
-      sub_topics: this.sub_topics,
-      mediatype: this.mediatype, 
-      show_free: this.showFree, 
-      sort_order: this.sort_order,
-      search: this.search,
-      lang: this.$i18n.locale  
-    });
-    this.popularDatabases = await this.$store.dispatch("fetchPopularDatabases");
+    this.fetchData();
   },
 
   methods: {
+    fetchData: async function() {
+      this.databases = await this.$store.dispatch("fetchDatabases", {
+          topic: this.topic, 
+          sub_topics: this.sub_topics,
+          mediatype: this.mediatype, 
+          show_free: this.show_free, 
+          sort_order: this.sortOrder,
+          search: this.search,
+          lang: this.$i18n.locale
+      });
+      this.popularDatabases = await this.$store.dispatch("fetchPopularDatabases", {lang: this.$i18n.locale});
+    },
     updateRouterParam: function(obj) {
       if (!obj) {
         obj = {};
