@@ -87,7 +87,6 @@ export default {
   },
   watch: {
     async '$route.query'(params) {
-      this.fetchData();
     },
   },
   data() {
@@ -130,6 +129,7 @@ export default {
       const old_query = this.$route.query;
       const query = {...old_query, ...obj};
       this.$router.push({query})
+      this.fetchData();
     },
     updateSearch: function(search) {
       const settings = {
