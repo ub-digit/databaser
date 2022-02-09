@@ -13,6 +13,10 @@ $headings-margin-top: 24px;
 $headings-font-family: "NimbusSanNovCon-SemBol", "Arial Narrow", Helvetica, Arial, "Lucida Grande", sans-serif;
 
 
+$link-decoration:                         none;
+$link-shade-percentage:                   20% !default;
+$link-hover-decoration:                   underline;
+
 
 @import "../../node_modules/bootstrap/scss/variables";
 @import "../../node_modules/bootstrap/scss/mixins";
@@ -56,11 +60,3 @@ $headings-font-family: "NimbusSanNovCon-SemBol", "Arial Narrow", Helvetica, Aria
 
 // Utilities
 @import "../../node_modules/bootstrap/scss/utilities/api";
-
-
-a {
-    text-decoration: none;
-    &:hover {
-        text-decoration: underline;
-    }
-}
