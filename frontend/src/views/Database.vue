@@ -74,7 +74,7 @@
               <strong>{{$t("views.database.vendor")}}:</strong>
               <ul class="list-inline">
                 <li class="list-inline-item" v-for="(publisher, index) in database.publishers" :key="publisher.id" >
-                    {{publisher.name}}<span v-if="index+1 < database.publishers.length">, </span>
+                    {{publisher.title}}<span v-if="index+1 < database.publishers.length">, </span>
                 </li>
               </ul>
             </p>
