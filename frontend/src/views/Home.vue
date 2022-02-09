@@ -94,10 +94,10 @@ export default {
       popularDatabases: [],
       databases: [],
       sortOrders: [
-        {id:'asc', text:"Ascending"}, 
-        {id:'desc', text:"Descending"}, 
-        {id:'rel', text:"Relevance"}
-        ],
+        {id:'asc', text: this.$i18n.t('components.sortorders.asc')}, 
+        {id:'desc', text: this.$i18n.t('components.sortorders.desc')}, 
+        {id:'rel', text: this.$i18n.t('components.sortorders.rel') }
+      ],
     };
   },
   async created() {

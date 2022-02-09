@@ -43,6 +43,11 @@ export const en = {
     freely_accessible_filter: {
       label: "Show freely accessible"
     },
+    sortorders: {
+      asc: 'Ascending',
+      desc: 'Descending',
+      rel: 'Relevance'
+    },
     the_nav: {
       nav1: {
         title: "Homepage",
