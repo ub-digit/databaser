@@ -24,7 +24,7 @@ export default {
     },
     clearSearch: function() {
       this.searchStr = undefined;
-      this.updateSearch();
+      this.updateSearch(null);
     }
   },
   mounted() {

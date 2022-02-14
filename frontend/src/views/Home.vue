@@ -116,7 +116,7 @@ export default {
           sub_topics: this.sub_topics,
           mediatype: this.mediatype, 
           show_free: this.show_free, 
-          sort_order: this.sortOrder,
+          sort_order: this.sort_order,
           search: this.search,
           lang: this.$i18n.locale
       });
@@ -129,7 +129,7 @@ export default {
       const old_query = this.$route.query;
       const query = {...old_query, ...obj};
       this.$router.push({query})
-      this.fetchData();
+      setTimeout(() => {this.fetchData()}, 0);
     },
     updateSearch: function(search) {
       const settings = {
