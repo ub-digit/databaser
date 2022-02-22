@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const databases = require("../../Databases");
+const databases = require("../../Databases.js");
 
 const idFilter = (req) => (database) => database.id === parseInt(req.params.id);
 

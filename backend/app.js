@@ -2,8 +2,7 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 const logger = require("./middleware/logger");
-const databases = require("./Databases");
-const topics = require("./Topics");
+
 const { response } = require("express");
 
 const app = express();
