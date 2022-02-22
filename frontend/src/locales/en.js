@@ -1,4 +1,3 @@
-import mediatypes from "../../../Mediatypes";
 
 export const en = { 
   application_title: 'Databases - Gothenburg university library',
