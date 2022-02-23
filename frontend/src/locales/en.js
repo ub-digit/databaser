@@ -26,7 +26,9 @@ export const en = {
       logo_link: "http://gu.se/en",
       header_level1_link: "http://www.ub.gu.se/en",
       header_level1: "Gothenburg University Library",
-    header_level2: "Database Search",
+      header_level2: "Database Search",
+      language_otherCode: "sv",
+      language_otherName: "Svenska"
     },
     the_footer: {},
     popular_db_list: {
