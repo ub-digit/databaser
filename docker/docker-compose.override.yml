@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  backend:
+    image: node:16
+    volumes:
+      - ../backend:/usr/src/app
+    build: 
+      context: ../backend
+      dockerfile: Dockerfile
+  frontend:
+    image: ebiven/vue-cli
+    volumes:
+      - ../frontend:/code
+    command: ["npm", "run", "serve"] 
