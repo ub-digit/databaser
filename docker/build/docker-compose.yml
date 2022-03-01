@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - GIT_REPO_URL=${GIT_REPO_URL}
+        - GIT_REVISION=${GIT_REVISION}
+    ports: 
+      - '80:80'

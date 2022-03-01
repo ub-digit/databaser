@@ -7,9 +7,7 @@
 export default {
 
 
-  watch: {
 
-  }
 };
 </script>
 
