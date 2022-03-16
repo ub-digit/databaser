@@ -17,7 +17,7 @@ const routes = [
         props: queryHandler
       },
       {
-        path: "/database/:id",
+        path: "/database/:id/:title?",
         name: "Database",
         component: Database,
       },

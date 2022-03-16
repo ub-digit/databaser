@@ -7,7 +7,7 @@
       <div class="col-md-auto">
         <ul class="list-unstyled">
           <li class="d-md-inline-block" v-for="db in databases" :key="db.id">
-            <router-link :to="{ name: 'Database', params: { id: db.id } }">{{db.title}}</router-link>
+            <router-link :to="{ name: 'Database', params: { id: db.id, title: db.title } }">{{db.title}}</router-link>
           </li>
         </ul>
       </div>

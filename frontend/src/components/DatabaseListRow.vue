@@ -2,7 +2,7 @@
   <div>
     <router-link
       class="database-link"
-      :to="{ name: 'Database', params: { id: database.id }}"
+      :to="{ name: 'Database', params: { id: database.id, title: database.title }}"
       >{{ database.title }}</router-link
     >
     <div class="database-body">
