@@ -129,6 +129,8 @@
 
 <script>
 import AccessInformation from "../components/AccessInformation.vue";
+import { useStore } from '@/pinia/store';
+import { mapActions } from "pinia";
 export default {
   name: "Database",
   components: {
@@ -137,14 +139,17 @@ export default {
 
   props: {
   },
+  computed: {
+  },
   async mounted() {
     const id = this.$route.params.id;
-    this.database = await this.$store.dispatch("fetchDatabase", id);
+    this.database = await this.fetchDatabase(id);
   },
   computed: {
 
   },
   methods: {
+    ...mapActions(useStore, ['fetchDatabase']),
     getTermsOfUseString: function (code) {
         return this.$t("shared.terms_of_use_code." + code);
     },

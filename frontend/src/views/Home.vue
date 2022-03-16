@@ -49,6 +49,9 @@ import DatabaseList from "../components/DatabaseList.vue";
 import MediatypeFilter from "../components/MediatypeFilter.vue";
 import FreelyAccessibleFilter from "../components/FreelyAccessibleFilter.vue";
 import SearchBar from "../components/SearchBar.vue";
+import { useStore } from '@/pinia/store';
+import { mapActions } from "pinia";
+
 export default {
   name: "Home",
   props: {
@@ -108,10 +111,13 @@ export default {
   async mounted() {
     this.fetchData();
   },
-
+  computed: {
+    
+  },
   methods: {
+    ...mapActions(useStore, ['fetchDatabases', 'fetchPopularDatabases']),
     fetchData: async function() {
-      this.databases = await this.$store.dispatch("fetchDatabases", {
+      this.databases = await this.fetchDatabases({
           topic: this.topic, 
           sub_topics: this.sub_topics,
           mediatype: this.mediatype, 
@@ -120,7 +126,7 @@ export default {
           search: this.search,
           lang: this.$i18n.locale
       });
-      this.popularDatabases = await this.$store.dispatch("fetchPopularDatabases", {lang: this.$i18n.locale});
+      this.popularDatabases = await this.fetchPopularDatabases({lang: this.$i18n.locale});
     },
     updateRouterParam: function(obj) {
       if (!obj) {
@@ -168,9 +174,6 @@ export default {
       this.updateRouterParam({show_free: showFree });
 
     }
-  },
-  computed: {
-
   },
 };
 </script>

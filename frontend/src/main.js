@@ -1,7 +1,8 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store";
+//import store from "./store";
+import { createPinia } from 'pinia'
 import axios from 'axios';
 import { i18n } from "./locales";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -24,9 +25,10 @@ axios.get(local_url).then((result) => {
   let app = createApp(App)
   app.baseURL = baseURL
   app
+  .provide('baseURL', baseURL)
   .component("font-awesome-icon", FontAwesomeIcon)
+  .use(createPinia())
   .use(i18n)
-  .use(store)
   .use(router)
   .mount("#app");
 })
