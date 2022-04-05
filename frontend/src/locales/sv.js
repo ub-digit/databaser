@@ -69,6 +69,7 @@ export const sv = {
       terms_of_use: "Terms of use",
       permitted: "Permitted",
       prohibited: "Prohibited",
+      link_prefix: "To",
 
     },
     home: {
