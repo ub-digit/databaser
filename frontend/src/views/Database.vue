@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="row justify-content-md-center">
-      <div class="col-sm-8">
+    <div class="row justify-content-sm-center">
+      <div class="col col-md-8 col-lg-6">
         <div class="row">
           <div class="col-auto mb-4">
               <a href="#" @click="goBack"><span class="icon"><font-awesome-icon icon="arrow-left"/></span>{{$t("views.database.backButton")}}</a>
@@ -78,13 +78,13 @@
             </p>
           </div>
         </div>
-        <div v-if="database.alternate_titles && database.alternate_titles.length > 0" class="row">
+        <div v-if="database.alternative_titles && database.alternative_titles.length > 0" class="row">
           <div class="col">
             <p>
               <strong>{{$t("views.database.alt_title")}}:</strong>
               <ul class="list-inline">
-                <li class="list-inline-item" v-for="(alternate_title, index) in database.alternate_titles" :key="alternate_title" >
-                    {{alternate_title}}<span v-if="index+1 < database.alternate_titles.length">, </span>
+                <li class="list-inline-item" v-for="(alternative_title, index) in database.alternative_titles" :key="alternative_title" >
+                    {{alternative_title}}<span v-if="index+1 < database.alternative_titles.length">, </span>
                 </li>
               </ul>
             </p>

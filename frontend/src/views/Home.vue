@@ -3,7 +3,7 @@
     <div class="page-info">
       <div class="row justify-content-md-center">
         <div class="col-md-10 col-lg-6">
-          <h1>{{ $t("views.home.title") }}</h1>
+          <h1 class="page-title">{{ $t("views.home.title") }}</h1>
           <p class="lead">{{ $t("views.home.desc") }}</p>
         </div>
       </div>
@@ -179,8 +179,17 @@ export default {
 </script>
 
 <style lang="scss">
+
 .page-info {
   margin-bottom: 40px;
+  h1 {
+    &.page-title {
+      margin-bottom: 10px;
+    }
+  }
+  .lead {
+    font-weight: bold;
+  }
 }
 .popular {
   margin-bottom: 20px;
