@@ -12,6 +12,12 @@
             <h1>{{ database.title }}</h1>
           </div>
         </div>
+        <div v-if="database.malfunction_message_active" class="row mb-4">
+          <div class="col">
+            <div class="alert alert-warning" role="alert" v-html="malfunction_message_markdown_output">
+            </div>
+          </div>
+        </div>
         <div v-if="database.description" class="row">
           <div class="col">
             <p v-html="desc_markdown_output">
@@ -149,6 +155,9 @@ export default {
   computed: {
       desc_markdown_output() {
         return marked(this.database.description)
+      },
+      malfunction_message_markdown_output() {
+        return marked(this.database.malfunction_message)
       }
   },
   methods: {
