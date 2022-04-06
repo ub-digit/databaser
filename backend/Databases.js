@@ -9,7 +9,8 @@ const databases = {
       id: 1,
       title: "Database 1",
       alternative_titles: ["Database one"], 
-      description: "21st Century Sociology: A Reference Handbook provides a concise forum through which the vast array of knowledge accumulated, particularly during the past three decades, can be organized into a single definitive resource. The two volumes of this Reference Handbook focus on the corpus of knowledge garnered in traditional areas of sociological inquiry, as well as document the general orientation of the newer and currently emerging areas of sociological inquiry.",
+      description: `21st Century Sociology: A Reference Handbook provides a concise forum through which the vast array of knowledge accumulated, particularly during the past three decades, can be organized into a single definitive resource. The two volumes of this Reference Handbook focus on the corpus of knowledge garnered in traditional areas of sociological inquiry, 
+      as well as document the general orientation of the newer and currently emerging areas of sociological inquiry.`,
       urls: [{title: 'link text', url: 'http://www.ub.gu.se'}, {title: 'link 2 text', url: 'http://www.ub.gu.se'}],
       public_access: true,
       access_information_code: "freely_available",
@@ -21,7 +22,7 @@ const databases = {
       ],
       topics_recommended: [{id:11, name: "Economic history"}],
       is_recommended: true,
-      malfunction_message_active: false,
+      malfunction_message_active: true,
       malfunction_message: 'down for maintenance',
       terms_of_use: [
         {id:1, code: "print_article_chapter", description: null, permitted: true},
@@ -60,11 +61,12 @@ const databases = {
         {id:3, code: "course_pack_print", description: null, permitted: true},
         {id:4, code: "gul_course_pack_electronic", description: null, permitted: true},
         {id:6, code: "scholarly_sharing", description: null, permitted: true},
-        {id:7, code: "interlibrary_loan", description: "/.../links to the Licensed Work in electronic course packs and course management systems [is allowed]", permitted: true},
+        {id:7, code: "interlibrary_loan", description: "links to the Licensed Work in electronic course packs and course management systems [is allowed]", permitted: true},
       ]
     }
   ],
   filters: {
+
     mediatypes: [
       {
         id: 1,

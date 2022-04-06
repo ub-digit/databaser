@@ -14,8 +14,8 @@
         </div>
         <div v-if="database.description" class="row">
           <div class="col">
-            <p>
-              {{ database.description }}
+            <p v-html="desc_markdown_output">
+
             </p>
           </div>
         </div>
@@ -129,6 +129,9 @@
 import AccessInformation from "../components/AccessInformation.vue";
 import { useStore } from '@/pinia/store';
 import { mapActions } from "pinia";
+import { marked } from 'marked';
+import { tsMethodSignature } from "@babel/types";
+
 export default {
   name: "Database",
   components: {
@@ -144,7 +147,9 @@ export default {
     this.database = await this.fetchDatabase(id);
   },
   computed: {
-
+      desc_markdown_output() {
+        return marked(this.database.description)
+      }
   },
   methods: {
     ...mapActions(useStore, ['fetchDatabase']),

@@ -18,7 +18,7 @@ export const useStore = defineStore('main', {
             console.log(error.message);
           }
         },
-        async fetchPopularDatabases({_, state }, payload) {
+        async fetchPopularDatabases(payload) {
           try {
             const result = await axios.get(`${this.baseURL}/databases/popular`, {params: {payload}});
             return result.data;

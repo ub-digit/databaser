@@ -9,12 +9,12 @@ export const en = {
       available_to_the_university_of_gothenburg_available_to_anyone_using_the_libraries_computers: "Available to the University of Gothenburg. Available to anyone using the libraries' computers"
     },
     terms_of_use_code: {
-      print_article_chapter: "print article chapter",
-      download_article_chapter: "download article chapter",
-      course_pack_print: "course packprint",
-      gul_course_pack_electronic: "gul course pack electronic",
-      scholarly_sharing: "scholarly sharing",
-      interlibrary_loan: "interlibrary loan"
+      print_article_chapter: "Print article chapter",
+      download_article_chapter: "Download article chapter",
+      course_pack_print: "Course packprint",
+      gul_course_pack_electronic: "Gul course pack electronic",
+      scholarly_sharing: "Scholarly sharing",
+      interlibrary_loan: "Interlibrary loan"
     }
   },
   components: {

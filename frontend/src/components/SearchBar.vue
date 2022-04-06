@@ -3,8 +3,8 @@
     <div class="col-md-6">
       <form class="input-group">
         <a v-if="clearIsVisible" href="javascript:" id="btn-clear-input" @click.prevent="clearSearch"><font-awesome-icon icon="times"/></a>
-        <input class="form-control" :placeholder="$t('components.search_bar.placeholder')"  v-model="searchStr">
-        <input class="btn btn-outline-primary" type="submit" @click.prevent="updateSearch" :value="$t('components.search_bar.submit')">
+        <input class="form-control form-control-lg" :placeholder="$t('components.search_bar.placeholder')"  v-model="searchStr">
+        <input class="btn btn-primary" type="submit" @click.prevent="updateSearch" :value="$t('components.search_bar.submit')">
       </form>
     </div>
   </div>
@@ -47,10 +47,10 @@ export default {
 
 <style lang="scss" scoped>
 #searchBar {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
   #btn-clear-input {
     position: absolute;
-    top: 7px;
+    top: 12px;
     right:90px;
     z-index: 100;
     color: black;
