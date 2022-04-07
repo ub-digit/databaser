@@ -18,6 +18,10 @@ export const en = {
     }
   },
   components: {
+    database_list_row: {
+      recommended: "Recommended",
+      link_prefix: "Directly to"
+    },
     search_bar: {
       placeholder: "Title, subject, supplier...",
       submit: "Search"

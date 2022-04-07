@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="access-information">
         <font-awesome-icon v-if="database.public_access" icon="lock-open"/><font-awesome-icon v-else icon="lock"/>
         {{getAccessInformationString}}
     </div>
@@ -20,5 +20,8 @@
 </script>
 
 <style lang="scss" scoped>
-
+.access-information {
+    color: #555555;
+    font-size: 0.875em;
+}
 </style>

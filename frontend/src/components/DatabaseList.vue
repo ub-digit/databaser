@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row">
+    <div class="row mb-4">
       <div class="col"><strong>Found {{databases._meta.found}} of {{databases._meta.total}} databases:</strong></div>
       <div class="col-auto">
         <select class="form-select" v-model="selected">

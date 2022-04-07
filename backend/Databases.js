@@ -11,11 +11,11 @@ const databases = {
       alternative_titles: ["Database one"], 
       description: `21st Century Sociology: A Reference Handbook provides a concise forum through which the vast array of knowledge accumulated, particularly during the past three decades, can be organized into a single definitive resource. The two volumes of this Reference Handbook focus on the corpus of knowledge garnered in traditional areas of sociological inquiry, 
       as well as document the general orientation of the newer and currently emerging areas of sociological inquiry.`,
-      urls: [{title: 'link text', url: 'http://www.ub.gu.se'}, {title: 'link 2 text', url: 'http://www.ub.gu.se'}],
+      urls: [{title: 'link text 1', url: 'http://www.ub.gu.se'}, {title: 'link 2 text', url: 'http://www.ub.gu.se'}],
       public_access: true,
       access_information_code: "freely_available",
       publishers: [{id:1, name:'SAGE'}],
-      media_types: [{id: 1, name: "mediatype_1"}, {id: 2, name: "mediatype_2"}],
+      media_types: [{id: 1, name: "mediatype_1"}, {id: 2, name: "mediatype_2"}],  
       topics: [
         {id:1, name: "Economy"}, 
         {id:2, name: "Gender studies"}
@@ -38,7 +38,7 @@ const databases = {
       title: "Database 2",
       alternative_titles: ["Database two"], 
       description: "21st Century Sociology: A Reference Handbook provides a concise forum through which the vast array of knowledge accumulated, particularly during the past three decades, can be organized into a single definitive resource. The two volumes of this Reference Handbook focus on the corpus of knowledge garnered in traditional areas of sociological inquiry, as well as document the general orientation of the newer and currently emerging areas of sociological inquiry.",
-      urls: [{title: 'link text', url: 'http://www.ub.gu.se'}],
+      urls: [{title: 'link text 2', url: 'http://www.ub.gu.se'}],
       public_access: false,
       access_information_code: "available_to_the_university_of_gothenburg",
       publishers: [{id:1, name:'SAGE'}],

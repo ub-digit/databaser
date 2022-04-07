@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <div class="page-info">
-      <div class="row justify-content-md-center">
-        <div class="col-md-10 col-lg-6">
+      <div class="row justify-content-lg-center">
+        <div class="col-lg-10 col-xl-6">
           <h1 class="page-title">{{ $t("views.home.title") }}</h1>
           <p class="lead">{{ $t("views.home.desc") }}</p>
         </div>
