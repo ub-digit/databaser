@@ -38,7 +38,9 @@ export default {
   computed:  {
     getDatabaseURL() {
       if (this.database.urls && this.database.urls.length) {
-        return {url: this.database.urls[0].url, title: this.database.urls[0].title}
+        if (this.database.urls.length === 1) {
+          return {url: this.database.urls[0].url, title: this.database.urls[0].title}
+        }
       }
       return null;
     }
