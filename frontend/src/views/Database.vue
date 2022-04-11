@@ -24,7 +24,7 @@
 
             </p>
           </div>
-        </div>
+        </div>d
         <div v-if="database.access_information_code" class="row">
           <div class="access-info col">
             <p v-if="database.id">
@@ -146,8 +146,7 @@ export default {
 
   props: {
   },
-  computed: {
-  },
+  
   async mounted() {
     const id = this.$route.params.id;
     this.database = await this.fetchDatabase(id);

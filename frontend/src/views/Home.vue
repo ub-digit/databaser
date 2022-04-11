@@ -9,6 +9,7 @@
       </div>
     </div>
 
+    <Alert/>
     <div class="popular">
       <PopularDBList :databases="popularDatabases" />
     </div>
@@ -46,6 +47,7 @@
 import PopularDBList from "../components/PopularDBList.vue";
 import TopicsFilter from "../components/TopicsFilter.vue";
 import DatabaseList from "../components/DatabaseList.vue";
+import Alert from "../components/Alert.vue";
 import MediatypeFilter from "../components/MediatypeFilter.vue";
 import FreelyAccessibleFilter from "../components/FreelyAccessibleFilter.vue";
 import SearchBar from "../components/SearchBar.vue";
@@ -86,7 +88,8 @@ export default {
     DatabaseList,
     MediatypeFilter,
     FreelyAccessibleFilter,
-    SearchBar
+    SearchBar,
+    Alert
   },
   watch: {
     async '$route.query'(params) {
