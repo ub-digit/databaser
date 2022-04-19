@@ -8,8 +8,8 @@
         </div>
       </div>
     </div>
-
-    <Alert/>
+    
+    <Alert :url="alertURL"/>
     <div class="popular">
       <PopularDBList :databases="popularDatabases" />
     </div>
@@ -52,7 +52,7 @@ import MediatypeFilter from "../components/MediatypeFilter.vue";
 import FreelyAccessibleFilter from "../components/FreelyAccessibleFilter.vue";
 import SearchBar from "../components/SearchBar.vue";
 import { useStore } from '@/pinia/store';
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "Home",
@@ -98,6 +98,7 @@ export default {
   data() {
     return {
       popularDatabases: [],
+      alert_url: null,
       databases: [],
       sortOrders: [
         {id:'asc', text: this.$i18n.t('components.sortorders.asc')}, 
@@ -115,7 +116,7 @@ export default {
     this.fetchData();
   },
   computed: {
-    
+     ...mapState(useStore, ['alertURL']),
   },
   methods: {
     ...mapActions(useStore, ['fetchDatabases', 'fetchPopularDatabases']),

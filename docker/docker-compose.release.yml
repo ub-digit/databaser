@@ -2,6 +2,11 @@ version: '3.7'
 
 services:
   backend:
-    image: docker.ub.gu.se/db-list-backend:${GIT_REVISION}
+    image: node:16
+    volumes:
+      - ../backend:/usr/src/app
+    build: 
+      context: ../backend
+      dockerfile: Dockerfile
   frontend:
     image: docker.ub.gu.se/db-list-frontend:${GIT_REVISION}

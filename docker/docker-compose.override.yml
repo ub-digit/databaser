@@ -10,6 +10,9 @@ services:
       dockerfile: Dockerfile
   frontend:
     image: ebiven/vue-cli
+    environment:
+      VUE_APP_API_BASE_URL: "${DB_LIST_BACKEND_URL}"
+      VUE_APP_ALERT_URL: "${DB_LIST_ALERT_URL}"
     volumes:
       - ../frontend:/code
     command: ["npm", "run", "serve"] 

@@ -6,6 +6,7 @@ export const useStore = defineStore('main', {
     state: () => {
         return {
           baseURL: inject("baseURL"),
+          alertURL: inject("alertURL"),
         }
       },
 

@@ -21,6 +21,8 @@ app.use("/api/topics", require("./routes/api/topics"));
 
 app.use("/api/mediatypes", require("./routes/api/mediatypes"));
 
+app.use("/api/alert", require("./routes/api/alert"));
+
 // Homepage Route
 app.get("/", (req, res) => {
   res.send("Database API");

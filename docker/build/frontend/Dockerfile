@@ -1,23 +1,27 @@
 # build environment
-FROM node:12.2.0-alpine as build
-RUN apk add --no-cache git
+FROM node:16-bullseye AS build
 
 ARG GIT_REVISION
 ARG GIT_REPO_URL
 
-WORKDIR /app/
+WORKDIR /build/
 
 RUN set -ex \
   && git clone $GIT_REPO_URL release -b $GIT_REVISION --depth 1
 
-WORKDIR /app/release/frontend
+
+WORKDIR /build/release/frontend/
 
 RUN set -ex \
  && npm install \
  && npm run build
 
 # production environment
-FROM nginx:1.16.0-alpine
-COPY --from=build /app/release/frontend/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+FROM httpd:2.4
+ENV TZ=Europe/Stockholm
+RUN sed -i 's/#\(LoadModule cgid_module modules\/mod_cgid.so\)/\1/' /usr/local/apache2/conf/httpd.conf
+RUN echo 'FallbackResource /' >> /usr/local/apache2/conf/httpd.conf
+RUN echo 'PassEnv DB_LIST_BACKEND_URL' >> /usr/local/apache2/conf/httpd.conf
+RUN echo 'PassEnv DB_LIST_ALERT_URL' >> /usr/local/apache2/conf/httpd.conf
+COPY backend.cgi /usr/local/apache2/cgi-bin/backend.cgi
+COPY --from=build /build/release/frontend/dist/. /usr/local/apache2/htdocs/

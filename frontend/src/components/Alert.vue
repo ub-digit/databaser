@@ -16,22 +16,26 @@ export default {
     const message = ref();
     const i18n = useI18n({ useScope: 'global' });
     const messageToDisplay = computed(() => {
-        return marked(message.value[i18n.locale.value]);
+        if (message.value) {
+          return marked(message.value[i18n.locale.value]);
+        }
+        return null;
     });
     fetchAlert(props.url);
     
     useIntervalFn(() => {
       fetchAlert(props.url)
     }, interval)
+
     async function fetchAlert(url) {
         if (!url) {
-            message.value = {en: '<div><strong>Ebsqo</strong></div> Just nu är det problem med att hitta peer-review-artiklar i flera databaser från Ebsco, exempelvis i Cinahl, Business source premier, Education research complete och SportDiscus. Filtrering på peer-review ger felaktigt 0 träffar i dessa databaser. Problemet är felanmält till Ebsco.', sv: 'test sv'}
+            message.value = null;
         } else {
             try {
               let result = await axios.get(url)
               message.value = result.data
             } catch {
-              message.value = {}
+              message.value = null;
             }
         }
     }

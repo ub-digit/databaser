@@ -24,7 +24,7 @@
 
             </p>
           </div>
-        </div>d
+        </div>
         <div v-if="database.access_information_code" class="row">
           <div class="access-info col">
             <p v-if="database.id">

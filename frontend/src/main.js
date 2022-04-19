@@ -18,14 +18,18 @@ library.add(faGlobe, faArrowLeft, faArrowRight, faChevronDown, faChevronUp, faTi
 
 const local_url = '/cgi-bin/backend.cgi'
 axios.get(local_url).then((result) => {
-  return result.data.backend_url
+  return result.data
 },() => {
-  return process.env["VUE_APP_API_BASE_URL"] || "http://localhost:4000"
-}).then((baseURL) => {
+  return {
+    backend_url: process.env["VUE_APP_API_BASE_URL"] || "http://localhost:4000",
+    alert_url: process.env["VUE_APP_ALERT_URL"] || ""
+  }
+}).then((data) => {
   let app = createApp(App)
-  app.baseURL = baseURL
+  app.baseURL = data.backend_url
   app
-  .provide('baseURL', baseURL)
+  .provide('baseURL', data.backend_url)
+  .provide('alertURL', data.alert_url)
   .component("font-awesome-icon", FontAwesomeIcon)
   .use(createPinia())
   .use(i18n)
