@@ -29,6 +29,7 @@ defmodule Databases.Resource.Search do
     Elastix.Index.create(elastic_url, index_name, %{})
   end
   def show(%{"id" => id} = payload) do
+    IO.inspect(payload, label: "payload in show")
     search_index(payload)
     |> List.first
   end

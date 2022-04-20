@@ -21,12 +21,18 @@ defmodule DatabasesWeb.DatabaseController do
     end
 
     def show(conn, %{"id" => id, "lang" => lang} = payload) do
+      IO.inspect(payload, label: "paload ")
       database = Jason.encode!(Databases.Resource.Search.show(payload))
       text conn, database
     end
 
     def show(conn, %{"id" => id} = payload) do
-      database = Jason.encode!(Databases.Resource.Search.show(payload))
+      id = Map.get(payload, "id")
+      lang = Map.get(payload, "payload")
+      |> Jason.decode!
+      |> Map.get("lang")
+      IO.inspect(lang, label: "LANG")
+      database = Jason.encode!(Databases.Resource.Search.show(%{"id" => id, "lang" => lang}))
       text conn, database
     end
     
