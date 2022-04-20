@@ -11,6 +11,9 @@
       <div class="db-desc mb-2">
         {{ database.description.substr(0, 199) }}...
       </div>
+      <div v-if="database.malfunction_message_active" class="db-malfunction-msg">
+        <font-awesome-icon icon="exclamation" />
+      </div>
     </div>
     <div class="db-row-footer">
       <div class="access-info mb-2">

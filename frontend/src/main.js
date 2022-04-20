@@ -6,14 +6,14 @@ import { createPinia } from 'pinia'
 import axios from 'axios';
 import { i18n } from "./locales";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import {faGlobe, faArrowLeft, faArrowRight, faTimes, faChevronDown, faChevronUp, faPlus, faMinus, faLock, faLockOpen} from "@fortawesome/free-solid-svg-icons";
+import {faGlobe, faArrowLeft, faArrowRight, faTimes, faChevronDown, faChevronUp, faPlus, faMinus, faLock, faLockOpen, faExclamation, faCompass} from "@fortawesome/free-solid-svg-icons";
 import {faSquare, faCheckSquare} from "@fortawesome/free-regular-svg-icons";
 
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import "./scss/custom.scss";
 
-library.add(faGlobe, faArrowLeft, faArrowRight, faChevronDown, faChevronUp, faTimes, faPlus, faMinus, faSquare, faCheckSquare, faLock, faLockOpen);
+library.add(faExclamation, faCompass, faGlobe, faArrowLeft, faArrowRight, faChevronDown, faChevronUp, faTimes, faPlus, faMinus, faSquare, faCheckSquare, faLock, faLockOpen);
 
 
 const local_url = '/cgi-bin/backend.cgi'
