@@ -27,9 +27,9 @@ export const useStore = defineStore('main', {
             console.log(error.message);
           }
         },
-        async fetchDatabase(id) {
+        async fetchDatabase(payload) {
           try {
-            const result = await axios.get(`${this.baseURL}/databases/${id}`);
+            const result = await axios.get(`${this.baseURL}/databases/${payload.id}`, {params: {payload}});
             return result.data;
           } catch (error) {
             console.log(error.message);
