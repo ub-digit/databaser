@@ -8,10 +8,10 @@ import { i18n } from "./locales";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {faExclamationTriangle, faGlobe, faArrowLeft, faArrowRight, faTimes, faChevronDown, faChevronUp, faPlus, faMinus, faLock, faLockOpen, faExclamation, faCompass} from "@fortawesome/free-solid-svg-icons";
 import {faSquare, faCheckSquare} from "@fortawesome/free-regular-svg-icons";
-
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
 import "./scss/custom.scss";
+import 'nprogress/nprogress.css';
 
 library.add(faExclamationTriangle, faExclamation, faCompass, faGlobe, faArrowLeft, faArrowRight, faChevronDown, faChevronUp, faTimes, faPlus, faMinus, faSquare, faCheckSquare, faLock, faLockOpen);
 

@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { inject } from 'vue'
 import axios from 'axios'
+import NProgress from 'nprogress'
+
 
 export const useStore = defineStore('main', {
     state: () => {
@@ -13,10 +15,13 @@ export const useStore = defineStore('main', {
       actions: {
         async fetchDatabases(payload) {
           try {
+            NProgress.start();
             const result = await axios.get(`${this.baseURL}/databases`, {params: {payload}});
+            NProgress.done();
             return result.data;
           } catch (error) {
             console.log(error.message);
+            NProgress.done();
           }
         },
         async fetchPopularDatabases(payload) {
@@ -29,10 +34,13 @@ export const useStore = defineStore('main', {
         },
         async fetchDatabase(payload) {
           try {
+            NProgress.start();
             const result = await axios.get(`${this.baseURL}/databases/${payload.id}`, {params: {payload}});
+            NProgress.end();
             return result.data;
           } catch (error) {
             console.log(error.message);
+            NProgress.end();
           }
         },
       },
