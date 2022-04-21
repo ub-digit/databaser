@@ -36,11 +36,11 @@ export const useStore = defineStore('main', {
           try {
             NProgress.start();
             const result = await axios.get(`${this.baseURL}/databases/${payload.id}`, {params: {payload}});
-            NProgress.end();
+            NProgress.done();
             return result.data;
           } catch (error) {
             console.log(error.message);
-            NProgress.end();
+            NProgress.done();
           }
         },
       },

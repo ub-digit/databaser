@@ -1,5 +1,14 @@
 <template>
-    <div class="alert alert-warning" v-if="messageToDisplay" v-html="messageToDisplay"></div>
+    <div class="alert alert-warning" v-if="messageToDisplay" >
+      <div class="row">
+        <div class="col-auto">
+          <font-awesome-icon icon="info-circle"/>
+        </div>
+        <div class="col">
+          <span v-html="messageToDisplay"></span>
+        </div>
+      </div>
+    </div>
 </template>
 
 <script>
