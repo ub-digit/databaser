@@ -19,7 +19,7 @@
     </div>
 
     <div class="row">
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-lg-4">
         <aside v-if="databases._meta" class="facet-filter-area">
           <TopicsFilter
             :topics="databases.filters.topics"

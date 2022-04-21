@@ -15,7 +15,7 @@ services:
   frontend:
     container_name: db-list-frontend
     environment:
-      VUE_APP_ALERT_URL: "${ALERT_URL}"
+      VUE_APP_ALERT_URL: "${VUE_APP_ALERT_URL}"
     ports:
       - ${FRONTEND_HOST_PORT}:8080
   db:
