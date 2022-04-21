@@ -83,7 +83,18 @@ defmodule Databases.Resource.Search do
     payload
     |> search_index
     |> mark_recommended_databases(payload)
+    |> shift_recommended_to_top
     |> remap(payload)
+  end
+
+  def shift_recommended_to_top(databases) do
+    recommended_databases = Enum.filter(databases, fn db -> Map.get(db, "is_recommended") == true end)
+    IO.inspect(is_list(recommended_databases), label: "hey hey")
+    #db_ids = Enum.map(recommended_databases, fn db -> Map.get(db, "id") end)
+    databases = Enum.filter(databases, fn db -> Map.get(db, "is_recommended") == false end)
+    |> List.flatten
+    databases = [recommended_databases | databases]
+    |> List.flatten
   end
 
   def mark_recommended_databases(databases, %{"topic" => topic} = payload) do
