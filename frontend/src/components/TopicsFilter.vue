@@ -27,7 +27,7 @@
       </li>
     </ul>
     <div v-if="topic">
-      <div v-if="topicFull.sub_topics">
+      <div v-if="topicFull.sub_topics && topicFull.sub_topics.length">
         <div class="d-grid gap-2">
         <button role="button" class="facet-header d-flex justify-content-between" :class="{active: sub_topics.length > 0 }" @click="toggleSubTopicsExpanded()">
           <span class="facet-header-text">

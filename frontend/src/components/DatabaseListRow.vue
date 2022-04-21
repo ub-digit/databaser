@@ -6,13 +6,13 @@
         :to="{ name: 'Database', params: { id: database.id, title: database.title }}"
         >{{ database.title }} <font-awesome-icon icon="arrow-right"/></router-link> 
       <span class="badge bg-dark ms-4" v-if="database.is_recommended">{{$t("components.database_list_row.recommended")}}</span>
+      <span v-if="database.malfunction_message_active" class="db-malfunction-msg float-end">
+        <font-awesome-icon class="text-danger" icon="exclamation-triangle" :title="malfunction_message_markdown_output"/>
+      </span>
     </div>
     <div class="db-row-body">
       <div class="db-desc mb-2">
         {{ database.description.substr(0, 199) }}...
-      </div>
-      <div v-if="database.malfunction_message_active" class="db-malfunction-msg">
-        <font-awesome-icon icon="exclamation" />
       </div>
     </div>
     <div class="db-row-footer">
@@ -30,6 +30,7 @@
 <script>
 import { computed } from '@vue/reactivity';
 import AccessInformation from "./AccessInformation.vue";
+import { marked } from 'marked';
 export default {
   name: "DatabaseListRow",
   props: {
@@ -39,6 +40,9 @@ export default {
     AccessInformation
   },
   computed:  {
+      malfunction_message_markdown_output() {
+        return marked(this.database.malfunction_message)
+      },
     getDatabaseURL() {
       if (this.database.urls && this.database.urls.length) {
         if (this.database.urls.length === 1) {
