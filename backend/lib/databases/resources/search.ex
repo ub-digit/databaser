@@ -101,19 +101,8 @@ defmodule Databases.Resource.Search do
 
   def mark_recommended_databases_sub_topics(databases, payload), do: databases
 
-# TEMP -------------------------------------------------------------
 
-  def mark_stuff(%{"topic" => topic} = payload) do
-    # payload has property topic
-  end
-
-  def mark_stuff(payload) do
-    IO.inspect("HE babaeribba")
-  end
-# /TEMP -------------------------------------------------------------
-  
-
-def sort_result(dbs, "asc") do
+  def sort_result(dbs, "asc") do
     dbs
     |> Enum.sort_by(fn db -> db["title"] end)
   end
@@ -158,6 +147,7 @@ def sort_result(dbs, "asc") do
   def get_topics(payload) do
     sub_topics_param = Map.get(payload, "sub_topics", [])
     topic = Map.get(payload, "topic")
+    IO.inspect(topic, label: "topic in get_topics")
     payload = Map.delete(payload, "sub_topics")
     payload
     |> remap_payload
@@ -166,7 +156,6 @@ def sort_result(dbs, "asc") do
   
   def load_topics(payload, nil, []) do
     sort_topics(search_index(payload))
-    |> Enum.map(fn item -> mark_sub_topics(item) end)
   end
   
   def mark_sub_topics(item) do
@@ -177,12 +166,11 @@ def sort_result(dbs, "asc") do
   end
 
   def load_topics(payload, topic, sub_topics) do
-    topics = sort_topics(search_index(payload))
+    topics = sort_topics(search_index(payload), topic)
     |> List.first
     st = Map.get(topics, "sub_topics")
     |> Enum.map(fn item -> mark_selected(item, sub_topics) end)
     |> Enum.uniq
-    #|> IO.inspect
     [Map.put(topics, "sub_topics", st)]
   end
   
@@ -192,17 +180,28 @@ def sort_result(dbs, "asc") do
   end
   
   def sort_topics(databases) do
+    topics = databases
+    |> Enum.map(fn item -> Map.get(item, "topics") end)
+    |> List.flatten
+    |> Enum.map(fn item -> Map.delete(item, "sub_topics") end)
+    |> Enum.uniq
+  end
+
+  def sort_topics(databases, filter_topic) do
     #generate list of topics in search result
     topics = databases
     |> Enum.map(fn db -> db["topics"] end)
     |> List.flatten
+    |> Enum.filter(fn item -> item["id"] == filter_topic end)
+    
     sub_topics = topics
     |> Enum.map(fn topic -> Map.get(topic, "sub_topics") end)
     |> List.flatten
+    |> Enum.uniq
     topics
     |> Enum.map(fn item -> Map.delete(item, "sub_topics") end)
     |> Enum.uniq
-    |> Enum.map(fn topic -> Map.put(topic, "sub_topics", Enum.filter(sub_topics, fn st -> st["topic_id"] == topic["id"] end)) end)
+    |> Enum.map(fn item -> Map.put(item, "sub_topics", sub_topics) end)
   end
   
   def get_media_types(databases) do

@@ -1,6 +1,7 @@
 defmodule Databases.Model.Database do
   use Ecto.Schema
   import Ecto.Changeset
+  import Slugy
   alias Databases.Model
  # import Access
 
@@ -62,7 +63,8 @@ defmodule Databases.Model.Database do
       topics: database.topics |> Enum.map(fn item -> Model.Topic.remap(item, lang) end),
       sub_topics: database.sub_topics |> Enum.map(fn item -> Model.SubTopic.remap(item, lang) end),
       terms_of_use: database.database_terms_of_use |> Enum.map(fn item -> Model.DatabaseTermsOfUse.remap(item, lang) end),
-      media_types: database.media_types |> Enum.map(fn item -> Model.MediaType.remap(item, lang) end)
+      media_types: database.media_types |> Enum.map(fn item -> Model.MediaType.remap(item, lang) end),
+      sanitized_title: Slugy.slugify(database.title)
     }
     |> sort_topics
   end
