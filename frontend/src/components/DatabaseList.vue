@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="row mb-4">
-      <div class="col"><strong>Found {{databases._meta.found}} of {{databases._meta.total}} databases:</strong></div>
+      <div class="col"><strong>{{ $t('components.database_list.meta', { found: databases._meta.found, total: databases._meta.total }) }}</strong>
+      <p></p>
+      </div>
       <div class="col-auto">
         <select class="form-select" v-model="selected">
           <option v-for="sortOrder in sortOrders" :value="sortOrder.id" :key="sortOrder.id">{{sortOrder.text}}</option>

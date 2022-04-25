@@ -149,7 +149,8 @@ export default {
   
   async mounted() {
     const id = this.$route.params.id;
-    this.database = await this.fetchDatabase(id);
+    const lang = this.$i18n.locale;
+    this.database = await this.fetchDatabase({id: id, lang: lang});
   },
   computed: {
       desc_markdown_output() {

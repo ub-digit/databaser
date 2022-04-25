@@ -1,7 +1,7 @@
 <template>
   <div>
     <header>
-      <div class="container">
+      <div class="container-md">
         <div class="row">
           <div class="col-auto">
             <a :href="getLogoURL"><div class="logo" :class="$i18n.locale"></div></a>

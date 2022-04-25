@@ -1,6 +1,6 @@
 
 export const sv = { 
-  application_title: 'Databases - Gothenburg university library sv',
+  application_title: 'Databases - Gothenburg university library',
   shared: {
     access_information_code: {
       freely_available: "Freely available",
@@ -9,15 +9,18 @@ export const sv = {
       available_to_the_university_of_gothenburg_available_to_anyone_using_the_libraries_computers: "Available to the University of Gothenburg. Available to anyone using the libraries' computers"
     },
     terms_of_use_code: {
-      print_article_chapter: "print article chapter",
-      download_article_chapter: "download article chapter",
-      course_pack_print: "course packprint",
-      gul_course_pack_electronic: "gul course pack electronic",
-      scholarly_sharing: "scholarly sharing",
-      interlibrary_loan: "interlibrary loan"
+      print_article_chapter: "Print article chapter",
+      download_article_chapter: "Download article chapter",
+      course_pack_print: "Course packprint",
+      gul_course_pack_electronic: "Gul course pack electronic",
+      scholarly_sharing: "Scholarly sharing",
+      interlibrary_loan: "Interlibrary loan"
     }
   },
   components: {
+    database_list: {
+      meta: 'Found {found} of {total} databases:'
+    },
     database_list_row: {
       recommended: "Recommended",
       link_prefix: "Directly to"
@@ -47,6 +50,11 @@ export const sv = {
     },
     freely_accessible_filter: {
       label: "Show freely accessible"
+    },
+    sortorders: {
+      asc: 'Ascending',
+      desc: 'Descending',
+      rel: 'Relevance'
     },
     the_nav: {
       nav1: {

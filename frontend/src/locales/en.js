@@ -18,6 +18,9 @@ export const en = {
     }
   },
   components: {
+    database_list: {
+      meta: 'Found {found} of {total} databases:'
+    },
     database_list_row: {
       recommended: "Recommended",
       link_prefix: "Directly to"

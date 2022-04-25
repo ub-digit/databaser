@@ -1,6 +1,6 @@
 <template>
   <div id="searchBar" class="row justify-content-center">
-    <div class="col-md-6">
+    <div class="col-lg-6">
       <form class="input-group">
         <a v-if="clearIsVisible" href="javascript:" id="btn-clear-input" @click.prevent="clearSearch"><font-awesome-icon icon="times"/></a>
         <input class="form-control form-control-lg" :placeholder="$t('components.search_bar.placeholder')"  v-model="searchStr">
