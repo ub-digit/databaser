@@ -1,5 +1,5 @@
 
-export const en = { 
+export const sv = { 
   application_title: 'Databases - Gothenburg university library',
   shared: {
     access_information_code: {
@@ -34,8 +34,8 @@ export const en = {
       header_level1_link: "http://www.ub.gu.se/en",
       header_level1: "Gothenburg University Library",
       header_level2: "Database Search",
-      language_otherCode: "sv",
-      language_otherName: "Svenska"
+      language_otherCode: "en",
+      language_otherName: "English"
     },
     the_footer: {},
     popular_db_list: {
