@@ -12,7 +12,7 @@ RUN set -ex \
 
 WORKDIR /build/release/frontend/
 
-RUN set -ex \
+RUN set -ex \ 
  && npm install \
  && npm run build
 

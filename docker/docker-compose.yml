@@ -2,22 +2,18 @@ version: '3.7'
 
 services:
   backend:
-    #image: docker.ub.gu.se/minalan-backend:${GIT_REVISION}
     image: docker.ub.gu.se/db-list-backend:${GIT_REVISION_BACKEND}
     ports:
       - "${BACKEND_HOST_PORT}:4000"
     environment:
       ELASTIC_SEARCH_URL: "${ELASTIC_SEARCH_URL}"
-    #  ALERT_URL: "${ALERT_URL}"
     restart: always
     volumes:
       - "${BACKEND_REPO}:/app"
   frontend:
     container_name: db-list-frontend
     environment:
-      VUE_APP_ALERT_URL: "${VUE_APP_ALERT_URL}"
-    ports:
-      - ${FRONTEND_HOST_PORT}:8080
+      VUE_APP_ALERT_URL: "${DB_LIST_ALERT_URL}"
   db:
     image: postgres:12
     environment:

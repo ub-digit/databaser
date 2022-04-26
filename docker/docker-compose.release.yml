@@ -1,12 +1,10 @@
 version: '3.7'
 
 services:
-  backend:
-    image: node:16
-    volumes:
-      - ../backend:/usr/src/app
-    build: 
-      context: ../backend
-      dockerfile: Dockerfile
   frontend:
     image: docker.ub.gu.se/db-list-frontend:${GIT_REVISION}
+    environment:
+      DB_LIST_BACKEND_URL: "${DB_LIST_BACKEND_URL}"
+      DB_LIST_ALERT_URL: "${DB_LIST_ALERT_URL}"
+    ports:
+      - ${FRONTEND_HOST_PORT}:80
