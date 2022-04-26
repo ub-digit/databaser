@@ -2,16 +2,17 @@ version: '3.7'
 
 services:
   backend:
+    container_name: db-list-backend
     #image: docker.ub.gu.se/minalan-backend:${GIT_REVISION}
-    image: docker.ub.gu.se/db-list-backend:${GIT_REVISION_BACKEND}
+    image: docker.ub.gu.se/db-list-backend:${GIT_REVISION}
     ports:
       - "${BACKEND_HOST_PORT}:4000"
     environment:
       ELASTIC_SEARCH_URL: "${ELASTIC_SEARCH_URL}"
     #  ALERT_URL: "${ALERT_URL}"
     restart: always
-    volumes:
-      - "${BACKEND_REPO}:/app"
+    #volumes:
+    #  - "${BACKEND_REPO}:/app"
   frontend:
     container_name: db-list-frontend
     environment:
