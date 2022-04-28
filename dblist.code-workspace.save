@@ -1,0 +1,16 @@
+{
+"folders": [
+{
+"path": "backend"
+},
+{
+"path": "db"}
+{
+"path": "frontend"
+},
+{
+"path": "docker"
+}
+],
+"settings": {}
+}

@@ -25,8 +25,9 @@ services:
       - "${DB_INIT_PATH}:/docker-entrypoint-initdb.d"
     restart: always
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
+    image: docker.ub.gu.se/db-list-elasticsearch
     environment:
+      - xpack.security.enabled=false
       - "discovery.type=single-node"
     ports:
       - "127.0.0.1:9200:9200"

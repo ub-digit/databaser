@@ -1,12 +1,14 @@
 defmodule Databases.Resource.Search do
   import Ecto.Query
   import Ecto
-  @query_limit 1000
+  @query_limit 1
   @default_language "en"
   @index_prefix "db_"
 
   def index_all(data, lang) do
+
     index_name = get_index(lang) 
+    Elastix.Index.delete(elastic_url, index_name)
     create_index(Elastix.Index.exists?(elastic_url, index_name), index_name)
     IO.inspect(lang, label: "INDEX ALL")
     Enum.map(data, fn item -> Elastix.Document.index(elastic_url, index_name, "_doc", item.id, item) end)
@@ -27,6 +29,20 @@ defmodule Databases.Resource.Search do
   def create_index({:ok, true}, _n), do: nil
   def create_index({:ok, false}, index_name) do
     Elastix.Index.create(elastic_url, index_name, %{})
+    Elastix.Mapping.put(elastic_url, index_name, [], %{
+    "properties" => %{
+      "title" => %{   
+        "type" => "text",
+        "fields" => %{
+          "sort" => %{  
+            "type" => "icu_collation_keyword",
+            "language" => "sv",
+            "country" => "SE"
+          }
+        }
+      }
+    }
+  })
   end
   def show(%{"id" => id} = payload) do
     IO.inspect(payload, label: "payload in show")
@@ -40,7 +56,9 @@ defmodule Databases.Resource.Search do
   end
 
   def base(term \\ "*") do
+    IO.inspect(term, label: "term in base")
     %{
+    #sort: %{title: %{order: "desc"}},
       size: @query_limit,
       query: %{
         bool: %{
@@ -58,10 +76,8 @@ defmodule Databases.Resource.Search do
   end
 
   def get_total_documents() do
-    Elastix.Search.count(elastic_url, get_index(@default_language), ["_doc"], %{})
-    |> elem(1)
-    |> Map.get(:body)
-    |> Map.get("count")
+    {:ok, %{body: %{"count" => count}}} = Elastix.Search.count(elastic_url, get_index(@default_language), [], %{})
+    count
   end
   
   def search_index(payload \\ %{})  do
@@ -70,13 +86,19 @@ defmodule Databases.Resource.Search do
     filter = build_filter(filter)
     q = base(params["search"])
     q = add_filter(filter, q)
-    #IO.inspect(q, label: "QUERY")
-    Elastix.Search.search(elastic_url, get_index(lang), ["_doc"], q)
+    |> add_sort_order(params["search"])
+    IO.inspect(q, label: "QUERY")
+    Elastix.Search.search(elastic_url, get_index(lang), [], q)
     |> elem(1)
     |> Map.get(:body)
     |> get_in(["hits", "hits"])
     |> Enum.map(fn item -> Map.get(item, "_source") end)
-    |> sort_result(params["sort_order"]) # Move to elastic query? 
+    #|> sort_result(params["sort_order"]) # Move to elastic query? 
+  end
+
+  def add_sort_order(q, ""), do: q
+  def add_sort_order(q, term) do
+    Map.put(q, :sort, %{"title.sort" => %{order: "desc"}})
   end
 
   def search(payload \\ %{}) do
@@ -89,9 +111,7 @@ defmodule Databases.Resource.Search do
 
   def shift_recommended_to_top(databases) do
     recommended_databases = Enum.filter(databases, fn db -> Map.get(db, "is_recommended") == true end)
-    IO.inspect(is_list(recommended_databases), label: "hey hey")
-    #db_ids = Enum.map(recommended_databases, fn db -> Map.get(db, "id") end)
-    databases = Enum.filter(databases, fn db -> Map.get(db, "is_recommended") == false end)
+    databases = Enum.filter(databases, fn db -> Map.get(db, "is_recommended") != true end)
     |> List.flatten
     databases = [recommended_databases | databases]
     |> List.flatten
