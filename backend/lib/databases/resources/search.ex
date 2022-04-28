@@ -1,7 +1,7 @@
 defmodule Databases.Resource.Search do
   import Ecto.Query
   import Ecto
-  @query_limit 1
+  @query_limit 1000
   @default_language "en"
   @index_prefix "db_"
 
@@ -58,7 +58,6 @@ defmodule Databases.Resource.Search do
   def base(term \\ "*") do
     IO.inspect(term, label: "term in base")
     %{
-    #sort: %{title: %{order: "desc"}},
       size: @query_limit,
       query: %{
         bool: %{
@@ -93,7 +92,6 @@ defmodule Databases.Resource.Search do
     |> Map.get(:body)
     |> get_in(["hits", "hits"])
     |> Enum.map(fn item -> Map.get(item, "_source") end)
-    #|> sort_result(params["sort_order"]) # Move to elastic query? 
   end
 
   def add_sort_order(q, ""), do: q
@@ -131,18 +129,6 @@ defmodule Databases.Resource.Search do
   end
 
   def mark_recommended_databases_sub_topics(databases, payload), do: databases
-
-
-  def sort_result(dbs, "asc") do
-    dbs
-    |> Enum.sort_by(fn db -> db["title"] end)
-  end
-
-  def sort_result(dbs, "desc") do
-    dbs
-    |> Enum.sort_by(fn db -> db["title"] end)
-    |> Enum.reverse
-  end
 
   def remap_payload(%{} = payload) do
     %{

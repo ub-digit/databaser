@@ -33,7 +33,6 @@ defmodule Experiment do
     }
   }
 
-  #{:ok, %{status_code: 200}} = Elastix.Mapping.put(elastic_url, "db_en", nil, m)
   {:ok, %{body: %{"hits" => %{"hits" => res}}}} = Elastix.Search.search(elastic_url, "db_en", [], q)
   res
   |> Enum.map(fn db -> db["_source"]["title"] end)
@@ -43,5 +42,9 @@ defmodule Experiment do
 
   def elastic_url do
     System.get_env("ELASTIC_SEARCH_URL", "http://localhost:9200")
+  end
+
+  def sort_order(%{}) do
+    IO.inspect("hey")
   end
 end
