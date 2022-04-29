@@ -142,7 +142,7 @@ defmodule Databases.Resource.Search do
     }
   end
 
-  def remap(databases, payload) do
+    def remap(databases, payload) do
     %{
       _meta: %{total: get_total_documents(), found: length(databases)},
       data: databases,
