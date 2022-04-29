@@ -6,7 +6,6 @@ defmodule Databases.Resource.Search do
   @index_prefix "db_"
 
   def index_all(data, lang) do
-
     index_name = get_index(lang) 
     Elastix.Index.delete(elastic_url, index_name)
     create_index(Elastix.Index.exists?(elastic_url, index_name), index_name)
@@ -44,19 +43,17 @@ defmodule Databases.Resource.Search do
     }
   })
   end
+
   def show(%{"id" => id} = payload) do
-    IO.inspect(payload, label: "payload in show")
     search_index(payload)
     |> List.first
   end
 
   def popular_databases(lang \\ @default_language) do
-    IO.inspect(lang, label: "lang in is poopular")
     search_index(%{"is_popular" => true, "lang" => lang})
   end
 
   def base(term \\ "*") do
-    IO.inspect(term, label: "term in base")
     %{
       size: @query_limit,
       query: %{
@@ -86,11 +83,8 @@ defmodule Databases.Resource.Search do
     q = base(params["search"])
     q = add_filter(filter, q)
     |> add_sort_order(params["search"])
-    IO.inspect(q, label: "QUERY")
-    Elastix.Search.search(elastic_url, get_index(lang), [], q)
-    |> elem(1)
-    |> Map.get(:body)
-    |> get_in(["hits", "hits"])
+    {:ok, %{body: %{"hits" => %{"hits" => hits}}}} = Elastix.Search.search(elastic_url, get_index(lang), [], q)
+    hits
     |> Enum.map(fn item -> Map.get(item, "_source") end)
   end
 
@@ -141,14 +135,13 @@ defmodule Databases.Resource.Search do
         "id"                    => payload["id"],
         "topics.id"             => payload["topic"],
         "topics.sub_topics.id"  => payload["sub_topics"] || [],
-        "media_types.id"         => payload["mediatype"],
+        "media_types.id"        => payload["mediatype"],
         "public_access"         => payload["show_free"] || nil,
         "is_popular"            => payload["is_popular"]
       }
     }
   end
 
-  
   def remap(databases, payload) do
     %{
       _meta: %{total: get_total_documents(), found: length(databases)},
@@ -164,7 +157,6 @@ defmodule Databases.Resource.Search do
   def get_topics(payload) do
     sub_topics_param = Map.get(payload, "sub_topics", [])
     topic = Map.get(payload, "topic")
-    IO.inspect(topic, label: "topic in get_topics")
     payload = Map.delete(payload, "sub_topics")
     payload
     |> remap_payload
@@ -267,7 +259,5 @@ defmodule Databases.Resource.Search do
     dbs
     |> Enum.map(fn (db) -> IO.inspect(db) end)
   end
-
-  
 end
 
