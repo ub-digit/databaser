@@ -3,6 +3,7 @@ version: '3.7'
 services:
   backend:
     container_name: db-list-backend
+    #image: docker.ub.gu.se/minalan-backend:${GIT_REVISION}
     image: docker.ub.gu.se/db-list-backend:${GIT_REVISION}
     ports:
       - "${BACKEND_HOST_PORT}:4000"
