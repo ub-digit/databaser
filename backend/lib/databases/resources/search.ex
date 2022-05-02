@@ -7,6 +7,7 @@ defmodule Databases.Resource.Search do
 
   def index_all(data, lang) do
     index_name = get_index(lang) 
+    Elastix.Index.delete(elastic_url, index_name)
     create_index(Elastix.Index.exists?(elastic_url, index_name), index_name)
     IO.inspect(lang, label: "INDEX ALL")
     Enum.map(data, fn item -> Elastix.Document.index(elastic_url, index_name, "_doc", item.id, item) end)
@@ -27,15 +28,28 @@ defmodule Databases.Resource.Search do
   def create_index({:ok, true}, _n), do: nil
   def create_index({:ok, false}, index_name) do
     Elastix.Index.create(elastic_url, index_name, %{})
+    Elastix.Mapping.put(elastic_url, index_name, [], %{
+    "properties" => %{
+      "title" => %{   
+        "type" => "text",
+        "fields" => %{
+          "sort" => %{  
+            "type" => "icu_collation_keyword",
+            "language" => "sv",
+            "country" => "SE"
+          }
+        }
+      }
+    }
+  })
   end
+
   def show(%{"id" => id} = payload) do
-    IO.inspect(payload, label: "payload in show")
     search_index(payload)
     |> List.first
   end
 
   def popular_databases(lang \\ @default_language) do
-    IO.inspect(lang, label: "lang in is poopular")
     search_index(%{"is_popular" => true, "lang" => lang})
   end
 
@@ -58,10 +72,8 @@ defmodule Databases.Resource.Search do
   end
 
   def get_total_documents() do
-    Elastix.Search.count(elastic_url, get_index(@default_language), ["_doc"], %{})
-    |> elem(1)
-    |> Map.get(:body)
-    |> Map.get("count")
+    {:ok, %{body: %{"count" => count}}} = Elastix.Search.count(elastic_url, get_index(@default_language), [], %{})
+    count
   end
   
   def search_index(payload \\ %{})  do
@@ -70,13 +82,15 @@ defmodule Databases.Resource.Search do
     filter = build_filter(filter)
     q = base(params["search"])
     q = add_filter(filter, q)
-    #IO.inspect(q, label: "QUERY")
-    Elastix.Search.search(elastic_url, get_index(lang), ["_doc"], q)
-    |> elem(1)
-    |> Map.get(:body)
-    |> get_in(["hits", "hits"])
+    |> add_sort_order(params["search"])
+    {:ok, %{body: %{"hits" => %{"hits" => hits}}}} = Elastix.Search.search(elastic_url, get_index(lang), [], q)
+    hits
     |> Enum.map(fn item -> Map.get(item, "_source") end)
-    |> sort_result(params["sort_order"]) # Move to elastic query? 
+  end
+
+  def add_sort_order(q, ""), do: q
+  def add_sort_order(q, term) do
+    Map.put(q, :sort, %{"title.sort" => %{order: "desc"}})
   end
 
   def search(payload \\ %{}) do
@@ -89,9 +103,7 @@ defmodule Databases.Resource.Search do
 
   def shift_recommended_to_top(databases) do
     recommended_databases = Enum.filter(databases, fn db -> Map.get(db, "is_recommended") == true end)
-    IO.inspect(is_list(recommended_databases), label: "hey hey")
-    #db_ids = Enum.map(recommended_databases, fn db -> Map.get(db, "id") end)
-    databases = Enum.filter(databases, fn db -> Map.get(db, "is_recommended") == false end)
+    databases = Enum.filter(databases, fn db -> Map.get(db, "is_recommended") != true end)
     |> List.flatten
     databases = [recommended_databases | databases]
     |> List.flatten
@@ -112,18 +124,6 @@ defmodule Databases.Resource.Search do
 
   def mark_recommended_databases_sub_topics(databases, payload), do: databases
 
-
-  def sort_result(dbs, "asc") do
-    dbs
-    |> Enum.sort_by(fn db -> db["title"] end)
-  end
-
-  def sort_result(dbs, "desc") do
-    dbs
-    |> Enum.sort_by(fn db -> db["title"] end)
-    |> Enum.reverse
-  end
-
   def remap_payload(%{} = payload) do
     %{
       params: %{
@@ -135,15 +135,14 @@ defmodule Databases.Resource.Search do
         "id"                    => payload["id"],
         "topics.id"             => payload["topic"],
         "topics.sub_topics.id"  => payload["sub_topics"] || [],
-        "media_types.id"         => payload["mediatype"],
+        "media_types.id"        => payload["mediatype"],
         "public_access"         => payload["show_free"] || nil,
         "is_popular"            => payload["is_popular"]
       }
     }
   end
 
-  
-  def remap(databases, payload) do
+    def remap(databases, payload) do
     %{
       _meta: %{total: get_total_documents(), found: length(databases)},
       data: databases,
@@ -158,7 +157,6 @@ defmodule Databases.Resource.Search do
   def get_topics(payload) do
     sub_topics_param = Map.get(payload, "sub_topics", [])
     topic = Map.get(payload, "topic")
-    IO.inspect(topic, label: "topic in get_topics")
     payload = Map.delete(payload, "sub_topics")
     payload
     |> remap_payload
@@ -261,7 +259,5 @@ defmodule Databases.Resource.Search do
     dbs
     |> Enum.map(fn (db) -> IO.inspect(db) end)
   end
-
-  
 end
 
