@@ -2,14 +2,16 @@ version: '3.7'
 
 services:
   backend:
-    image: docker.ub.gu.se/db-list-backend:${GIT_REVISION_BACKEND}
+    container_name: db-list-backend
+    #image: docker.ub.gu.se/minalan-backend:${GIT_REVISION}
+    image: docker.ub.gu.se/db-list-backend:${GIT_REVISION}
     ports:
       - "${BACKEND_HOST_PORT}:4000"
     environment:
       ELASTIC_SEARCH_URL: "${ELASTIC_SEARCH_URL}"
     restart: always
-    volumes:
-      - "${BACKEND_REPO}:/app"
+    #volumes:
+    #  - "${BACKEND_REPO}:/app"
   frontend:
     container_name: db-list-frontend
     environment:
@@ -25,8 +27,9 @@ services:
       - "${DB_INIT_PATH}:/docker-entrypoint-initdb.d"
     restart: always
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
+    image: docker.ub.gu.se/db-list-elasticsearch
     environment:
+      - xpack.security.enabled=false
       - "discovery.type=single-node"
     ports:
       - "127.0.0.1:9200:9200"
