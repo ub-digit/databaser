@@ -86,8 +86,8 @@ export const en = {
     },
     home: {
       title: "Database search",
-      desc:
-        "Enter the database title to find the database you are looking for. Limit your search by subject, subject terms and media types to find databases within your subject area.",
+      desc: "Enter the database title to find the database you are looking for. Limit your search by subject, subject terms and media types to find databases within your subject area.",
+      no_result: "No database was found. Change your search and try again."
     },
 
   },
