@@ -18,7 +18,7 @@
       <SearchBar :search="search" @updateSearch="updateSearch" />
     </div>
 
-    <div class="row">
+    <div v-if="databases.data && databases.data.length" class="row">
       <div class="col-12 col-lg-4">
         <aside v-if="databases._meta" class="facet-filter-area">
           <TopicsFilter
@@ -37,6 +37,11 @@
         <main v-if="databases._meta"> <!--- todo: fix zero state inside component -->
             <DatabaseList :databases="databases" :sort_order="sort_order" :sortOrders="sortOrders" @updateSortOrderSelected="updateSortOrderSelected"/>
         </main>
+      </div>
+    </div>
+    <div v-else class="row">
+      <div v-if="databases.data && databases.data.length === 0" class="col no-result text-center">
+        {{ $t("views.home.no_result") }}
       </div>
     </div>
   </div>
@@ -183,6 +188,11 @@ export default {
 </script>
 
 <style lang="scss">
+
+.no-result {
+  font-size: 1.2em;
+  color: #757575;
+}
 
 .page-info {
   margin-bottom: 40px;
