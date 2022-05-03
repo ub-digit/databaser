@@ -9,8 +9,6 @@ services:
     environment:
       ELASTIC_SEARCH_URL: "${ELASTIC_SEARCH_URL}"
     restart: always
-    #volumes:
-    #  - "${BACKEND_REPO}:/app"
   frontend:
     container_name: db-list-frontend
   db:
@@ -24,13 +22,7 @@ services:
       - "${DB_INIT_PATH}:/docker-entrypoint-initdb.d"
     restart: always
   elasticsearch:
-    image: docker.ub.gu.se/db-list-elasticsearch
+    image: docker.ub.gu.se/db-list-elasticsearch:${GIT_REVISION}
     environment:
       - xpack.security.enabled=false
       - "discovery.type=single-node"
-    ports:
-      - "127.0.0.1:9200:9200"
-      - "127.0.0.1:9300:9300"
-networks:
-    default:
-        name: db-list-net

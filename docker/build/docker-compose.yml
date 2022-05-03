@@ -15,6 +15,6 @@ services:
         - GIT_REPO_URL=${GIT_REPO_URL}
         - GIT_REVISION=${GIT_REVISION}
   elasticsearch:
-    image: docker.ub.gu.se/db-list-elasticsearch
+    image: docker.ub.gu.se/db-list-elasticsearch:${GIT_REVISION}
     build:
       context: ./elasticsearch

@@ -1,6 +1,9 @@
 version: '3.7'
 
 services:
+  db: 
+    volumes:
+      - ${DB_DATA_PATH}:/var/lib/postgresql/data/pgdata
   frontend:
     image: docker.ub.gu.se/db-list-frontend:${GIT_REVISION}
     environment:

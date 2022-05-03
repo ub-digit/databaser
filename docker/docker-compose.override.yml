@@ -1,6 +1,13 @@
 version: '3.7'
 
 services:
+  elasticsearch: 
+    ports:
+      - "127.0.0.1:9200:9200"
+      - "127.0.0.1:9300:9300"
+  backend: 
+    volumes:
+      - "${BACKEND_REPO}:/release/backend"
   frontend:
     image: ebiven/vue-cli
     environment:
