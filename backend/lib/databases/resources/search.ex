@@ -1,7 +1,7 @@
 defmodule Databases.Resource.Search do
   import Ecto.Query
   import Ecto
-  @query_limit 1000
+  @query_limit 2000
   @default_language "en"
   @index_prefix "db_"
 
@@ -28,7 +28,7 @@ defmodule Databases.Resource.Search do
   def create_index({:ok, true}, _n), do: nil
   def create_index({:ok, false}, index_name) do
     Elastix.Index.create(elastic_url, index_name, %{})
-    Elastix.Mapping.put(elastic_url, index_name, [], %{
+    {:ok, _} = Elastix.Mapping.put(elastic_url, index_name, [], %{
     "properties" => %{
       "title" => %{   
         "type" => "text",
@@ -88,11 +88,9 @@ defmodule Databases.Resource.Search do
     |> Enum.map(fn item -> Map.get(item, "_source") end)
   end
 
-  def add_sort_order(q, ""), do: q
-  def add_sort_order(q, term) do
-    Map.put(q, :sort, %{"title.sort" => %{order: "desc"}})
-  end
-
+  def add_sort_order(q, ""), do: Map.put(q, :sort, %{"title.sort" => %{order: "asc"}})
+  def add_sort_order(q, _), do: q
+    
   def search(payload \\ %{}) do
     payload
     |> search_index
@@ -127,7 +125,7 @@ defmodule Databases.Resource.Search do
   def remap_payload(%{} = payload) do
     %{
       params: %{
-        "search"                => payload["search"] || "",
+        "search"                => String.trim(payload["search"] || ""),
         "lang"                  => payload["lang"] || @default_language,
         "sort_order"            => payload["sort_order"] || "asc"
       },
