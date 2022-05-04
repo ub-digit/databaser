@@ -17,7 +17,7 @@
       </li>
     </ul>
     <div v-if="showLoadMoreBtn" class="d-grid">
-      <button class="btn btn-primary" v-if="paginated" @click="toggleShowAll">{{ $t('components.database_list.show_all')}}</button>
+      <button class="btn btn-primary" :class="{disabled: loading}" v-if="paginated" @click="toggleShowAll">{{ $t('components.database_list.show_all')}}</button>
     </div>
   </div>
 </template>
@@ -48,7 +48,13 @@ export default {
 
   methods: {
     toggleShowAll() {
-      this.paginated = false;
+
+      this.loading = true;
+      
+      setTimeout(() => {
+        this.paginated = false;
+      },0)
+     
     }
   },
   computed: {
@@ -69,6 +75,7 @@ export default {
     return {
       selected: this.sort_order,
       paginated: true,
+      loading: false,
       NumberToDisplay: 20
     }
   },
