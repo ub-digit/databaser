@@ -19,7 +19,8 @@ export const en = {
   },
   components: {
     database_list: {
-      meta: 'Found {found} of {total} databases:'
+      meta: 'Found {found} of {total} databases:',
+      show_all: 'Show all'
     },
     database_list_row: {
       recommended: "Recommended",
