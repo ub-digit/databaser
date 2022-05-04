@@ -12,11 +12,11 @@
       </div>
     </div>
     <ul class="list-unstyled" id="database-list">
-      <li v-for="(database) in database_list_to_render" :key="database.id">
+      <li v-for="(database) in databaseListToRender" :key="database.id">
         <DatabaseListRow :database="database" />
       </li>
     </ul>
-    <div class="d-grid">
+    <div v-if="showLoadMoreBtn" class="d-grid">
       <button class="btn btn-primary" v-if="paginated" @click="toggleShowAll">{{ $t('components.database_list.show_all')}}</button>
     </div>
   </div>
@@ -52,9 +52,15 @@ export default {
     }
   },
   computed: {
-    database_list_to_render: function() {
+    showLoadMoreBtn: function() {
+      if (this.databases.data.length > this.NumberToDisplay) {
+        return true;
+      }
+      return false;
+    },
+    databaseListToRender: function() {
       if (this.paginated) {
-        return this.databases.data.slice(0,20);
+        return this.databases.data.slice(0,this.NumberToDisplay-1);
       }
       return this.databases.data;
     }
@@ -62,7 +68,8 @@ export default {
   data() {
     return {
       selected: this.sort_order,
-      paginated: true
+      paginated: true,
+      NumberToDisplay: 20
     }
   },
 };
