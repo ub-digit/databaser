@@ -32,3 +32,6 @@ databases-*.tar
 npm-debug.log
 /assets/node_modules/
 
+
+# For testing stuff
+/lib/experiment.ex

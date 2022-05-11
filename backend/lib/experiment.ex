@@ -61,4 +61,37 @@ defmodule Experiment do
       }
     }
   end
+
+  def agg() do
+    # node_aggregations = Enum.reduce(node_aggregations, %{}, fn n, acc -> Map.put(acc, n["key"], n["doc_count"]) end)
+
+    data = [
+      %{
+        id: 7,
+        name: "Item 7"
+      },
+      %{
+        id: 1,
+        name: "Item 1"
+      },
+      %{
+        id: 2,
+        name: "Item 2"
+      },
+      %{
+        id: 3,
+        name: "Item 3"
+      },
+      %{
+        id: 4,
+        name: "Item 4"
+      }
+    ]
+    #Enum.group_by(data, fn item -> item[:id] end)
+    Enum.reduce(data, [], fn item, acc -> [item[:id] | acc] end)
+  end
+
+  def red do
+     
+  end
 end
