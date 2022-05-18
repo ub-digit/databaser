@@ -1,24 +1,12 @@
 DROP TABLE IF EXISTS databases;
 DROP TABLE IF EXISTS database_media_types;
--- DROP TABLE IF EXISTS alternative_titles;
--- DROP TABLE IF EXISTS databas_urls;
--- DROP TABLE IF EXISTS alternative_title_for;
 DROP TABLE IF EXISTS database_alternative_titles;
 DROP TABLE IF EXISTS topics;
--- DROP TABLE IF EXISTS sub_topic_for;
--- DROP TABLE IF EXISTS topic_for;
 DROP TABLE IF EXISTS database_topics;
--- DROP TABLE IF EXISTS database_topic;
 DROP TABLE IF EXISTS database_sub_topics;
 DROP TABLE IF EXISTS publishers;
--- DROP TABLE IF EXISTS publisher_for;
--- DROP TABLE IF EXISTS urls;
--- DROP TABLE IF EXISTS url_for;
 DROP TABLE IF EXISTS database_urls;
--- DROP TABLE IF EXISTS terms_of_use;
--- DROP TABLE IF EXISTS terms_of_use_for;
 DROP TABLE IF EXISTS database_terms_of_use;
--- DROP TABLE IF EXISTS topic_recommended_for;
 DROP TABLE IF EXISTS media_types;
 DROP TABLE IF EXISTS media_type_for;
 DROP TABLE IF EXISTS sub_topics;
@@ -64,15 +52,26 @@ CREATE TABLE database_urls (
 
 CREATE TABLE topics (
     id serial PRIMARY KEY,
-    name_en text,
-    name_sv text
+    name_en text UNIQUE NOT NULL,
+    name_sv text UNIQUE NOT NULL,
+    updated_at timestamp default now(),
+    inserted_at timestamp default now()
 );
 
 CREATE TABLE sub_topics (
     id serial PRIMARY KEY,
-    name_en text,
-    name_sv text,
+    name_en text NOT NULL,
+    name_sv text NOT NULL,
     topic_id int
+);
+CREATE UNIQUE INDEX sub_topic_name_en ON sub_topics (
+    name_en,
+    topic_id
+);
+
+CREATE UNIQUE INDEX sub_topic_name_sv ON sub_topics (
+    name_sv,
+    topic_id
 );
 
 CREATE TABLE database_topics (

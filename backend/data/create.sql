@@ -65,7 +65,9 @@ CREATE TABLE database_urls (
 CREATE TABLE topics (
     id serial PRIMARY KEY,
     name_en text,
-    name_sv text
+    name_sv text,
+    updated_at timestamp default now(),
+    inserted_at timestamp default now()
 );
 
 CREATE TABLE sub_topics (
