@@ -52,10 +52,6 @@ export default {
           if (topic.name_en.toLowerCase().includes(searchTerm.value.toLowerCase())) return topic;
       });
     })
-
-    watch(searchTerm, function() {
-     // alert("hello")
-    })
     return {
       searchTerm,
       topicsFiltered,
