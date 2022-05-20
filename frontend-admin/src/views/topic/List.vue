@@ -44,7 +44,7 @@ import {useRoute} from 'vue-router'
 export default {
   name: 'Topics',
   setup() {
-    const searchTerm = ref('t');
+    const searchTerm = ref('');
     const topicStore = useTopicsStore();
     const route = useRoute();
     const topicsFiltered = computed(() => {
