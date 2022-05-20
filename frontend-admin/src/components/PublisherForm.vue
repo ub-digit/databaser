@@ -1,0 +1,112 @@
+<template>
+  <div class="edit-topic-wrapper">
+    <div v-if="publisher_initial_state">
+      <FormKit type="form" :actions="false">
+          <div class="row">
+            <div class="col">
+              <h1>{{props.title}}</h1>
+            </div>
+            <div class="col-auto align-self-end">
+                <router-link v-if="publisher_initial_state.id" class="btn btn-light me-2" :to="{name: 'PublisherShow', params: {id: publisher_initial_state.id}}">Cancel</router-link>
+              <FormKit
+                :classes="{
+                  outer: 'd-inline-block',
+                  input: 'btn btn-primary'
+                }"
+                @click.prevent="savePublisher"
+                type="submit"
+                label="Save"
+                :disabled="!isDirty"
+              />
+            </div>
+        </div>
+
+        <div v-if="props.errors" class="row mt-3">
+          <div class="col">
+            <div v-if="props.errors.publisher" class="alert alert-danger" role="alert">
+              {{props.errors.publisher}}
+          </div>
+        </div>
+          
+        </div>
+        <div class="row">
+          <div class="mb-3 col-6">
+            <FormKit 
+              type="text" 
+              :classes="{
+                input: 'form-control'
+              }"
+              label="Publisher"
+              name="publisher_initial_state.title"
+              v-model="publisher_initial_state.title"
+              validation="required"
+              placeholder="Enter publisher name"
+            />
+          </div>
+        </div>
+      </FormKit>
+    </div>
+  </div>
+</template>
+
+<script>
+import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'
+import { computed, ref } from 'vue'
+import {usePublishersStore} from '@/stores/publishers'
+import _ from 'lodash'
+
+export default {
+  name: 'PublisherForm',
+  emits: ['savePublisher'],
+  props: ['publisher', 'title', 'errors'],
+  setup(props, ctx) {
+    const router = useRouter();
+    const route = useRoute();
+    const store = usePublishersStore();
+    const publisher = props.publisher;
+    const publisher_initial_state = ref(_.cloneDeep(publisher));
+    const isDirty = computed(() => _.isEqual(publisher, publisher_initial_state.value) ? false: true);
+    let isSaved = false;
+  
+
+    onBeforeRouteLeave(() => {
+      if (isDirty.value && !isSaved) {
+        const answer = window.confirm("It looks like you have been editing something. If you leave before saving, your changes will be lost.");
+        if (!answer) return false;
+      }
+    })
+    const savePublisher = () => {
+      ctx.emit('savePublisher', publisher_initial_state.value);
+      isSaved = true;
+    }
+    return {
+      publisher_initial_state,
+      savePublisher,
+      isDirty,
+      props
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style  lang="scss">
+  .edit-topic-wrapper {
+    .formkit-label {
+      font-weight: bold;
+    }
+    #sub-topics-wrapper {
+      margin-left: 20px;
+      #sub-topics-list {
+        li  {
+          padding: 20px;
+          margin-bottom: 20px;
+          border: 1px dotted #ccc;
+          &.is_marked_for_removal {
+            opacity: .5;
+          }
+        }
+      }
+    }
+  }
+</style>
