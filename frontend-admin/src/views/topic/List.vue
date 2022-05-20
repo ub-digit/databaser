@@ -67,9 +67,6 @@ export default {
   h1 {
     margin-bottom: 40px;
   }
-  ul{
-       // border-right: 1px solid #000;
-  }
   a {
     text-decoration: none;
     &.router-link-active {
