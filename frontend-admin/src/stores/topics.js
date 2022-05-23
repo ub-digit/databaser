@@ -71,8 +71,8 @@ export const useTopicsStore = defineStore({
               return resolve(payload)
             } else {
               return reject({
-                topic: [{field: "name_en", error_code: "validation_required"}],
-                sub_topics: ['Subtopic cannot be empty', 'error2']
+                topic: [{field: "name_en", error_code: "validation_required"}, {field: "name_sv", error_code: "validation_required"}],
+                sub_topics: [{field: 'sub_topic_name_en',  error_code: 'validation_required'}]
               })
             }
           },1000)
