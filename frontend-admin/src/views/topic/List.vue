@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="topic-list">
   <div class="row justify-content-end">
     <div class="col-auto m-4">
         <router-link v-if="isNewVisible" class="btn btn-light" :to="{name: 'TopicNew'}">New topic +</router-link>
@@ -9,15 +9,20 @@
     <div v-if="topics.length" class="row">
       <div class="col-3">
         <FormKit 
+          outer-class="topic-filter"
           id="topic_filter"
-          type="text" 
+          type="text"
           :classes="{
-            input: 'form-control test'
+            input: 'form-control'
           }"
           name="topic_filter"
           v-model="searchTerm"
           placeholder="Filter topics"
-        />
+        >
+          <template #suffix="context">
+            <a href="javascript:void()" class="resetBtn" v-if="isClearVisible" @click="resetSearch"><font-awesome-icon icon="times" /></a>
+          </template>
+        </FormKit>
         <ul class="list-unstyled">
           <li v-for="topic in topicsFiltered" :key="topic.id">
             <router-link :to="{ name: 'TopicShow', params: { id: topic.id }}">{{topic.name_en}}</router-link>
@@ -52,10 +57,18 @@ export default {
           if (topic.name_en.toLowerCase().includes(searchTerm.value.toLowerCase())) return topic;
       });
     })
+    const resetSearch = () => {
+      searchTerm.value = "";
+    }
     return {
       searchTerm,
+      resetSearch, 
       topicsFiltered,
       topics: computed(() => topicStore.topics), 
+      isClearVisible: computed(() => {
+        if (searchTerm.value.length) return true;
+        return false;
+      }),
       isNewVisible: computed(() => route.name != 'TopicNew')
     }
 
@@ -63,15 +76,35 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.topic-list {
+    a {
+    text-decoration: none;
+    &.router-link-active {
+      text-decoration: underline;
+    }
+  }
   h1 {
     margin-bottom: 40px;
   }
+
+  .topic-filter {
+    position: relative;
+    .resetBtn {
+      position: absolute;
+      right: 10px;
+      top:7px;
+    }
+  }
+
   a {
     text-decoration: none;
     &.router-link-active {
       text-decoration: underline;
     }
   }
+}
+
+
 
 </style>
