@@ -19,6 +19,11 @@
           v-model="searchTerm"
           placeholder="Filter topics"
         >
+          <template #prefix="context">
+            <span class="search-icon">
+              <font-awesome-icon icon="search" />
+            </span>
+          </template>
           <template #suffix="context">
             <a href="javascript:void()" class="resetBtn" v-if="isClearVisible" @click="resetSearch"><font-awesome-icon icon="times" /></a>
           </template>
@@ -89,11 +94,20 @@ export default {
   }
 
   .topic-filter {
+    #topic_filter {
+      padding-left: 35px;
+      padding-right: 35px;
+    }
     position: relative;
     .resetBtn {
       position: absolute;
       right: 10px;
       top:7px;
+    }
+    .search-icon {
+      position: absolute;
+      left:10px;
+      top: 7px;
     }
   }
 
