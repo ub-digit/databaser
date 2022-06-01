@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
-import NProgress from 'nprogress';
+import NProgress, { done } from 'nprogress';
 import axios from 'axios';
 import _ from 'lodash'; 
+import nprogress from "nprogress";
 
 export const useTopicsStore = defineStore({
   id: "topics",
@@ -72,12 +73,32 @@ export const useTopicsStore = defineStore({
             } else {
               return reject({
                 topic: [{field: "name_en", error_code: "validation_required"}, {field: "name_sv", error_code: "validation_required"}],
-                sub_topics: [{field: 'sub_topic_name_en',  error_code: 'validation_required'}]
+                sub_topics: [{field: 'sub_topic_name_en',  error_code: 'validation_required'},{field: 'sub_topic_name_en',  error_code: 'validation_required'}]
               })
             }
           },1000)
       })
     },
+
+    fakeApiCallEditTopic(shouldResolve, payload) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (shouldResolve === true) {
+              var obj = this.topics.find(item => item.id === payload.id);
+              if (obj) {
+                _.assign(obj,payload);
+              }
+              return resolve(payload)
+            } else {
+              return reject({
+                topic: [{field: "name_en", error_code: "validation_required"}, {field: "name_sv", error_code: "validation_required"}],
+                sub_topics: [{field: 'sub_topic_name_en',  error_code: 'validation_required'},{field: 'sub_topic_name_en',  error_code: 'validation_required'}]
+              })
+            }
+          },1000)
+      })
+    },
+
 
 // #################### END FAKE API CALLS ###########
 
@@ -90,17 +111,18 @@ export const useTopicsStore = defineStore({
     },
     async updateTopic(payload) {
         try {
-           //await this.fakeApiCall(payload)
-            // http://shzhangji.com/blog/2018/04/17/form-handling-in-vuex-strict-mode/
-            var obj = this.topics.find(item => item.id === payload.id);
-            if (obj) {
-                _.assign(obj,payload);
+          NProgress.start();
+           const topic = await this.fakeApiCallEditTopic(true, payload)
+           //const topic = await axios.put(this.baseUrl + '/topics', payload)
+           console.log(topic);
+           this.getTopicById(topic.id);
+        } catch (errors) {
+            if (errors) {
+              console.log(`backend update topic errors: ${ errors }` );
+              return errors;
             }
-        } catch (inputErrors) {
-            if (inputErrors) {
-              console.log(`backend error: ${ inputErrors}` );
-              return inputErrors;
-            }
+        } finally {
+          NProgress.done();
         }
     },
     async newTopic(payload) {
@@ -112,7 +134,7 @@ export const useTopicsStore = defineStore({
         this.getTopicById(topic.id);
       } catch (errors) {
         if (errors) {
-          console.log('backend errors:',errors);
+          console.log('backend new topic errors:',errors);
           return errors;
         }
       } finally {
