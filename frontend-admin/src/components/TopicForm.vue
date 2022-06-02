@@ -25,8 +25,8 @@
           <div class="col">
             <div v-if="props.errors.topic.length" class="alert alert-danger" role="alert">
               <ul>
-                <li v-for="(errors,index) in props.errors.topic" :key="index">
-                  {{errors.field}}: {{errors.error_code}}
+                <li v-for="(error,index) in props.errors.topic" :key="index">
+                  {{ $t('topic.error_codes.' + error.field) }}: {{ $t('topic.error_codes.' + error.error_code) }} 
                 </li>
               </ul>
             </div>
@@ -67,7 +67,7 @@
               <div v-if="props.errors.sub_topics" class="alert alert-danger" role="alert">
                 <ul>
                   <li v-for="(error,index) in props.errors.sub_topics" :key="index">
-                    {{error}}
+                    {{ $t('sub_topics.error_codes.' + error.field) }}: {{ $t('sub_topics.error_codes.' + error.error_code) }} 
                   </li>
                 </ul>
               </div>
@@ -107,7 +107,7 @@
                   </div>
                 </li>
           </ul>
-          <p v-else>No subtopics has been added</p>
+          <p v-else>No subtopics</p>
           <div class="row">
             <div class="col align-self-start">
               <button class="btn btn-light" @click.prevent="addSubTopic">New subtopic +</button>
