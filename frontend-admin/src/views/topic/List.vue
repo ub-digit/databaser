@@ -30,7 +30,12 @@
         </FormKit>
         <ul class="list-unstyled">
           <li v-for="topic in topicsFiltered" :key="topic.id">
-            <router-link :to="{ name: 'TopicShow', params: { id: topic.id }}">{{topic.name_en}}</router-link>
+            <router-link :to="{ name: 'TopicShow', params: { id: topic.id }}"><span v-html="highlight(topic.name_en)"></span></router-link>
+            <ul>
+              <li v-for="sub_topic in topic.sub_topics" :key="sub_topic.id">
+                <span v-html="highlight(sub_topic.name_en)"></span>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -59,13 +64,28 @@ export default {
     const route = useRoute();
     const topicsFiltered = computed(() => {
       return topicStore.topics.filter((topic) => {
-          if (topic.name_en.toLowerCase().includes(searchTerm.value.toLowerCase())) return topic;
+          const foundInSubTopic = (topic) => {
+            const found = topic.sub_topics.filter((sub_topic) => {if (sub_topic.name_en.toLowerCase().includes(searchTerm.value.toLowerCase())) return sub_topic});
+            if (found.length) {
+              return true;
+            }
+            return false;
+          } 
+          if (topic.name_en.toLowerCase().includes(searchTerm.value.toLowerCase()) || foundInSubTopic(topic)) {
+            return topic;
+          } 
       });
     })
     const resetSearch = () => {
       searchTerm.value = "";
     }
+    const highlight = (str) => {
+      const reg = new RegExp(searchTerm.value, 'gi'); 
+      return str.replace(reg, '<span class="highlight">$&</span>');
+    }
+
     return {
+      highlight,
       searchTerm,
       resetSearch, 
       topicsFiltered,
@@ -82,8 +102,12 @@ export default {
 </script>
 
 <style lang="scss">
+
 .topic-list {
-    a {
+  .highlight {
+    background: yellow;
+  }
+  a {
     text-decoration: none;
     &.router-link-active {
       text-decoration: underline;
