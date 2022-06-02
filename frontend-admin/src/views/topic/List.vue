@@ -9,7 +9,7 @@
     <div v-if="topics.length" class="row">
       <div class="col-3">
         <FormKit 
-          outer-class="topic-filter"
+          outer-class="topic-filter mb-4"
           id="topic_filter"
           type="text"
           :classes="{
