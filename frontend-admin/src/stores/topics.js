@@ -39,13 +39,27 @@ export const useTopicsStore = defineStore({
             id: 2,
             name_sv: "Gender studies sv 23",
             name_en: "Gender studies 23",
-            sub_topics:[]
+            sub_topics:[
+              {
+                id:324532, 
+                name_sv: "Gender sub 324532",
+                name_en: "Gender sub 324532",
+                can_be_removed: false
+              }
+            ]
           },
           {
             id: 3,
             name_sv: "Teknologi",
             name_en: "Technology",
-            sub_topics:[]
+            sub_topics:[
+              {
+                id:233432,
+                name_sv: 'ooopps',
+                name_en: 'ooops en',
+                can_be_removed: false
+              }
+            ]
           },
         ]
       } 
