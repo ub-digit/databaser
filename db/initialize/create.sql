@@ -64,6 +64,7 @@ CREATE TABLE sub_topics (
     name_sv text NOT NULL,
     topic_id int
 );
+
 CREATE UNIQUE INDEX sub_topic_name_en ON sub_topics (
     name_en,
     topic_id
