@@ -1,25 +1,31 @@
 defmodule Databases.Model.Topic do
   use Ecto.Schema
-  import Ecto.Changeset
   alias Databases.Model
 
   schema "topics" do
     field :name_en, :string
     field :name_sv, :string
-    has_many :database_topics, Model.DatabaseTopic 
+    has_many :database_topics, Model.DatabaseTopic
   end
 
-  def remap(%{} = topic, lang) do
+  def remap(%Model.Topic{name_sv: name} = topic, "sv") do
+    Map.put(topic, :name, name)
+    |> Map.delete(:name_sv)
+    |> Map.delete(:name_en)
+    |> remap
+  end
+
+  def remap(%Model.Topic{name_en: name} = topic, "en") do
+    Map.put(topic, :name, name)
+    |> Map.delete(:name_sv)
+    |> Map.delete(:name_en)
+    |> remap
+  end
+
+  def remap(%{} = topic) do
     %{
       id: topic.id,
-      name: Map.from_struct(topic)[String.to_existing_atom("name_" <> lang)] || topic.name_sv
+      name: topic.name
     }
-  end
-
-  @doc false
-  def changeset(topic, attrs) do
-    topic
-    |> cast(attrs, [:title])
-    |> validate_required([:title])
   end
 end

@@ -1,39 +1,37 @@
 defmodule Databases.Resource.Search do
-  import Ecto.Query
-  import Ecto
   @query_limit 2000
   @default_language "en"
   @index_prefix "db_"
 
   def index_all(data, lang) do
-    index_name = get_index(lang) 
-    Elastix.Index.delete(elastic_url, index_name)
-    create_index(Elastix.Index.exists?(elastic_url, index_name), index_name)
+    index_name = get_index(lang)
+    Elastix.Index.delete(elastic_url(), index_name)
+    create_index(Elastix.Index.exists?(elastic_url(), index_name), index_name)
     IO.inspect(lang, label: "INDEX ALL")
-    Enum.map(data, fn item -> Elastix.Document.index(elastic_url, index_name, "_doc", item.id, item) end)
+    Enum.map(data, fn item -> Elastix.Document.index(elastic_url(), index_name, "_doc", item.id, item) end)
   end
-  
+
   def elastic_url do
     System.get_env("ELASTIC_SEARCH_URL", "http://localhost:9200")
   end
-  
+
   def get_index(lang) do
     @index_prefix <> lang
   end
 
-  def create_index({:error, _} = res, _n) do
-    IO.inspect(elastic_url, label: "ERROR CREATING INDEX!")
+  def create_index({:error, _} = _res, _n) do
+    IO.inspect(elastic_url(), label: "ERROR CREATING INDEX!")
   end
 
   def create_index({:ok, true}, _n), do: nil
   def create_index({:ok, false}, index_name) do
-    Elastix.Index.create(elastic_url, index_name, %{})
-    {:ok, _} = Elastix.Mapping.put(elastic_url, index_name, [], %{
+    Elastix.Index.create(elastic_url(), index_name, %{})
+    {:ok, _} = Elastix.Mapping.put(elastic_url(), index_name, [], %{
     "properties" => %{
-      "title" => %{   
+      "title" => %{
         "type" => "text",
         "fields" => %{
-          "sort" => %{  
+          "sort" => %{
             "type" => "icu_collation_keyword",
             "language" => "sv",
             "country" => "SE"
@@ -44,14 +42,14 @@ defmodule Databases.Resource.Search do
   })
   end
 
-  def show(%{"id" => id} = payload) do
+  def show(%{"id" => _id} = payload) do
     {databases, _} = search_index(payload)
     databases
     |> List.first
   end
 
   def popular_databases(lang \\ @default_language) do
-    {databases, _} = search_index(%{"is_popular" => true, "lang" => lang})
+    search_index(%{"is_popular" => true, "lang" => lang})
   end
 
   def base(term) do
@@ -84,8 +82,8 @@ defmodule Databases.Resource.Search do
                 query_string: %{
                   query: term <> "*",
                   fields: ["title^15", "alternative_titles^8", "media_types.name^3", "description", "topics.name^3", "sub_topics.name^2", "publishers.name^2"]
-              } 
-            } 
+              }
+            }
           ]
         }
       }
@@ -93,10 +91,10 @@ defmodule Databases.Resource.Search do
   end
 
   def get_total_documents() do
-    {:ok, %{body: %{"count" => count}}} = Elastix.Search.count(elastic_url, get_index(@default_language), [], %{})
+    {:ok, %{body: %{"count" => count}}} = Elastix.Search.count(elastic_url(), get_index(@default_language), [], %{})
     count
   end
-  
+
   def search_index(payload \\ %{})  do
     %{params: params, filter: filter} = remap_payload(payload)
     lang = params["lang"]
@@ -105,7 +103,7 @@ defmodule Databases.Resource.Search do
     q = add_filter(filter, q)
     |> add_sort_order(params["search"])
     #|> IO.inspect(label: "QUERY")
-    {:ok, %{body: %{"aggregations" => aggregations, "hits" => %{"hits" => hits}}}} = Elastix.Search.search(elastic_url, get_index(lang), [], q)
+    {:ok, %{body: %{"aggregations" => aggregations, "hits" => %{"hits" => hits}}}} = Elastix.Search.search(elastic_url(), get_index(lang), [], q)
     databases = hits
     |> Enum.map(fn item -> Map.get(item, "_source") end)
     {databases, aggregations}
@@ -113,7 +111,7 @@ defmodule Databases.Resource.Search do
 
   def add_sort_order(q, ""), do: Map.put(q, :sort, %{"title.sort" => %{order: "asc"}})
   def add_sort_order(q, _), do: q
-    
+
   def search(payload \\ %{}) do
     payload
     |> search_index
@@ -122,7 +120,7 @@ defmodule Databases.Resource.Search do
     |> remap(payload)
   end
 
-  def shift_recommended_to_top({databases, aggregations} = hits_and_aggs) do
+  def shift_recommended_to_top({databases, aggregations}) do
     recommended_databases = Enum.filter(databases, fn db -> Map.get(db, "is_recommended") == true end)
     databases = Enum.filter(databases, fn db -> Map.get(db, "is_recommended") != true end)
     |> List.flatten
@@ -131,22 +129,22 @@ defmodule Databases.Resource.Search do
     {databases, aggregations}
   end
 
-  def mark_recommended_databases({databases, aggregations} = hits_and_aggs, %{"topic" => topic} = payload) do
+  def mark_recommended_databases({databases, aggregations}, %{"topic" => topic} = payload) do
     #IO.inspect(aggregations, label: "aggregations")
     databases
     |> Enum.map(fn db -> Map.put(db, "is_recommended", Enum.member?(db["recommended_in_topics"], topic)) end)
     |> mark_recommended_databases_sub_topics(payload)
     {databases, aggregations}
   end
-  
-  def mark_recommended_databases({databases, aggregations} = hits_and_aggs, payload), do: {databases, aggregations}
 
-  def mark_recommended_databases_sub_topics(%{"is_recommended" => false} = databases, %{"sub_topics" => sub_topics} = payload) do
+  def mark_recommended_databases({databases, aggregations}, _payload),do: {databases, aggregations}
+
+  def mark_recommended_databases_sub_topics(%{"is_recommended" => false} = databases, %{"sub_topics" => sub_topics}) do
     databases
     |> Enum.map(fn db -> Map.put(db, "is_recommended", Enum.member?(db["recommended_in_sub_topics"], sub_topics)) end)
   end
 
-  def mark_recommended_databases_sub_topics(databases, payload), do: databases
+  def mark_recommended_databases_sub_topics(databases, _payload), do: databases
 
   def remap_payload(%{} = payload) do
     %{
@@ -166,7 +164,7 @@ defmodule Databases.Resource.Search do
     }
   end
 
-  def remap({databases, aggregations} = data_and_agg, payload) do
+  def remap({databases, aggregations}, payload) do
     %{
       _meta: %{total: get_total_documents(), found: length(databases)},
       data: databases,
@@ -177,22 +175,17 @@ defmodule Databases.Resource.Search do
       }
     }
   end
-  
+
   def get_topics(payload) do
     sub_topics_param = Map.get(payload, "sub_topics", [])
     topic = Map.get(payload, "topic")
     payload = Map.delete(payload, "sub_topics")
     payload
     |> remap_payload
-    topics = load_topics(payload, topic, sub_topics_param)
+    load_topics(payload, topic, sub_topics_param)
   end
-  
-  def load_topics(payload, nil, []) do
-    {databases, aggregations} = search_index(payload)
-    %{"topics" => %{"buckets" => topics_agg}} = aggregations
-    sort_topics(databases)
-    |> add_aggregations(topics_agg)
-  end
+
+
 
   def add_aggregations(node, node_aggregations) do
     node_aggregations = Enum.reduce(node_aggregations, %{}, fn n, acc -> Map.put(acc, n["key"], n["doc_count"]) end)
@@ -201,13 +194,6 @@ defmodule Databases.Resource.Search do
 #    |> IO.inspect(label: "add aggreations")
   end
 
-  def add_aggregations_old(topics, aggregations) do
-    %{"topics" => %{"buckets" => topics_agg}} = aggregations
-    topics_agg = Enum.reduce(topics_agg, %{}, fn tp, acc -> Map.put(acc, tp["key"], tp["doc_count"]) end)
-    topics
-    |> Enum.map(fn item -> Map.put(item, "count", topics_agg[item["id"]]) end)
-  end
-  
   def mark_sub_topics(item) do
     sub_topics = Map.get(item, "sub_topics")
     |> Enum.uniq
@@ -215,9 +201,15 @@ defmodule Databases.Resource.Search do
     Map.put(item, "sub_topics", sub_topics)
   end
 
-  def load_topics(payload, topic, sub_topics) do
+  def load_topics(payload, nil, []) do
     {databases, aggregations} = search_index(payload)
     %{"topics" => %{"buckets" => topics_agg}} = aggregations
+    sort_topics(databases)
+    |> add_aggregations(topics_agg)
+  end
+
+  def load_topics(payload, topic, sub_topics) do
+    {databases, aggregations} = search_index(payload)
     %{"sub_topics" => %{"buckets" => sub_topics_agg}} = aggregations
     topics = sort_topics(databases, topic)
     |> List.first
@@ -227,14 +219,14 @@ defmodule Databases.Resource.Search do
     |> Enum.uniq
     [Map.put(topics, "sub_topics", st)]
   end
-  
+
   def mark_selected(item, st_list) do
     item
     |> Map.put("selected", Enum.member?(st_list, Map.get(item, "id")))
   end
-  
+
   def sort_topics(databases) do
-    topics = databases
+    databases
     |> Enum.map(fn item -> Map.get(item, "topics") end)
     |> List.flatten
     |> Enum.map(fn item -> Map.delete(item, "sub_topics") end)
@@ -247,7 +239,7 @@ defmodule Databases.Resource.Search do
     |> Enum.map(fn db -> db["topics"] end)
     |> List.flatten
     |> Enum.filter(fn item -> item["id"] == filter_topic end)
-    
+
     sub_topics = topics
     |> Enum.map(fn topic -> Map.get(topic, "sub_topics") end)
     |> List.flatten
@@ -257,7 +249,7 @@ defmodule Databases.Resource.Search do
     |> Enum.uniq
     |> Enum.map(fn item -> Map.put(item, "sub_topics", sub_topics) end)
   end
-  
+
   def get_media_types(databases, aggregations) do
     %{"media_types" => %{"buckets" => media_types_agg}} = aggregations
     databases
@@ -268,17 +260,17 @@ defmodule Databases.Resource.Search do
   end
 
   def has_filter([]), do: nil
-  def has_filter(list), do: list    
-  
-  def add_filter(nil, q), do: q 
-  def add_filter([], q), do: q 
+  def has_filter(list), do: list
+
+  def add_filter(nil, q), do: q
+  def add_filter([], q), do: q
 
   def add_filter(filter, q) do
     bool = q.query.bool
     bool = Map.put(bool, :filter, filter)
     put_in(q, [:query, :bool], bool)
   end
-  
+
   def build_filter(filter) do
     filter
     # clear filter of nil values and empty lists
@@ -290,7 +282,7 @@ defmodule Databases.Resource.Search do
   end
 
   # when filter item is a list, split list into seperate items
-  def format_filter_item({k, v} = item) when is_list(v) do
+  def format_filter_item({k, v}) when is_list(v) do
     %{
       bool: %{
         should: List.flatten(Enum.map(v, fn val -> %{match: %{k => val}} end))
@@ -298,13 +290,12 @@ defmodule Databases.Resource.Search do
     }
   end
 
-  def format_filter_item({k, v} = item) do
+  def format_filter_item({k, v}) do
     %{match: %{k => v}}
   end
 
-  def  mark(dbs, tp) do 
+  def  mark(dbs, _tp) do
     dbs
     |> Enum.map(fn (db) -> IO.inspect(db) end)
   end
 end
-

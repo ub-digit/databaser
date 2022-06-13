@@ -1,7 +1,5 @@
 defmodule Databases.Model.Database do
   use Ecto.Schema
-  import Ecto.Changeset
-  import Slugy
   alias Databases.Model
  # import Access
 
@@ -55,7 +53,7 @@ defmodule Databases.Model.Database do
       reccomennded_in_sub_topics: set_recommended_in(database.database_sub_topics, :sub_topic),
       alternative_titles: database.database_alternative_titles |> Enum.map(&Databases.Model.DatabaseAlternativeTitle.remap/1),
       urls: database.database_urls |> Enum.map(fn item -> Databases.Model.DatabaseUrl.remap(item, database.title) end),
-      publishers: database.publishers |> Enum.map(fn item -> Model.Publisher.remap(item, lang) end),
+      publishers: database.publishers |> Enum.map(fn item -> Model.Publisher.remap(item) end),
       public_access: database.public_access,
       access_information_code: database.access_information_code,
       malfunction_message_active: database.malfunction_message_active,
@@ -80,16 +78,4 @@ defmodule Databases.Model.Database do
     |> Map.put(:topics, Enum.map(db.topics, fn topic -> Map.put(topic, :sub_topics, Enum.filter(db.sub_topics, fn sub_topic -> sub_topic.topic_id == topic.id end)) end))
     |> Map.delete(:sub_topics)
   end
-
-  @doc false
-  def changeset(database, attrs) do
-    database
-    |> cast(attrs, [:title, :description])
-    |> validate_required([:title, :description])
-  end
-
-  def t(item, type) do
-    Map.get(item, type).id
-  end
 end
-

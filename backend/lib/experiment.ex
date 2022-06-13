@@ -11,8 +11,8 @@ defmodule Experiment do
                 query_string: %{
                   query: "dansk biografisk lexicon",
                   fields: ["title", "description", "topics.name"]
-              } 
-            } 
+              }
+            }
           ]
         }
       }
@@ -20,10 +20,10 @@ defmodule Experiment do
 
     m = %{
     "properties" => %{
-      "title" => %{   
+      "title" => %{
         "type" => "text",
         "fields" => %{
-          "sort" => %{  
+          "sort" => %{
             "type" => "icu_collation_keyword",
             "language" => "sv",
             "country" => "SE"
@@ -36,8 +36,8 @@ defmodule Experiment do
   {:ok, %{body: %{"hits" => %{"hits" => res}}}} = Elastix.Search.search(elastic_url, "db_en", [], q)
   res
   |> Enum.map(fn db -> db["_source"]["title"] end)
-  
-  
+
+
   end
 
   def elastic_url do
@@ -92,6 +92,11 @@ defmodule Experiment do
   end
 
   def red do
-     
+     {:ok, "hey"}
+
+     |> case  do
+       {:ok, _} -> IO.inspect("Hey you")
+
+     end
   end
 end

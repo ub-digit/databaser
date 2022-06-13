@@ -1,8 +1,7 @@
 defmodule Databases.Model.DatabaseTermsOfUse do
     use Ecto.Schema
-    import Ecto.Changeset
     alias Databases.Model
-  
+
     schema "database_terms_of_use" do
       belongs_to :database, Model.Database
       field :code, :string
@@ -31,11 +30,4 @@ defmodule Databases.Model.DatabaseTermsOfUse do
         id: database_terms_of_use.id
       }
     end
-  
-    @doc false
-    def changeset(terms_of_use_for, attrs) do
-        terms_of_use_for
-      |> cast(attrs, [:database_id, :terms_of_use_id])
-    end
   end
-  

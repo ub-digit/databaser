@@ -1,9 +1,7 @@
 
 defmodule Databases.Resource.Database do
-  alias Databases.Model.Database
   alias Databases.Model
   alias Databases.Repo
-  alias Databases.Model.Publisher
   import Ecto.Query
 
   def list_publishers do
@@ -20,7 +18,7 @@ defmodule Databases.Resource.Database do
   end
 
   def db_base() do
-    res = (from db in Model.Database,
+    (from db in Model.Database,
     left_join: db_topics in Model.DatabaseTopic,
     on: db_topics.database_id == db.id,
     left_join: t in Model.Topic,
@@ -66,27 +64,5 @@ defmodule Databases.Resource.Database do
     db_base()
     |> Repo.all
     |> Enum.map(fn item -> Databases.Model.Database.remap(item,  lang) end)
-  end
-
-  def d do
-    (from db in Model.Database,
-    left_join: mt_db in Databases.Model.DatabaseMediaType,
-    on: mt_db.database_id == db.id,
-    left_join: mt in Databases.Model.MediaType,
-    on: mt.id == mt_db.media_type_id,
-    limit: 10,
-    preload: [:database_media_types])
-    |> Repo.all
-  end
-
-  def rec do
-    (from db in Model.Database,
-    left_join: t_for in Model.DatabaseTopic,
-    on: t_for.database_id == db.id,
-    left_join: t in Model.Topic,
-    on: t.id == t_for.topic_id,
-    limit: 10,
-    preload: [:topics, :database_topics])
-    |> Repo.all
   end
 end
