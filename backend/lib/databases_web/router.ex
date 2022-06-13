@@ -17,16 +17,11 @@ defmodule DatabasesWeb.Router do
   scope "/", DatabasesWeb do
     pipe_through :browser
 
-    get "/alert", DatabaseController, :alert 
+    get "/alert", DatabaseController, :alert
     get "/", DatabaseController, :index
     get "/databases/popular", DatabaseController, :get_popular_databases
     get "/databases", DatabaseController, :index
     get "/databases/:id", DatabaseController, :show
-    #get "/relations", DatabaseController, :show_database_publisher 
-    #get "/publisher", PublisherController, :index
-    #get "/topics", TopicController, :index
-    #get "/search/:lang/", SearchController, :index_with_lang
-    #get "/search/:lang/:term", SearchController, :index_with_lang
 
   end
 

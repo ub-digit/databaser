@@ -6,6 +6,7 @@ config :databases, Databases.Repo,
   password: "postgres",
   database: "databases_dev",
   hostname: "localhost",
+  port: "5433",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

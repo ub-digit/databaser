@@ -11,8 +11,8 @@ defmodule Experiment do
                 query_string: %{
                   query: "dansk biografisk lexicon",
                   fields: ["title", "description", "topics.name"]
-              } 
-            } 
+              }
+            }
           ]
         }
       }
@@ -20,10 +20,10 @@ defmodule Experiment do
 
     m = %{
     "properties" => %{
-      "title" => %{   
+      "title" => %{
         "type" => "text",
         "fields" => %{
-          "sort" => %{  
+          "sort" => %{
             "type" => "icu_collation_keyword",
             "language" => "sv",
             "country" => "SE"
@@ -36,8 +36,8 @@ defmodule Experiment do
   {:ok, %{body: %{"hits" => %{"hits" => res}}}} = Elastix.Search.search(elastic_url, "db_en", [], q)
   res
   |> Enum.map(fn db -> db["_source"]["title"] end)
-  
-  
+
+
   end
 
   def elastic_url do
@@ -60,5 +60,43 @@ defmodule Experiment do
         "is_popular"            => payload["is_popular"]
       }
     }
+  end
+
+  def agg() do
+    # node_aggregations = Enum.reduce(node_aggregations, %{}, fn n, acc -> Map.put(acc, n["key"], n["doc_count"]) end)
+
+    data = [
+      %{
+        id: 7,
+        name: "Item 7"
+      },
+      %{
+        id: 1,
+        name: "Item 1"
+      },
+      %{
+        id: 2,
+        name: "Item 2"
+      },
+      %{
+        id: 3,
+        name: "Item 3"
+      },
+      %{
+        id: 4,
+        name: "Item 4"
+      }
+    ]
+    #Enum.group_by(data, fn item -> item[:id] end)
+    Enum.reduce(data, [], fn item, acc -> [item[:id] | acc] end)
+  end
+
+  def red do
+     {:ok, "hey"}
+
+     |> case  do
+       {:ok, _} -> IO.inspect("Hey you")
+
+     end
   end
 end

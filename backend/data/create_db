@@ -1,1 +1,0 @@
-PGPASSWORD=postgres psql -U postgres -d databases_dev -f create.sql -a && PGPASSWORD=postgres psql -U postgres -d databases_dev -f seed.sql -a
