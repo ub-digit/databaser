@@ -4,6 +4,9 @@
 "path": "backend"
 },
 {
+  "path": "backend-admin"
+},
+{
 "path": "frontend"
 },
 {
@@ -18,3 +21,6 @@
 ],
 "settings": {}
 }
+{
+  "path": "backend"
+  }
