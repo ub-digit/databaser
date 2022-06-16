@@ -103,8 +103,8 @@ CREATE TABLE database_publishers (
 
 CREATE TABLE media_types (
     id serial PRIMARY KEY,
-    name_en text,
-    name_sv text
+    name_en text UNIQUE NOT NULL,
+    name_sv text UNIQUE NOT NULL
 );
 
 CREATE TABLE media_type_for (
