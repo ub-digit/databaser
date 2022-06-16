@@ -17,9 +17,12 @@ defmodule DbListAdminWeb.Router do
   scope "/", DbListAdminWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    #get "/", PageController, :index
     get "/topics", TopicsController, :index
     post "/topics", TopicsController, :create
+    get "/media_types", MediaTypesController, :index
+    post "/media_types", MediaTypesController, :create
+    delete "/media_types", MediaTypesController, :delete
     #put "/topics", TopicsController, :create_or_update
     #delete "/topics", TopicsController, :create_or_update
   end
