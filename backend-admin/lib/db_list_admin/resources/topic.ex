@@ -19,20 +19,4 @@ defmodule DbListAdmin.Resource.Topic do
     |> Repo.all()
     |> Enum.map(fn item -> Model.Topic.remap(item) end)
   end
-
-  @spec topic_can_be_deleted(any) :: list
-  def topic_can_be_deleted(topics) do
-    IO.inspect(topics, label: "topics in can be deleted")
-    connections = (from database_topics in Model.DatabaseTopic,
-    preload: [:topic])
-    |> Repo.all()
-    |> Enum.map(fn item -> Map.get(Map.get(item, :topic), :id) end)
-    |> Enum.uniq()
-
-    topics
-    |> Enum.map(fn topic ->
-      Map.put(topic, :can_be_deleted, Enum.member?(connections, topic[:id]) == false)
-    end)
-  end
-
 end

@@ -46,4 +46,17 @@ defmodule Experiment do
     |> Repo.all()
     |> Enum.map(fn item -> Model.Topic.remap(item) end)
   end
+
+  def create_media_type do
+    data = %{
+      #"id" => 391,
+      "name_en" => "test media type sv",
+      "name_sv" => "test media type en"
+      }
+      DbListAdmin.Resource.MediaType.create_or_update(data)
+  end
+
+  def delete_media_type(id) do
+    DbListAdmin.Resource.MediaType.delete(id)
+  end
 end
