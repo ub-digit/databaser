@@ -18,20 +18,29 @@ defmodule DbListAdmin.Resource.MediaType do
     |> Enum.map(fn item -> Model.MediaType.remap(item) end)
   end
 
+  def show(%{"id" => id}) do
+    Repo.get!(Model.MediaType, id)
+    #|> Repo.preload([:database_publishers])
+    |> Model.MediaType.remap()
+  end
+
   def create_or_update(data) do
     Model.MediaType.changeset(Model.MediaType.find(data["id"]), data)
     |> Repo.insert_or_update()
     |> case do
-      {:ok, res} -> {:ok, Model.MediaType.remap((res))}
-      {:error, reason} -> {:error, Model.MediaType.remap_error(reason.errors)}
+      {:ok, res} -> Model.MediaType.remap((res))
+      {:error, reason} -> Model.MediaType.remap_error(reason.errors)
     end
   end
 
-  def delete(id) do
-    media_type = Repo.get!(Model.MediaType, id)
-    case Repo.delete media_type do
-      {:ok, struct}       -> {:ok, struct}
-      {:error, changeset} -> {:error, changeset}
+  def delete(%{"id" => id}) do
+    media_type = Repo.get(Model.MediaType, id)
+    case media_type do
+      nil -> %{error: %{Media_typ: %{error_code: "does_not_exist", id: id}}}
+      _   -> case Repo.delete media_type do
+              {:ok, struct}       -> Model.MediaType.remap(struct)
+              {:error, changeset} -> {:error, changeset}
+      end
     end
   end
 end

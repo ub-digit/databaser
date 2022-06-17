@@ -5,6 +5,10 @@ defmodule DbListAdminWeb.MediaTypesController do
     json conn, DbListAdmin.Resource.MediaType.get_media_types()
   end
 
+  def show(conn, params) do
+    json conn, DbListAdmin.Resource.MediaType.show(params)
+  end
+
   def create(conn, params) do
     json conn, DbListAdmin.Resource.MediaType.create_or_update(params)
   end

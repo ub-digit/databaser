@@ -21,8 +21,9 @@ defmodule DbListAdminWeb.Router do
     get "/topics", TopicsController, :index
     post "/topics", TopicsController, :create
     get "/media_types", MediaTypesController, :index
+    get "/media_types/:id", MediaTypesController, :show
     post "/media_types", MediaTypesController, :create
-    delete "/media_types", MediaTypesController, :delete
+    delete "/media_types/:id", MediaTypesController, :delete
     get "/publishers", PublishersController, :index
     get "/publishers/:id", PublishersController, :show
     post "/publishers", PublishersController, :create
