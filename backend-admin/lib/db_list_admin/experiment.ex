@@ -59,4 +59,15 @@ defmodule Experiment do
   def delete_media_type(id) do
     DbListAdmin.Resource.MediaType.delete(id)
   end
+
+  def create_pub do
+    data = %{
+      "name" => "Fine Publisher"
+    }
+    DbListAdmin.Resource.Publisher.create_or_update(data)
+  end
+
+  def delete_puiblisher(id) do
+    DbListAdmin.Resource.Publisher.delete(id)
+  end
 end

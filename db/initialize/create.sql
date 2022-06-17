@@ -92,7 +92,7 @@ CREATE TABLE database_sub_topics (
 
 CREATE TABLE publishers (
     id serial PRIMARY KEY,
-    name text
+    name text UNIQUE NOT NULL
 );
 
 CREATE TABLE database_publishers (
