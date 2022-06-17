@@ -9,6 +9,9 @@ ALTER TABLE database_urls ADD CONSTRAINT database_urls_fk_databases FOREIGN KEY 
 
 ALTER TABLE database_topics ADD CONSTRAINT database_topics_fk_databases FOREIGN KEY (database_id) REFERENCES databases (id);
 
+ALTER TABLE database_publishers ADD CONSTRAINT database_publishers_fk_databases FOREIGN KEY (database_id) REFERENCES databases (id);
+
+
 
 
 
