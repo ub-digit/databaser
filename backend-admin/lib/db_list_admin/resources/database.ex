@@ -26,7 +26,7 @@ defmodule DbListAdmin.Resource.Database do
     on: database_terms_of_use.database_id == db.id,
     left_join: mt_db in Model.DatabaseMediaType,
     on: mt_db.database_id == db.id,
-    left_join: mt in Databases.Model.MediaType,
+    left_join: mt in Model.MediaType,
     on: mt.id == mt_db.media_type_id,
     preload: [:database_topics, :topics, :database_sub_topics, :sub_topics, :database_alternative_titles, :database_terms_of_use, :database_urls, :database_media_types, :media_types,  database_publishers: db_pb, publishers: pb])
   end
@@ -34,6 +34,14 @@ defmodule DbListAdmin.Resource.Database do
   def get_databases() do
     database_base()
     |> Repo.all()
-    |> Model.Database.remap()
+    |> Enum.map(fn item -> Model.Database.remap(item) end)
+  end
+
+  def show(%{"id" => id}) do
+
+    (from db in database_base(),
+    where: db.id == ^id)
+    |> Repo.one
+    |> DbListAdmin.Model.Database.remap()
   end
 end

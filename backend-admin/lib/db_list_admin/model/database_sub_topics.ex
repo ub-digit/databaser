@@ -4,7 +4,7 @@ defmodule DbListAdmin.Model.DatabaseSubTopic do
   alias DbListAdmin.Model
 
   schema "database_sub_topics" do
-    #belongs_to :database, Model.Database
+    belongs_to :database, Model.Database
     belongs_to :sub_topic, Model.SubTopic
     field :is_recommended, :boolean
   end

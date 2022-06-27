@@ -28,6 +28,9 @@ defmodule DbListAdminWeb.Router do
     get "/publishers/:id", PublishersController, :show
     post "/publishers", PublishersController, :create
     delete "/publishers/:id", PublishersController, :delete
+    get "/databases", DatabasesController, :index
+    get "/databases/:id", DatabasesController, :show
+    post "/databases/", DatabasesController, :create
     #put "/topics", TopicsController, :create_or_update
     #delete "/topics", TopicsController, :create_or_update
   end

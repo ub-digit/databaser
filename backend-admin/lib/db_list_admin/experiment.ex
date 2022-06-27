@@ -56,9 +56,6 @@ defmodule Experiment do
       DbListAdmin.Resource.MediaType.create_or_update(data)
   end
 
-  def delete_media_type(id) do
-    DbListAdmin.Resource.MediaType.delete(id)
-  end
 
   def create_pub do
     data = %{
@@ -70,4 +67,19 @@ defmodule Experiment do
   def delete_puiblisher(id) do
     DbListAdmin.Resource.Publisher.delete(id)
   end
+
+  def get_titles() do
+    Repo.all(Model.DatabaseAlternativeTitle)
+    |> Enum.map(fn item -> Model.DatabaseAlternativeTitle.remap(item) end)
+  end
+
+
+
+  def delete_all_urls_with_database_id(id) do
+    (from url in Model.DatabaseUrl,
+    where: url.database_id == ^id)
+    |> Repo.delete_all()
+  end
+
+
 end
