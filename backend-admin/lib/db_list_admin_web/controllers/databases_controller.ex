@@ -7,7 +7,6 @@ defmodule DbListAdminWeb.DatabasesController do
 
   def show(conn, params) do
     json conn, DbListAdmin.Resource.Database.show(params)
-    json conn, "jada"
   end
 
 

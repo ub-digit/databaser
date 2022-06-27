@@ -23,7 +23,7 @@ defmodule DbListAdmin.Resource.Database.DatabaseUrl do
 
   def delete_all_urls(multi) do
     multi
-    |> Multi.delete_all(:delete_all_urls, fn %{database: %{id: database_id}}->
+    |> Multi.delete_all(:delete_all_urls, fn %{database: %{id: database_id}} ->
       (from url in Model.DatabaseUrl,
       where: url.database_id == ^database_id)
     end)
