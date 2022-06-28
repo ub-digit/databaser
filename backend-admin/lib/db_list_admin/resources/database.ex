@@ -38,7 +38,6 @@ defmodule DbListAdmin.Resource.Database do
   end
 
   def show(id) do
-
     (from db in database_base(),
     where: db.id == ^id)
     |> Repo.one

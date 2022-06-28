@@ -4,6 +4,7 @@ defmodule DbListAdmin.Resource.Database.Create do
   alias Ecto.Multi
   alias DbListAdmin.Resource.Database.DatabaseUrl
   alias DbListAdmin.Resource.Database.DatabaseAlternativeTitle
+  alias DbListAdmin.Resource.Database.DatabaseMediaType
 
 
   def create_or_update(data) do
@@ -18,6 +19,7 @@ defmodule DbListAdmin.Resource.Database.Create do
     end)
     |> DatabaseUrl.delete_create_all(data["urls"])
     |> DatabaseAlternativeTitle.delete_create_all(data["alternative_titles"])
+    |> DatabaseMediaType.remove_add_media_types(data["media_types"])
     |> Repo.transaction()
     |> result()
   end
