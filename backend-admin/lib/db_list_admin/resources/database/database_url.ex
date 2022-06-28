@@ -42,5 +42,4 @@ defmodule DbListAdmin.Resource.Database.DatabaseUrl do
         insert_or_update(acc, atom_name, url)
     end)
   end
-
 end

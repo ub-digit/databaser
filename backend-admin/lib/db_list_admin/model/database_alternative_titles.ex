@@ -12,6 +12,22 @@ defmodule DbListAdmin.Model.DatabaseAlternativeTitle do
     alternative_title.title
   end
 
+  def remap_error(error) do
+    error_list =
+    error
+    |> IO.inspect(label: "Error")
+    |> Enum.map(fn {k, {_, reason}} ->
+        {r1, r2} = List.first(reason)
+        %{:field => k, :error_code => Atom.to_string(r1) <> "_" <> Atom.to_string(r2)}
+      end)
+
+    %{
+      error: %{
+        database_alternative_title: error_list
+      }
+    }
+  end
+
   def changeset(database_publisher, attrs) do
       database_publisher
     |> cast(attrs, [:database_id, :title])

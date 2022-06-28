@@ -3,6 +3,8 @@ defmodule DbListAdmin.Resource.Database.Create do
   alias DbListAdmin.Repo
   alias Ecto.Multi
   alias DbListAdmin.Resource.Database.DatabaseUrl
+  alias DbListAdmin.Resource.Database.DatabaseAlternativeTitle
+
 
   def create_or_update(data) do
     Multi.new()
@@ -15,13 +17,13 @@ defmodule DbListAdmin.Resource.Database.Create do
       end
     end)
     |> DatabaseUrl.delete_create_all(data["urls"])
+    |> DatabaseAlternativeTitle.delete_create_all(data["alternative_titles"])
     |> Repo.transaction()
-    |> IO.inspect(label: "result")
-    "Hey"
+    |> result()
   end
 
   def result({_, res}) do
-    #DbListAdmin.Resource.Database.show(%{"id" => id})
-    IO.inspect(res, label: "RES")
+    %{database: %{id: id}} = res
+    DbListAdmin.Resource.Database.show(id)
   end
 end

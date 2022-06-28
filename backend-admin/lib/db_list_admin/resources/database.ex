@@ -37,7 +37,7 @@ defmodule DbListAdmin.Resource.Database do
     |> Enum.map(fn item -> Model.Database.remap(item) end)
   end
 
-  def show(%{"id" => id}) do
+  def show(id) do
 
     (from db in database_base(),
     where: db.id == ^id)

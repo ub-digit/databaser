@@ -3,7 +3,6 @@ defmodule Experiment do
   alias DbListAdmin.Repo
   import Ecto.Query
 
-
   def test() do
     delete_data = %{
       "id" => 1006,
@@ -56,7 +55,6 @@ defmodule Experiment do
       DbListAdmin.Resource.MediaType.create_or_update(data)
   end
 
-
   def create_pub do
     data = %{
       "name" => "Fine Publisher"
@@ -73,13 +71,9 @@ defmodule Experiment do
     |> Enum.map(fn item -> Model.DatabaseAlternativeTitle.remap(item) end)
   end
 
-
-
   def delete_all_urls_with_database_id(id) do
     (from url in Model.DatabaseUrl,
     where: url.database_id == ^id)
     |> Repo.delete_all()
   end
-
-
 end
