@@ -3,7 +3,7 @@
   <div class="navbar navbar-dark bg-primary navbar-expand-xl">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">
-        <span class="logo"><img :src="'/img/gub-textlogo-en.svg'" alt="logo"></span> | Databases Admin
+        <span class="logo"><img :src="'/img/gub-textlogo-en.svg'" alt="logo"></span> | Database admin
       </a>
       <button class="navbar-toggler" type="button" 
               data-bs-toggle="collapse" data-bs-target="#navbarNav"
