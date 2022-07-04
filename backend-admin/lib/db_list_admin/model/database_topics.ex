@@ -12,6 +12,6 @@ defmodule DbListAdmin.Model.DatabaseTopic do
   @doc false
   def changeset(database_topics, attrs) do
       database_topics
-    |> cast(attrs, [:database_id, :topic_id_id])
+    |> cast(attrs, [:database_id, :topic_id, :is_recommended])
   end
 end

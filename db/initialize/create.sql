@@ -39,7 +39,7 @@ CREATE TABLE database_terms_of_use (
     description_en text,
     permitted boolean,
     database_id int,
-    code text
+    code text NOT NULL
 );
 
 CREATE TABLE database_urls (

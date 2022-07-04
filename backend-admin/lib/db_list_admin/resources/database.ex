@@ -8,8 +8,8 @@ defmodule DbListAdmin.Resource.Database do
     (from db in Model.Database,
     left_join: db_topics in Model.DatabaseTopic,
     on: db_topics.database_id == db.id,
-    left_join: t in Model.Topic,
-    on: t.id == db_topics.topic_id,
+    left_join: topic in Model.Topic,
+    on: topic.id == db_topics.topic_id,
     left_join: st_for in Model.DatabaseSubTopic,
     on: st_for.database_id == db.id,
     left_join: st in Model.SubTopic,
@@ -18,6 +18,7 @@ defmodule DbListAdmin.Resource.Database do
     on: db_pb.database_id == db.id,
     left_join: pb in Model.Publisher,
     on: pb.id == db_pb.publisher_id,
+    left_join: db_publisher in assoc(pb, :database_publishers),
     left_join: database_alternative_titles in Model.DatabaseAlternativeTitle,
     on: database_alternative_titles.database_id == db.id,
     left_join: database_urls in Model.DatabaseUrl,
@@ -28,7 +29,7 @@ defmodule DbListAdmin.Resource.Database do
     on: mt_db.database_id == db.id,
     left_join: mt in Model.MediaType,
     on: mt.id == mt_db.media_type_id,
-    preload: [:database_topics, :topics, :database_sub_topics, :sub_topics, :database_alternative_titles, :database_terms_of_use, :database_urls, :database_media_types, :media_types,  database_publishers: db_pb, publishers: pb])
+    preload: [database_topics: db_topics, topics: topic, database_sub_topics: st_for, sub_topics: st, database_alternative_titles: database_alternative_titles, database_terms_of_use: database_terms_of_use, database_urls: database_urls, database_media_types: mt_db, media_types: mt, database_publishers: db_pb, publishers: {pb, :database_publishers}])
   end
 
   def get_databases() do

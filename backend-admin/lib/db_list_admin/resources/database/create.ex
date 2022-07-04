@@ -6,7 +6,9 @@ defmodule DbListAdmin.Resource.Database.Create do
   alias DbListAdmin.Resource.Database.DatabaseAlternativeTitle
   alias DbListAdmin.Resource.Database.DatabaseMediaType
   alias DbListAdmin.Resource.Database.DatabasePublisher
-
+  alias DbListAdmin.Resource.Database.DatabaseTopic
+  alias DbListAdmin.Resource.Database.DatabaseSubTopic
+  alias DbListAdmin.Resource.Database.DatabaseTermsOfUse
 
 
   def create_or_update(data) do
@@ -23,6 +25,9 @@ defmodule DbListAdmin.Resource.Database.Create do
     |> DatabaseAlternativeTitle.delete_create_all(data["alternative_titles"])
     |> DatabaseMediaType.remove_add_media_types(data["media_types"])
     |> DatabasePublisher.remove_add_all(data["publishers"])
+    |> DatabaseTopic.remove_add_all(data["topics"])
+    |> DatabaseSubTopic.remove_add_all(DatabaseSubTopic.get_sub_topics(data["topics"]))
+    |> DatabaseTermsOfUse.remove_add_all(data["terms_of_use"])
     |> Repo.transaction()
     |> result()
   end
