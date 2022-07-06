@@ -36,7 +36,6 @@ defmodule DbListAdmin.Model.DatabaseTermsOfUse do
     }
   end
 
-
   def changeset(database_terms_of_use, attrs) do
     database_terms_of_use
     |> cast(attrs, [:database_id, :code, :description_en, :description_sv, :permitted])

@@ -63,7 +63,12 @@ defmodule DbListAdmin.Model.Database do
   def set_recommended_in(topics, type) do
     topics
     |> Enum.filter(fn tp -> tp.is_recommended end)
-    |> Enum.map(fn tp -> Map.get(tp, type).id end)
+    |> Enum.map(fn tp ->
+      case type do
+        :topic -> Map.get(tp, :topic_id)
+        :sub_topic -> Map.get(tp, :sub_topic_id)
+      end
+    end)
   end
 
   def sort_topics(db) do

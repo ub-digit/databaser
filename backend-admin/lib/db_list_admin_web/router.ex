@@ -20,6 +20,7 @@ defmodule DbListAdminWeb.Router do
     #get "/", PageController, :index
     get "/topics", TopicsController, :index
     post "/topics", TopicsController, :create
+    get "/topics/:id", TopicsController, :show
     get "/media_types", MediaTypesController, :index
     get "/media_types/:id", MediaTypesController, :show
     post "/media_types", MediaTypesController, :create

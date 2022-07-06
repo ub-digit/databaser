@@ -10,7 +10,6 @@ defmodule DbListAdmin.Resource.Database.Create do
   alias DbListAdmin.Resource.Database.DatabaseSubTopic
   alias DbListAdmin.Resource.Database.DatabaseTermsOfUse
 
-
   def create_or_update(data) do
     Multi.new()
     |> Multi.run(:database, fn repo, _ ->

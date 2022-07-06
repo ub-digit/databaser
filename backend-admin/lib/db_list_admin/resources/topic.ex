@@ -19,4 +19,12 @@ defmodule DbListAdmin.Resource.Topic do
     |> Repo.all()
     |> Enum.map(fn item -> Model.Topic.remap(item) end)
   end
+
+  def show(id) do
+    (from t in topics_base(),
+    where: t.id == ^id)
+    |> Repo.all()
+    |> Enum.map(fn item -> Model.Topic.remap(item) end)
+    |> List.first()
+  end
 end

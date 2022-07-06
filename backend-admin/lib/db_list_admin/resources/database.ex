@@ -35,6 +35,7 @@ defmodule DbListAdmin.Resource.Database do
   def get_databases() do
     database_base()
     |> Repo.all()
+    |> Enum.uniq()
     |> Enum.map(fn item -> Model.Database.remap(item) end)
   end
 
