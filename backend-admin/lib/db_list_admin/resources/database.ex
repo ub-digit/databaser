@@ -42,6 +42,9 @@ defmodule DbListAdmin.Resource.Database do
     (from db in database_base(),
     where: db.id == ^id)
     |> Repo.one
-    |> DbListAdmin.Model.Database.remap()
+    |> case do
+      nil -> %{error: "No database with id: " <> id <> " was found"}
+      db  -> DbListAdmin.Model.Database.remap(db)
+    end
   end
 end
