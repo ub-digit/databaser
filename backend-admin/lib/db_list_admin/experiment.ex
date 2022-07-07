@@ -3,7 +3,6 @@ defmodule Experiment do
   alias DbListAdmin.Repo
   import Ecto.Query
 
-
   def test() do
     delete_data = %{
       "id" => 1006,
@@ -41,10 +40,19 @@ defmodule Experiment do
     preload: [:database_topics, :sub_topics]
   end
 
+  def pre do
+    (from db in Model.Database,
+    join: db_topics in assoc(db, :database_topics),
+    join: topics in assoc(db_topics, :topic),
+    where: db.id == 32,
+    preload: [database_topics: {db_topics, topic: topics}])
+    |> Repo.all()
+  end
+
   def base do
     (from t in topics_base())
     |> Repo.all()
-    |> Enum.map(fn item -> Model.Topic.remap(item) end)
+    #|> Enum.map(fn item -> Model.Topic.remap(item) end)
   end
 
   def create_media_type do
@@ -56,10 +64,6 @@ defmodule Experiment do
       DbListAdmin.Resource.MediaType.create_or_update(data)
   end
 
-  def delete_media_type(id) do
-    DbListAdmin.Resource.MediaType.delete(id)
-  end
-
   def create_pub do
     data = %{
       "name" => "Fine Publisher"
@@ -69,5 +73,16 @@ defmodule Experiment do
 
   def delete_puiblisher(id) do
     DbListAdmin.Resource.Publisher.delete(id)
+  end
+
+  def get_titles() do
+    Repo.all(Model.DatabaseAlternativeTitle)
+    |> Enum.map(fn item -> Model.DatabaseAlternativeTitle.remap(item) end)
+  end
+
+  def delete_all_urls_with_database_id(id) do
+    (from url in Model.DatabaseUrl,
+    where: url.database_id == ^id)
+    |> Repo.delete_all()
   end
 end

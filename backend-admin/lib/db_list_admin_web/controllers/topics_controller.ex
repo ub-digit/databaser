@@ -8,4 +8,8 @@ defmodule DbListAdminWeb.TopicsController do
   def create(conn, params) do
     json conn, DbListAdmin.Resource.Topic.Create.create_or_update(params)
   end
+
+  def show(conn, %{"id" => id}) do
+    json conn, DbListAdmin.Resource.Topic.show(id)
+  end
 end

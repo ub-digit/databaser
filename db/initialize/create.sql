@@ -14,15 +14,15 @@ DROP TABLE IF EXISTS database_publishers;
 
 CREATE TABLE databases (
     id serial PRIMARY KEY,
-    title_en text,
-    title_sv text,
+    title_en text UNIQUE NOT NULL,
+    title_sv text UNIQUE NOT NULL,
     description_en text,
     description_sv text,
     is_popular boolean,
     public_access boolean,
     malfunction_message_active boolean,
     malfunction_message text,
-    access_information_code text
+    access_information_code text NOT NULL
 );
 
 CREATE TABLE database_alternative_titles (
@@ -39,7 +39,7 @@ CREATE TABLE database_terms_of_use (
     description_en text,
     permitted boolean,
     database_id int,
-    code text
+    code text NOT NULL
 );
 
 CREATE TABLE database_urls (

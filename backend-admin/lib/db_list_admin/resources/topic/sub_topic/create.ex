@@ -5,7 +5,6 @@ defmodule DbListAdmin.Resource.Topic.SubTopic.Create do
   def create(repo, topic_id, data) do
     data = Map.put(data, "topic_id", topic_id)
     cs = Model.SubTopic.changeset(Model.SubTopic.find(data["id"]), data)
-    |> IO.inspect(label: "cs")
     repo.insert_or_update(cs)
     |> case do
       {:ok, res} -> {:ok, Model.SubTopic.remap(res)}

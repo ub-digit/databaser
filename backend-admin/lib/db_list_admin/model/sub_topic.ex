@@ -31,7 +31,6 @@ defmodule DbListAdmin.Model.SubTopic do
   def remap_error(error) do
     error_list =
     error
-    |> IO.inspect(label: "Error")
     |> Enum.map(fn {k, {_, reason}} ->
         {r1, r2} = List.first(reason)
         %{:field => k, :error_code => Atom.to_string(r1) <> "_" <> Atom.to_string(r2)}

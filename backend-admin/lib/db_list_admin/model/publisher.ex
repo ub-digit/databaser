@@ -19,9 +19,12 @@ defmodule DbListAdmin.Model.Publisher do
 
   def can_be_deleted(%{:database_publishers => db_publishers}) when is_list(db_publishers) do
     length(db_publishers) < 1
- end
+  end
 
- def can_be_deleted(_), do: true
+  def can_be_deleted(data) do
+    true
+  end
+
 
   def remap_error(error) do
     error_list =
