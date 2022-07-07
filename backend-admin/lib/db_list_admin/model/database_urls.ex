@@ -36,6 +36,5 @@ defmodule DbListAdmin.Model.DatabaseUrl do
     |> cast(attrs, [:title, :url, :database_id])
     |> validate_required([:url])
     |> validate_required([:database_id])
-
   end
 end
