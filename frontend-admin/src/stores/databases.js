@@ -19,7 +19,57 @@ export const useDatabasesStore = defineStore({
             title_en: "database 2 (en)",
             title_sv: "database 2 (sv)",
             desc_en: "descripton goes here",
-            desc_sv: "beskrivning här"
+            desc_sv: "beskrivning här",
+            mediatypes: [
+              {
+                id: 1,
+                name_sv: "mediatype 1 (sv)",
+                name_en: "mediatype 1 (en)",
+                selected: true
+              },
+              {
+                id: 2,
+                name_sv: "mediatype 2 (sv)",
+                name_en: "mediatype 2 (en)",
+                selected: false
+              }
+            ],
+            topics: [
+              {
+                id: 3,
+                name_sv: "main-topic sv",
+                name_en: "main-topic en",
+                selected: true,
+                recommended: true,
+                sub_topics: [
+                  {
+                    id: 233432,
+                    topic_id: 3,
+                    name_sv: "sub-topic sv",
+                    name_en: "sub-topic en",
+                    selected: true,
+                    recommended: true,
+                  }
+                ]
+              },
+              {
+                id: 4,
+                name_sv: "main-topic sv",
+                name_en: "main-topic en",
+                selected: true,
+                recommended: false,
+                sub_topics: [
+                  {
+                    id: 233433,
+                    topic_id: 4,
+                    name_sv: "sub-topic sv",
+                    name_en: "sub-topic en",
+                    selected: false,
+                    recommended: false
+                  }
+                ]
+              }  
+            ]
           },       
         ]
       } 
