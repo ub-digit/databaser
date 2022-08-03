@@ -89,14 +89,72 @@
             </div>
           </div>
         </div> <!-- end row -->
+        <div class="row">
+          <div class="mb-3 col-6">
+            <h3>Subject</h3>
+            <ul class="list-unstyled" v-if="database_initial_state.topics">
+              <li v-for="topic in database_initial_state.topics" :key="topic.id">
+                <div class="form-check">
+                  <input :disabled="subTopicSelected(topic)" class="form-check-input" type="checkbox" :id="topic.id" v-model="topic.selected">
+                  <label class="form-check-label" :for="topic.id">{{topic.name_en}} / {{topic.name_sv}}</label>
+                </div>
+                <ul class="" v-if="topic.sub_topics.length">
+                  <li v-for="subtopic in topic.sub_topics" :key="subtopic.id">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" :id="subtopic.id" v-model="subtopic.selected">
+                      <label class="form-check-label" :for="subtopic.id">{{subtopic.name_sv}} / {{subtopic.name_en}}</label>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="mb-3 col-6">
+            <h3>Recommended in</h3>
+            <ul class="list-unstyled" v-if="database_initial_state.topics">
+              <li v-for="topic in database_initial_state.topics" :key="topic.id">
+                <div v-if="topic">
+                  <div v-if="topic.selected" class="form-check">
+                    <input :disabled="!topic.selected" class="form-check-input" type="checkbox" :id="'r_' + topic.id" v-model="topic.recommended">
+                    <label class="form-check-label" :for="'r_' + topic.id">{{topic.name_en}} / {{topic.name_sv}}</label>
+                  </div>
+                  <ul class="" v-if="topic.sub_topics.length">
+                    <div v-for="subtopic in topic.sub_topics" :key="subtopic.id">
+                      <li  v-if="subtopic.selected">
+                        <div class="form-check">
+                          <input :disabled="!subtopic.selected" class="form-check-input" type="checkbox" :id="'r_' + subtopic.id" v-model="subtopic.recommended">
+                          <label class="form-check-label" :for="'r_' + subtopic.id">{{subtopic.name_sv}} / {{subtopic.name_en}}</label>
+                        </div>
+                      </li>
+                    </div>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div> <!-- end row --> 
+        <div class="row">
+          <div class="col">
+            <h3>Media type</h3>
+            <ul class="list-unstyled" v-if="database_initial_state.mediatypes && database_initial_state.mediatypes.length">
+              <li v-for="mediatype in database_initial_state.mediatypes" :key="mediatype.id">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" :id="mediatype.id" v-model="mediatype.selected">
+                  <label :for="mediatype.id" class="form-check-label">{{mediatype.name_en}} / {{mediatype.name_sv}}</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div> <!-- end row --> 
       </FormKit> <!-- end form --> 
   </div>
 </template>
 
 <script>
 import { useRoute, useRouter, onBeforeRouteLeave } from 'vue-router'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import {useDatabasesStore} from '@/stores/databases'
+import {useTopicsStore} from '@/stores/topics'
 import _ from 'lodash'
 import { marked } from 'marked'
 
@@ -108,14 +166,36 @@ export default {
     const router = useRouter();
     const route = useRoute();
     const store = useDatabasesStore();
+    const topicsStore = useTopicsStore();
+    const values = ref([]);
     const database = props.database;
     const database_initial_state = ref(_.cloneDeep(database));
     const desc_en_markdown_output = computed(() => marked(database_initial_state.value.desc_en))
     const desc_sv_markdown_output = computed(() => marked(database_initial_state.value.desc_sv))
     const isDirty = computed(() => _.isEqual(database, database_initial_state.value) ? false: true);
     let isSaved = false;
-  
-
+    watch(
+      () => database_initial_state.value.topics,
+      (newValue, oldValue) => {
+        database_initial_state.value.topics.forEach(topic => {
+          if (!topic.selected) {
+            topic.recommended = false;
+          }
+          topic.sub_topics.forEach(subtopic => {
+            if (subtopic.selected) {
+              topic.selected = true;
+            }
+            if (!subtopic.selected) {
+              subtopic.recommended = false;
+            }
+          })
+        })
+      },
+      { deep: true }
+    )
+    const subTopicSelected = (topic) => {
+      return topic.sub_topics.find(subtopic => subtopic.selected);
+    }
     onBeforeRouteLeave(() => {
       if (isDirty.value && !isSaved) {
         const answer = window.confirm("It looks like you have been editing something. If you leave before saving, your changes will be lost.");
@@ -126,7 +206,11 @@ export default {
       ctx.emit('saveDatabase', database_initial_state.value);
       isSaved = true;
     }
+
     return {
+      topicsStore,
+      subTopicSelected,
+      values,
       database_initial_state,
       saveDatabase,
       isDirty,
@@ -137,6 +221,7 @@ export default {
   }
 }
 </script>
+
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style  lang="scss">
