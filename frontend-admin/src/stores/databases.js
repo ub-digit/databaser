@@ -34,6 +34,18 @@ export const useDatabasesStore = defineStore({
                 selected: false
               }
             ],
+            publishers: [
+              {
+                id: 1,
+                name: "Publisher 1",
+                selected: true
+              },
+              {
+                id: 2,
+                name: "Publisher 2",
+                selected: false
+              }
+            ],
             topics: [
               {
                 id: 3,

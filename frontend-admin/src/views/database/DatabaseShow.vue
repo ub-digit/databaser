@@ -58,6 +58,18 @@
           </div>
         </ul>
       </div>
+    </div> <!-- end row -->
+    <div class="row pb-4">
+      <div class="col">
+        <h3>Publisher</h3>
+        <ul class="list-unstyled" v-if="database.publishers">
+          <div v-for="publisher in database.publishers" :key="publisher.id">
+            <li v-if="publisher.selected">
+              {{publisher.name}}
+            </li>
+          </div>
+        </ul>
+      </div>
     </div>
     <router-link class="btn btn-primary me-1" :to="{name: 'DatabaseEdit', params:{ id: database.id }}">Edit</router-link>
     <a href="#" @click.prevent="removeDatabase(publisher)" class="btn btn-danger" >Remove</a>

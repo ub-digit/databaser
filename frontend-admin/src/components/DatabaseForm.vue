@@ -146,6 +146,19 @@
             </ul>
           </div>
         </div> <!-- end row --> 
+        <div class="row">
+          <div class="col">
+            <h3>Publisher</h3>
+            <ul class="list-unstyled" v-if="database_initial_state.publishers && database_initial_state.publishers.length">
+              <li v-for="publisher in database_initial_state.publishers" :key="publisher.id">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" :id="'publisher_'+ publisher.id" v-model="publisher.selected">
+                  <label :for="'publisher_'+ publisher.id" class="form-check-label">{{publisher.name}}</label>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div> <!-- end row --> 
       </FormKit> <!-- end form --> 
   </div>
 </template>
