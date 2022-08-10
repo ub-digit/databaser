@@ -7,12 +7,16 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import DatabaseForm from "../../components/DatabaseForm.vue"
 import { useDatabasesStore } from "../../stores/databases";
+import { useTopicsStore } from '../../stores/topics';
+import { useMediatypesStore } from '../../stores/mediatypes';
 import { useMessage } from '../../plugins/message';
 
 export default {
 
     setup() {
         const store = useDatabasesStore();
+        const topicStore = useTopicsStore();
+        const mediatypeStore = useMediatypesStore();
         const router = useRouter();
         const route = useRouter();
         const message = useMessage();
@@ -22,7 +26,9 @@ export default {
             title_sv: "",
             title_en: "",
             desc_sv: "",
-            desc_en: ""
+            desc_en: "",
+            topics: topicStore.topics,
+            mediatypes: mediatypeStore.mediatypes
         };
         const saveDatabase = async (item) => {
             errors.value = await store.newDatabase(item);

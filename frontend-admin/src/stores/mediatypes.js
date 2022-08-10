@@ -9,14 +9,15 @@ export const useMediatypesStore = defineStore({
         mediatypes:  [
           {
             id: 1,
-            title_sv: "mediatype 1 (sv)",
-            title_en: "mediatype 1 (en)",
+            name_sv: "mediatype 1 (sv)",
+            name_en: "mediatype 1 (en)",
           },
           {
             id: 2,
-            title_sv: "mediatype 2 (sv)",
-            title_en: "mediatype 2 (en)",
-          },        ]
+            name_sv: "mediatype 2 (sv)",
+            name_en: "mediatype 2 (en)",
+          },        
+        ]
       } 
   
   },
