@@ -139,8 +139,8 @@
             <ul class="list-unstyled" v-if="database_initial_state.mediatypes && database_initial_state.mediatypes.length">
               <li v-for="mediatype in database_initial_state.mediatypes" :key="mediatype.id">
                 <div class="form-check">
-                  <input type="checkbox" class="form-check-input" :id="mediatype.id" v-model="mediatype.selected">
-                  <label :for="mediatype.id" class="form-check-label">{{mediatype.name_en}} / {{mediatype.name_sv}}</label>
+                  <input type="checkbox" class="form-check-input" :id="'mediatype_' + mediatype.id" v-model="mediatype.selected">
+                  <label :for="'mediatype_' + mediatype.id" class="form-check-label">{{mediatype.name_en}} / {{mediatype.name_sv}}</label>
                 </div>
               </li>
             </ul>
