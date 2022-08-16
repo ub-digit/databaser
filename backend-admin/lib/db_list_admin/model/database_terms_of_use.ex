@@ -36,6 +36,49 @@ defmodule DbListAdmin.Model.DatabaseTermsOfUse do
     }
   end
 
+  def get_default_set do
+    [
+      %{code: "print_article_chapter", permitted: "N/A", description_en: "", description_se: ""},
+      %{code: "download_article_chapter", permitted: "N/A", description_en: "", description_se: ""},
+      %{code: "course_pack_print", permitted: "yes", description_en: "", description_se: ""},
+      %{code: "gul_course_pack_electronic", permitted: "N/A", description_en: "", description_se: ""},
+      %{code: "scholarly_sharing", permitted: "no", description_en: "", description_se: ""},
+      %{code: "interlibrary_loan", permitted: "N/A", description_en: "", description_se: ""},
+    ]
+  end
+
+  def deserialize_terms_of_use(tou) do
+    tou
+    |> Enum.filter(fn t -> Map.get(t, :permitted) != "N/A" end)
+    |> Enum.map(fn t ->
+      case Map.get(t, :permitted) do
+         "yes"  -> Map.put(t, :permitted, true)
+         "no"   -> Map.put(t, :permitted, false)
+      end
+    end)
+  end
+
+  def serialize_terms_of_use(tou) do
+    get_default_set()
+    |> Enum.map(fn default_tou ->
+      state = Enum.filter(tou, fn t -> t.code == default_tou.code end)
+      |> List.first()
+      |> get_tou_state()
+      Map.put(default_tou, :permitted, state)
+    end)
+  end
+
+  def get_tou_state(tou) when is_nil(tou), do: "N/A"
+
+  def get_tou_state(tou) do
+    Map.get(tou, :permitted)
+    #|> IO.inspect(label: "get_tou_state")
+    |> case do
+      true -> "yes"
+      false -> "no"
+    end
+  end
+
   def changeset(database_terms_of_use, attrs) do
     database_terms_of_use
     |> cast(attrs, [:database_id, :code, :description_en, :description_sv, :permitted])
