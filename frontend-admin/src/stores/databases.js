@@ -20,6 +20,50 @@ export const useDatabasesStore = defineStore({
             title_sv: "database 2 (sv)",
             desc_en: "descripton goes here",
             desc_sv: "beskrivning här",
+            terms_of_use: [
+              {
+                id: 1, 
+                code: "print_article_chapter", 
+                description_en: "",     
+                description_sv: "",           
+                permitted: "yes"
+              },
+              {
+                id: 2, 
+                code: "course_pack_print", 
+                description_en: "",     
+                description_sv: "",           
+                permitted: "yes"
+              },
+              {
+                id: 3, 
+                code: "gul_course_pack_electronic", 
+                description_en: "",     
+                description_sv: "",           
+                permitted: "n/a"
+              },
+              {
+                id: 4, 
+                code: "scholarly_sharing", 
+                description_en: "",     
+                description_sv: "",           
+                permitted: "no"
+              },
+              {
+                id: 5, 
+                code: "download_article_chapter", 
+                description_en: "",     
+                description_sv: "",           
+                permitted: "yes"
+              },
+              {
+                id: 6, 
+                code: "interlibrary_loan", 
+                description_en: "ILL print, fax or secure electronic transmission: Permitted",     
+                description_sv: "",           
+                permitted: "yes"
+              }
+            ],
             mediatypes: [
               {
                 id: 1,

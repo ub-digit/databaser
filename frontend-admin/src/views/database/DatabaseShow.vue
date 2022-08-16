@@ -70,6 +70,29 @@
           </div>
         </ul>
       </div>
+    </div> <!-- end row -->
+
+    <div class="row pb-4">
+      <div class="col">
+        <h3>Terms of use</h3>
+        <ul class="list-unstyled" v-if="database.terms_of_use">
+          <li v-for="term_of_use in database.terms_of_use">
+            {{term_of_use.code}} <span class="badge bg-secondary"><strong>Permitted: </strong>{{term_of_use.permitted}}</span>
+            <ul>
+              <li v-if="term_of_use.description_en.length || term_of_use.description_sv.length">
+                <div>
+                  <strong>description (en):</strong>
+                  {{term_of_use.description_en.length ? term_of_use.description_en : "missing english translation" }} 
+                </div>
+                <div>
+                  <strong>description (sv):</strong>
+                  {{term_of_use.description_sv.length ? term_of_use.description_sv : "missing swedish translation" }} 
+                </div>
+              </li> 
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
     <router-link class="btn btn-primary me-1" :to="{name: 'DatabaseEdit', params:{ id: database.id }}">Edit</router-link>
     <a href="#" @click.prevent="removeDatabase(publisher)" class="btn btn-danger" >Remove</a>

@@ -158,7 +158,11 @@
               </li>
             </ul>
           </div>
-        </div> <!-- end row --> 
+        </div> <!-- end row -->
+         
+         <div v-if="database_initial_state.terms_of_use && database_initial_state.terms_of_use.length" class="terms_of_use">
+          <TermsOfUse @updateTermOfUse="updateTermOfUse" @updateTermOfUseDescription="updateTermOfUseDescription" :terms_of_use="database_initial_state.terms_of_use"/>
+         </div>
       </FormKit> <!-- end form --> 
   </div>
 </template>
@@ -170,11 +174,15 @@ import {useDatabasesStore} from '@/stores/databases'
 import {useTopicsStore} from '@/stores/topics'
 import _ from 'lodash'
 import { marked } from 'marked'
+import TermsOfUse from "./TermsOfUse.vue";
 
 export default {
   name: 'DatabaseForm',
   emits: ['saveDatabase'],
   props: ['database', 'title', 'errors'],
+  components: {
+    TermsOfUse
+  },
   setup(props, ctx) {
     const router = useRouter();
     const route = useRoute();
@@ -220,7 +228,25 @@ export default {
       isSaved = true;
     }
 
+    const updateTermOfUse = (code, val) => {
+      let term_of_use = database_initial_state.value.terms_of_use.find(term_of_use => code === term_of_use.code)
+      console.log(term_of_use);
+      console.log(val)
+      term_of_use.permitted = val;
+    }
+    
+    const updateTermOfUseDescription = (val, code, lang) => {
+      let term_of_use = database_initial_state.value.terms_of_use.find(term_of_use => code === term_of_use.code)
+      if (lang === "sv") {
+        term_of_use.description_sv = val;
+        return;
+      }
+      term_of_use.description_en = val;
+    }
+
     return {
+      updateTermOfUse,
+      updateTermOfUseDescription,
       topicsStore,
       subTopicSelected,
       values,
