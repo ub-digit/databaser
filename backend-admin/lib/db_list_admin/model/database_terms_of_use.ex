@@ -40,9 +40,9 @@ defmodule DbListAdmin.Model.DatabaseTermsOfUse do
     [
       %{code: "print_article_chapter", permitted: "N/A", description_en: "", description_se: ""},
       %{code: "download_article_chapter", permitted: "N/A", description_en: "", description_se: ""},
-      %{code: "course_pack_print", permitted: "yes", description_en: "", description_se: ""},
+      %{code: "course_pack_print", permitted: "N/A", description_en: "", description_se: ""},
       %{code: "gul_course_pack_electronic", permitted: "N/A", description_en: "", description_se: ""},
-      %{code: "scholarly_sharing", permitted: "no", description_en: "", description_se: ""},
+      %{code: "scholarly_sharing", permitted: "N/A", description_en: "", description_se: ""},
       %{code: "interlibrary_loan", permitted: "N/A", description_en: "", description_se: ""},
     ]
   end
@@ -72,7 +72,6 @@ defmodule DbListAdmin.Model.DatabaseTermsOfUse do
 
   def get_tou_state(tou) do
     Map.get(tou, :permitted)
-    #|> IO.inspect(label: "get_tou_state")
     |> case do
       true -> "yes"
       false -> "no"
