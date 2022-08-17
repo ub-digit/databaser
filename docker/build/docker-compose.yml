@@ -14,6 +14,13 @@ services:
       args:
         - GIT_REPO_URL=${GIT_REPO_URL}
         - GIT_REVISION=${GIT_REVISION}
+  backend-admin:
+    image: docker.ub.gu.se/db-list-backend-admin:${GIT_REVISION}
+    build:
+      context: ./backend-admin
+      args:
+        - GIT_REPO_URL=${GIT_REPO_URL}
+        - GIT_REVISION=${GIT_REVISION}
   elasticsearch:
     image: docker.ub.gu.se/db-list-elasticsearch:${GIT_REVISION}
     build:

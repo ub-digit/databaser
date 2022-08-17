@@ -9,6 +9,14 @@ services:
     environment:
       ELASTIC_SEARCH_URL: "${ELASTIC_SEARCH_URL}"
     restart: always
+  backend-admin:
+    container_name: db-list-backend-admin
+    image: docker.ub.gu.se/db-list-backend-admin:${GIT_REVISION}
+    ports:
+      - "${BACKEND_ADMIN_HOST_PORT}:4000"
+    environment:
+      ELASTIC_SEARCH_URL: "${ELASTIC_SEARCH_URL}"
+    restart: always
   frontend:
     container_name: db-list-frontend
   db:
@@ -26,3 +34,4 @@ services:
     environment:
       - xpack.security.enabled=false
       - "discovery.type=single-node"
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
