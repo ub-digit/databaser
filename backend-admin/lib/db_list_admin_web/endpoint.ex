@@ -1,6 +1,6 @@
 defmodule DbListAdminWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :db_list_admin
-
+  plug CORSPlug, origin: "*", max_age: 86400, expose: ["Authorization", "Content-Type", "Accept", "Origin", "User-Agent", "DNT","Cache-Control", "X-Mx-ReqToken", "Keep-Alive", "X-Requested-With", "If-Modified-Since", "Bearer", "X-File-Name"]
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
