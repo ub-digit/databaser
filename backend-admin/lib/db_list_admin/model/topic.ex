@@ -29,6 +29,7 @@ defmodule DbListAdmin.Model.Topic do
 
   def can_be_deleted(_), do: false
   def remap_error(error) do
+
     error_list =
     error
     |> Enum.map(fn {k, {_, reason}} ->

@@ -18,7 +18,6 @@ defmodule DbListAdmin.Resource.Topic.Create do
     end)
     |> SubTopic.Create.insert_update_delete_all(data["sub_topics"])
     |> Repo.transaction()
-    |> elem(1)
   end
 
   def create_or_update(data) do

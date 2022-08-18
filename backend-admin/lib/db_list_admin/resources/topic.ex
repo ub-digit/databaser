@@ -2,6 +2,7 @@
 defmodule DbListAdmin.Resource.Topic do
   alias DbListAdmin.Model
   alias DbListAdmin.Repo
+  alias DbListAdmin.Resource.Topic.Create
   import Ecto.Query
 
 
@@ -20,11 +21,23 @@ defmodule DbListAdmin.Resource.Topic do
     |> Enum.map(fn item -> Model.Topic.remap(item) end)
   end
 
+  def show(%{topic: %{id: id}}) do
+    show(id)
+  end
+
   def show(id) do
     (from t in topics_base(),
     where: t.id == ^id)
     |> Repo.all()
     |> Enum.map(fn item -> Model.Topic.remap(item) end)
     |> List.first()
+  end
+
+  def save(data) do
+    Create.create_or_update(data)
+    |> case do
+      {:error, _, error, _}  -> error
+      {:ok, result}       -> show(result)
+    end
   end
 end
