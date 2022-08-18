@@ -12,4 +12,8 @@ defmodule DbListAdminWeb.TopicsController do
   def show(conn, %{"id" => id}) do
     json conn, DbListAdmin.Resource.Topic.show(id)
   end
+
+  def delete(conn, params) do
+    json conn, DbListAdmin.Resource.Topic.Delete.delete(params)
+  end
 end

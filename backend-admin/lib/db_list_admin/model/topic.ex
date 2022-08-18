@@ -53,7 +53,7 @@ defmodule DbListAdmin.Model.Topic do
   def changeset(%Model.Topic{} = topic, attrs) do
     topic
     |> cast(attrs, [:name_en, :name_sv])
-    |> assoc_constraint(:sub_topics, name: :sub_topics_fk_topics )
+    |> foreign_key_constraint(:sub_topics, name: :sub_topics_fk_topics )
     |> validate_required([:name_en, :name_sv])
     |> unique_constraint(:name_en, name: :topics_name_en_key)
     |> unique_constraint(:name_sv, name: :topics_name_sv_key)
