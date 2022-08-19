@@ -50,8 +50,7 @@ defmodule DbListAdmin.Model.Database do
       topics: database.topics |> Enum.map(&Model.Topic.remap/1),
       sub_topics: database.sub_topics |> Enum.map(&Model.SubTopic.remap/1),
       terms_of_use: database.database_terms_of_use |> Enum.map(&Model.DatabaseTermsOfUse.remap/1) |> Model.DatabaseTermsOfUse.serialize_terms_of_use(),
-      media_types: database.media_types |> Enum.map(&Model.MediaType.remap/1),
-      #sanitized_title: Slugy.slugify(database.title)
+      media_types: database.media_types |> Enum.map(&Model.MediaType.remap_for_database/1),
     }
     |> sort_topics
   end

@@ -20,6 +20,12 @@ defmodule DbListAdmin.Model.MediaType do
     }
   end
 
+  def remap_for_database(media_type) do
+    media_type
+    |> remap()
+    |> Map.put(:can_be_deleted, false)
+  end
+
   def can_be_deleted(%{:database_media_types => db_media_types}) when is_list(db_media_types) do
     db_media_types < 1
  end
@@ -43,7 +49,7 @@ defmodule DbListAdmin.Model.MediaType do
 
   def find(id) when is_nil(id), do: %Model.MediaType{}
   def find(id) do
-    Repo.get!(Model.MediaType, id) #|> Repo.preload([:database_media_types])
+    Repo.get!(Model.MediaType, id) |> Repo.preload([:database_media_types])
   end
 
   @doc false

@@ -21,8 +21,7 @@ defmodule DbListAdmin.Resource.MediaType do
   end
 
   def show(%{"id" => id}) do
-    Repo.get(Model.MediaType, id)
-    |> Repo.preload([:database_media_types])
+    Model.MediaType.find(id)
     |> case do
       nil -> %{error: "No media type with id " <> id <> " was found."}
       val -> Model.MediaType.remap(val)
