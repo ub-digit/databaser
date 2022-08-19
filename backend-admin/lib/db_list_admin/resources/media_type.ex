@@ -3,6 +3,8 @@ defmodule DbListAdmin.Resource.MediaType do
   alias DbListAdmin.Model
   alias DbListAdmin.Repo
   import Ecto.Query
+  alias Ecto.Multi
+
 
 
   def media_types_base do
@@ -19,9 +21,12 @@ defmodule DbListAdmin.Resource.MediaType do
   end
 
   def show(%{"id" => id}) do
-    Repo.get!(Model.MediaType, id)
-    #|> Repo.preload([:database_publishers])
-    |> Model.MediaType.remap()
+    Repo.get(Model.MediaType, id)
+    |> Repo.preload([:database_media_types])
+    |> case do
+      nil -> %{error: "No media type with id " <> id <> " was found."}
+      val -> Model.MediaType.remap(val)
+    end
   end
 
   def create_or_update(data) do
@@ -33,14 +38,25 @@ defmodule DbListAdmin.Resource.MediaType do
     end
   end
 
-  def delete(%{"id" => id}) do
-    media_type = Repo.get(Model.MediaType, id)
-    case media_type do
-      nil -> %{error: %{Media_typ: %{error_code: "does_not_exist", id: id}}}
-      _   -> case Repo.delete media_type do
-              {:ok, struct}       -> Model.MediaType.remap(struct)
-              {:error, changeset} -> {:error, changeset}
+  def delete(data) do
+    Multi.new()
+    |> Multi.run(:media_type, fn repo, _ ->
+      Model.MediaType.changeset(Model.MediaType.find(data["id"]), data)
+      |> repo.delete()
+      |> case do
+        {:ok, res} -> {:ok, res}
+        {:error, reason} -> {:error, Model.MediaType.remap_error(reason.errors)}
       end
+    end)
+    |> Repo.transaction()
+    |> parse_result()
+  end
+
+  def parse_result(res) do
+    res
+    |> case do
+      {:ok, _}            -> %{status: "deleted"}
+      {:error, _, err, _} -> err
     end
   end
 end

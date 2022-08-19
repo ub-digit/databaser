@@ -1,6 +1,8 @@
 -- Sub topics
 ALTER TABLE sub_topics ADD CONSTRAINT sub_topics_fk_topics FOREIGN KEY (topic_id) REFERENCES topics (id);
 
+ALTER TABLE database_media_types ADD CONSTRAINT database_media_types_fk_media_types FOREIGN KEY (media_type_id) REFERENCES media_types (id);
+
 ALTER TABLE database_topics ADD CONSTRAINT database_topics_fk_databases FOREIGN KEY (database_id) REFERENCES databases (id) ON DELETE CASCADE;
 
 ALTER TABLE database_publishers ADD CONSTRAINT database_publishers_fk_databases FOREIGN KEY (database_id) REFERENCES databases (id) ON DELETE CASCADE;
