@@ -2,79 +2,39 @@ import { defineStore } from "pinia";
 import NProgress, { done } from 'nprogress';
 import axios from 'axios';
 import _ from 'lodash'; 
-import nprogress from "nprogress";
+import nProgress from "nprogress";
 
 export const useTopicsStore = defineStore({
   id: "topics",
   state: () => {
     return {
-        baseUrl: 'https://jsonplaceholder.typicode.com',
-        topics:  [
-          {
-            id: 1,
-            name_sv: "Ekonomi",
-            name_en: "Economy",
-            sub_topics: [
-              {
-                id:21, 
-                name_sv: "Ekonomi sub 21",
-                name_en: "Economy sub 21",
-                can_be_removed: false 
-              },
-              {
-                id:22, 
-                name_sv: "Ekonomi sub 22",
-                name_en: "Economy sub 22",
-                can_be_removed: false
-              },
-              {
-                id:23, 
-                name_sv: "Ekonomi sub 23",
-                name_en: "Economy sub 23",
-                can_be_removed: true
-              }
-            ]
-          },
-          {
-            id: 2,
-            name_sv: "Gender studies sv 23",
-            name_en: "Gender studies 23",
-            sub_topics:[
-              {
-                id:324532, 
-                name_sv: "Gender sub 324532",
-                name_en: "Gender sub 324532",
-                can_be_removed: false
-              }
-            ]
-          },
-          {
-            id: 3,
-            name_sv: "Teknologi",
-            name_en: "Technology",
-            sub_topics:[
-              {
-                id:233432,
-                name_sv: 'ooopps',
-                name_en: 'ooops en',
-                can_be_removed: false
-              }
-            ]
-          },
-        ]
+        baseUrl: 'http://localhost:4010'
       } 
   
   },
-  getters: {
-    getTopicById: (state) => (id) => {
-        try {
-          return state.topics.find((topic) => topic.id === parseInt(id) );
-        } catch (err) {
-          console.log(err.message);
-        }
-      }
-  },
   actions: {
+    async fetchTopics(payload) {
+      try {
+        NProgress.start();
+        const result = await axios.get(`${this.baseUrl}/topics`);
+        return result.data;
+      } catch (error) {
+        console.log(error)        
+      } finally {
+        NProgress.done();
+      }
+    },
+    async getTopicById(id) {
+      try {
+        nProgress.start();
+        const result = await axios.get(`${this.baseUrl}/topics/${id}`)
+        return result.data;
+      } catch (err) {
+        console.log(err.message);
+      } finally {
+        nProgress.done();
+      }
+    },
 // ##################### FAKE API CALLS ############# 
     fakeApiCallNewTopic(shouldResolve, payload) {
       return new Promise((resolve, reject) => {
@@ -116,20 +76,24 @@ export const useTopicsStore = defineStore({
 
 // #################### END FAKE API CALLS ###########
 
-    removeTopic(payload) {
-        try {
-            this.topics.splice(this.topics.indexOf(payload), 1)
+    async removeTopic(payload) {
+        try{
+          NProgress.start();
+          const topic = await axios.delete(this.baseUrl + '/topics/' + payload.id)
         } catch (err)  {
           console.log(err.message)
+        } finally {
+          NProgress.done();
         }
     },
     async updateTopic(payload) {
         try {
           NProgress.start();
-           const topic = await this.fakeApiCallEditTopic(true, payload)
-           //const topic = await axios.put(this.baseUrl + '/topics', payload)
+           //const topic = await this.fakeApiCallEditTopic(true, payload)
+           const topic = await axios.post(this.baseUrl + '/topics', payload)
+           return topic;
            console.log(topic);
-           this.getTopicById(topic.id);
+           //this.getTopicById(topic.id);
         } catch (errors) {
             if (errors) {
               console.log(`backend update topic errors: ${ errors }` );
@@ -142,10 +106,10 @@ export const useTopicsStore = defineStore({
     async newTopic(payload) {
       try {
         NProgress.start();
-        const topic = await this.fakeApiCallNewTopic(false, payload);
-        //const topic = await axios.post(this.baseUrl + '/topics', payload)
+        const topic = await axios.post(this.baseUrl + '/topics', payload)
         console.log(topic);
-        this.getTopicById(topic.id);
+        return topic;
+        //this.getTopicById(topic.id);
       } catch (errors) {
         if (errors) {
           console.log('backend new topic errors:',errors);

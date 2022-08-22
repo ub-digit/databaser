@@ -23,7 +23,7 @@
 
         <div v-if="props.errors" class="row mt-3">
           <div class="col">
-            <div v-if="props.errors.topic.length" class="alert alert-danger" role="alert">
+            <div v-if="props.errors.topic && props.errors.topic.length" class="alert alert-danger" role="alert">
               <ul>
                 <li v-for="(error,index) in props.errors.topic" :key="index">
                   {{ $t('topic.error_codes.' + error.field) }}: {{ $t('topic.error_codes.' + error.error_code) }} 
@@ -84,7 +84,7 @@
                           input: 'form-control mb-3'
                         }"
                         label="Subtopic name (en)"
-                        :name="sub_topic.id + '-en'"
+                        :name="GUID() + '-en'"
                         v-model="sub_topic.name_en"
                         placeholder="Subtopic name"
                       />
@@ -96,7 +96,7 @@
                           input: 'form-control mb-3'
                         }"
                         label="Subtopic name (sv)"
-                        :name="sub_topic.id + '-sv'"
+                        :name="GUID() + '-sv'"
                         v-model="sub_topic.name_sv"
                         placeholder="Subtopic name"
                       />
@@ -140,7 +140,9 @@ export default {
     onMounted(() => {
       nextTick(() => {
         const input = document.getElementById('name_en');
-        input.focus();
+        if (input) {
+          input.focus();
+        }
       });
     })
     onBeforeRouteLeave(() => {
@@ -149,11 +151,30 @@ export default {
         if (!answer) return false;
       }
     })
+
+    const GUID = () => {
+      return _.uniqueId();
+    }
     const saveTopic = () => {
-      const sub_topics_to_keep = topic_initial_state.value.sub_topics.filter((item) => {
-        return !item.marked_for_removal;
+      topic_initial_state.value.sub_topics.forEach((sub_topic) => {
+        if (sub_topic.marked_for_removal) {
+          sub_topic.delete = true;
+        }
       })
-      topic_initial_state.value.sub_topics = sub_topics_to_keep;
+
+      let sub_topics = [];
+      if (topic_initial_state.value.sub_topics && topic_initial_state.value.sub_topics.length) {
+          sub_topics = topic_initial_state.value.sub_topics.filter((subtopic) => {
+              if (!subtopic.id && subtopic.delete) {
+                   return;
+              }
+              else {
+                return subtopic
+              }
+          })
+      }
+      topic_initial_state.value.sub_topics  = sub_topics; 
+
       ctx.emit('saveTopic', topic_initial_state.value);
       isSaved = true;
     }
@@ -174,6 +195,7 @@ export default {
       topic_initial_state,
       saveTopic,
       addSubTopic,
+      GUID,
       removeSubTopic,
       isDirty,
       props

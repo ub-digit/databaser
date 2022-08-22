@@ -25,13 +25,17 @@ export default {
             sub_topics: []
         };
         const saveTopic = async (item) => {
-            errors.value = await store.newTopic(item);
-            if (errors.value && (errors.value.topic.length || errors.value.sub_topics.length)) {
+            const res = await store.newTopic(item);
+            errors.value = null;
+            if (res.data.error) {
+                errors.value = res.data.error;
+            }
+            if (errors.value && (errors.value.topic.length || errors.value.sub_topics && errors.value.sub_topics.length )) {
                 message.set('error', "Errors in the form ")
             }
             if (!errors.value) {
                 message.set("success", "New topic has been saved")
-                router.push({name: 'TopicShow', params: {id: item.id }});
+                router.push({name: 'TopicShow', params: {id: res.data.id }});
             }
         }
         return {

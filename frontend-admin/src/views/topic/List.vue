@@ -6,7 +6,7 @@
     </div>
   </div>
   <div class="row subjects">
-    <div v-if="topics.length" class="row">
+    <div v-if="topicsFiltered.length" class="row">
       <div class="col-3">
         <FormKit 
           outer-class="topic-filter mb-4"
@@ -40,7 +40,7 @@
         </ul>
       </div>
       <div class="col">
-        <router-view></router-view>
+        <router-view :key="$route.fullPath"></router-view>
       </div>
     </div>
     <div v-else>
@@ -53,17 +53,18 @@
 <script>
 import { useTopicsStore } from "@/stores/topics"
 import { search } from "@formkit/inputs";
-import {computed, ref, watch } from 'vue'
-import {useRoute} from 'vue-router'
+import {computed, ref, watch, onMounted } from 'vue'
+import {useRoute} from 'vue-router';
 
 export default {
   name: 'Topics',
   setup() {
     const searchTerm = ref('');
     const topicStore = useTopicsStore();
+    const topics = ref([]);
     const route = useRoute();
     const topicsFiltered = computed(() => {
-      return topicStore.topics.filter((topic) => {
+      return topics.value.filter((topic) => {
           const foundInSubTopic = (topic) => {
             const found = topic.sub_topics.filter((sub_topic) => {if (sub_topic.name_en.toLowerCase().includes(searchTerm.value.toLowerCase())) return sub_topic});
             if (found.length) {
@@ -75,6 +76,9 @@ export default {
             return topic;
           } 
       });
+    })
+    onMounted(async () => {
+      topics.value = await topicStore.fetchTopics();
     })
     const resetSearch = () => {
       searchTerm.value = "";
@@ -89,7 +93,7 @@ export default {
       searchTerm,
       resetSearch, 
       topicsFiltered,
-      topics: computed(() => topicStore.topics), 
+     // topics: computed(() => topicStore.topics), 
       isClearVisible: computed(() => {
         if (searchTerm.value.length) return true;
         return false;

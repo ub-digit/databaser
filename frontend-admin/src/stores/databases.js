@@ -1,6 +1,7 @@
 
 import { defineStore } from "pinia";
-import _ from 'lodash'; 
+import _ from 'lodash';
+import axios from 'axios';
 
 export const useDatabasesStore = defineStore({
   id: "databases",

@@ -34,7 +34,7 @@
 <script>
 import { useRoute, useRouter } from 'vue-router'
 import { useTopicsStore } from "@/stores/topics"
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 
 export default {
   name: 'TopicShow',
@@ -43,16 +43,19 @@ export default {
     const route = useRoute();
     const router = useRouter();
     const topicsStore = useTopicsStore();
-    const topic = computed(() => topicsStore.getTopicById(route.params.id));
+    const topic = ref(null);
+   // const topic = computed(() => topicsStore.getTopicById(route.params.id));
 
-    const removeTopic = (topic) => {
+    const removeTopic = async (topic) => {
       if (confirm("Are you sure?")) {
-        topicsStore.removeTopic(topic);
+        await topicsStore.removeTopic(topic);
         router.push({name:'index'});
       }
     }
 
-    
+    onMounted(async () => {
+      topic.value = await topicsStore.getTopicById(route.params.id);
+    })    
     const cannotBeDeleted = computed(() => {
       if (topic.value.sub_topics && topic.value.sub_topics.length) {
         return true;

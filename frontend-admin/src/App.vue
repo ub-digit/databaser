@@ -8,7 +8,7 @@ import Nav from './components/Nav.vue';
     <Nav/>
   </header>
   <div class="container">
-  <RouterView />
+  <RouterView :key="$route.fullPath" />
   </div>
 </template>
 
