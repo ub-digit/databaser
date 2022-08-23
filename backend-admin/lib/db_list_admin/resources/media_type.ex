@@ -29,12 +29,25 @@ defmodule DbListAdmin.Resource.MediaType do
   end
 
   def create_or_update(data) do
-    Model.MediaType.changeset(Model.MediaType.find(data["id"]), data)
-    |> Repo.insert_or_update()
-    |> case do
-      {:ok, res} -> Model.MediaType.remap((res))
-      {:error, reason} -> Model.MediaType.remap_error(reason.errors)
-    end
+    Multi.new()
+    |> Multi.run(:media_type, fn repo, _ ->
+      Model.MediaType.changeset(Model.MediaType.find(data["id"]), data)
+      |> repo.insert_or_update()
+      |> case do
+        {:ok, res} -> {:ok, Model.MediaType.remap((res))}
+        {:error, reason} -> {:error, Model.MediaType.remap_error(reason.errors)}
+      end
+    end)
+    |> Repo.transaction()
+    |> return_insert_or_update()
+  end
+
+  def return_insert_or_update({:ok, res}) do
+    res
+  end
+
+  def return_insert_or_update({:error, _, reason, _}) do
+    reason
   end
 
   def delete(data) do
@@ -48,14 +61,14 @@ defmodule DbListAdmin.Resource.MediaType do
       end
     end)
     |> Repo.transaction()
-    |> parse_result()
+    |> return_deleted()
   end
 
-  def parse_result(res) do
-    res
-    |> case do
-      {:ok, _}            -> %{status: "deleted"}
-      {:error, _, err, _} -> err
-    end
+  def return_deleted({:ok, _}) do
+    %{status: "deleted"}
+  end
+
+  def return_deleted({:error, _, err, _}) do
+    err
   end
 end
