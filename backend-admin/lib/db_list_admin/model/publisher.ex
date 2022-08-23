@@ -35,7 +35,7 @@ defmodule DbListAdmin.Model.Publisher do
     end)
     %{
       error: %{
-      media_type: error_list
+      publisher: error_list
       }
     }
   end
