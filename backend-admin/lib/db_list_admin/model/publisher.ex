@@ -21,7 +21,7 @@ defmodule DbListAdmin.Model.Publisher do
     length(db_publishers) < 1
   end
 
-  def can_be_deleted(data) do
+  def can_be_deleted(_) do
     true
   end
 
