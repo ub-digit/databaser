@@ -20,6 +20,12 @@ defmodule DbListAdmin.Model.MediaType do
     }
   end
 
+  def remap_for_database(media_type) do
+    media_type
+    |> remap()
+    |> Map.put(:can_be_deleted, false)
+  end
+
   def can_be_deleted(%{:database_media_types => db_media_types}) when is_list(db_media_types) do
     db_media_types < 1
  end
@@ -53,5 +59,6 @@ defmodule DbListAdmin.Model.MediaType do
     |> validate_required([:name_en, :name_sv])
     |> unique_constraint(:name_en, name: :media_types_name_en_key)
     |> unique_constraint(:name_sv, name: :media_types_name_sv_key)
+    |> foreign_key_constraint(:database_media_types, name: :database_media_types_fk_media_types)
   end
 end
