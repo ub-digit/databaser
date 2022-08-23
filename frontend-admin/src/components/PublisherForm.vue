@@ -23,9 +23,13 @@
 
         <div v-if="props.errors" class="row mt-3">
           <div class="col">
-            <div v-if="props.errors.publisher" class="alert alert-danger" role="alert">
-              {{props.errors.publisher}}
-          </div>
+            <div v-if="props.errors.publisher && props.errors.publisher.length" class="alert alert-danger" role="alert">
+              <ul>
+                <li v-for="(error,index) in props.errors.publisher" :key="index">
+                  {{ $t('publisher.error_codes.' + error.field) }}: {{ $t('publisher.error_codes.' + error.error_code) }} 
+                </li>
+              </ul>
+            </div>
         </div>
           
         </div>
@@ -37,8 +41,8 @@
                 input: 'form-control'
               }"
               label="Publisher"
-              name="publisher_initial_state.title"
-              v-model="publisher_initial_state.title"
+              name="publisher_initial_state.name"
+              v-model="publisher_initial_state.name"
               validation="required"
               placeholder="Enter publisher name"
             />

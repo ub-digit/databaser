@@ -35,6 +35,7 @@
 import { useRoute, useRouter } from 'vue-router'
 import { useTopicsStore } from "@/stores/topics"
 import { computed, onMounted, ref } from 'vue'
+import { useMessage } from '../../plugins/message';
 
 export default {
   name: 'TopicShow',
@@ -44,11 +45,12 @@ export default {
     const router = useRouter();
     const topicsStore = useTopicsStore();
     const topic = ref(null);
-   // const topic = computed(() => topicsStore.getTopicById(route.params.id));
+    const message = useMessage();
 
     const removeTopic = async (topic) => {
       if (confirm("Are you sure?")) {
         await topicsStore.removeTopic(topic);
+        message.set("success", "Topic has been deleted");
         router.push({name:'index'});
       }
     }

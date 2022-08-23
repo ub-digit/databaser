@@ -1,75 +1,74 @@
 
 import { defineStore } from "pinia";
+import axios from 'axios';
 import _ from 'lodash'; 
+import NProgress, { done } from 'nprogress';
+import { findLastIndex } from "underscore";
+import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import nProgress from "nprogress";
 
 export const usePublishersStore = defineStore({
   id: "publishers",
   state: () => {
     return {
-        publishers:  [
-          {
-            id: 1,
-            title: "Publisher 1",
-          },
-          {
-            id: 2,
-            title: "Publisher 2",
-          },        ]
-      } 
+      baseUrl: 'http://localhost:4010'
+    } 
   },
   getters: {
-    getPublisherById: (state) => (id) => {
-        try {
-          return state.publishers.find((publisher) => publisher.id === parseInt(id) );
-        } catch (err) {
-          console.log(err.message);
-        }
-      }
+
   },
   actions: {
-    fakeApiCall(data) {
-      return new Promise((_, reject) => {
-        setTimeout(
-          () =>
-            reject({
-              publisher: 'Error while saving publisher',
-            }),
-          1000
-        )
-      })
+    async getPublisherById(id) {
+      try {
+        const result = await axios.get(`${this.baseUrl}/publishers/${id}`);
+        return result.data; // state.publishers.find((publisher) => publisher.id === parseInt(id) );
+      } catch (err) {
+        console.log(err.message);
+      }
     },
-    removePublisher(payload) {
+    async fetchPublishers(payload) {
+      try {
+        NProgress.start();
+        const result = await axios.get(`${this.baseUrl}/publishers`);
+        return result.data;
+      } catch (error) {
+        console.log(error)        
+      } finally {
+        NProgress.done();
+      }
+    },
+    async removePublisher(payload) {
         try {
-            this.publishers.splice(this.publishers.indexOf(payload), 1)
+            nProgress.start();
+            const result = await axios.delete(this.baseUrl + '/publishers/' + payload.id)
+            console.log(result);
+            return result;
         } catch (err)  {
           console.log(err.message)
+        } finally {
+          nProgress.done();
         }
     },
     async updatePublisher(payload) {
         try {
-           //await this.fakeApiCall(payload)
-            // http://shzhangji.com/blog/2018/04/17/form-handling-in-vuex-strict-mode/
-            var obj = this.publishers.find(item => item.id === payload.id);
-            if (obj) {
-                _.assign(obj,payload);
-            }
-        } catch (inputErrors) {
-            if (inputErrors) {
-              console.log(`backend error: ${ inputErrors}` );
-              return inputErrors;
-            }
+          nProgress.start();
+          const result = await axios.post(this.baseUrl + '/publishers', payload)
+          console.log(result);
+          return result;
+        } catch (errors) {
+        } finally {
+          nProgress.done();
         }
     },
     async newPublisher(payload) {
       try {
-       // await this.fakeApiCall(payload)
-        payload.id = parseInt(_.now());
-        this.publishers.push(payload)
-      } catch (inputErrors) {
-        if (inputErrors) {
-          console.log(`backend error: ${ inputErrors }`);
-          return inputErrors;
-        }
+        nProgress.start();
+        const result = await axios.post(this.baseUrl + '/publishers', payload)
+        return result;
+      } catch (err) {
+          console.log(err);
+      } finally {
+        nProgress.done();
       }
     }
   }

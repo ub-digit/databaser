@@ -18,5 +18,12 @@ export const en = {
             constraint_unique: 'Unique required'
         }
 
+    },
+    publisher: {
+        error_codes: {
+            name: 'Publisher name',
+            validation_required: 'Field id required',
+            constraint_unique: 'Unique required'
+        }
     }
 };

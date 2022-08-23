@@ -1,8 +1,8 @@
 <template>
-<div  v-if="publisher" class="topicshow-wrapper">
+<div  v-if="publisher && publisher.id" class="topicshow-wrapper">
     <div class="row">
         <div class="col">
-          <h1>{{publisher.title}}</h1>
+          <h1>{{publisher.name}}</h1>
         </div>
     </div>
     <router-link class="btn btn-primary me-1" :to="{name: 'PublisherEdit', params:{ id: publisher.id }}">Edit</router-link>
@@ -14,7 +14,8 @@
 <script>
 import { useRoute, useRouter } from 'vue-router'
 import { usePublishersStore } from "@/stores/publishers"
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { useMessage } from '../../plugins/message';
 
 export default {
   name: 'TopicShow',
@@ -23,12 +24,23 @@ export default {
     const route = useRoute();
     const router = useRouter();
     const publishersStore = usePublishersStore();
-    const publisher = computed(() => publishersStore.getPublisherById(route.params.id));
+    const publisher = ref({});
+    const message = useMessage();
+    const errors = ref(null)
 
-    const removePublisher = (publisher) => {
+    onMounted(async () => {
+      const res = await publishersStore.getPublisherById(route.params.id);
+      publisher.value = res;
+    })
+
+    const removePublisher = async (publisher) => {  
       if (confirm("Are you sure?")) {
-        publishersStore.removePublisher(publisher);
-        router.push({name:'publisherindex'});
+        errors.value = null; 
+        const res = await publishersStore.removePublisher(publisher);
+        if (res.data.status === "deleted") {
+          message.set("success", `Publisher has been removed`)
+          router.push({name:'publisherindex'});
+        }
       }
     }
 

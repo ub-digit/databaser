@@ -22,14 +22,17 @@ export default {
             title: ""
         };
         const savePublisher = async (item) => {
-            errors.value = await store.newPublisher(item);
+            errors.value = null;
+            const res = await store.newPublisher(item);
+            if (res.data.error) {
+                errors.value = res.data.error;
+            }
             if (errors.value && (errors.value.publisher.length)) {
                 message.set('error', "Errors in the form ")
             }
             if (!errors.value) {
-                publisher = store.getPublisherById(item.id);
-                message.set("success", "New publisher has been created")
-                router.push({name: 'PublisherShow', params: {id: item.id }});
+                message.set("success", `New publisher ${item.name} has been created`)
+                router.push({name: 'PublisherShow', params: {id: res.data.publisher.id }});
             }
         }
         return {
