@@ -3,6 +3,8 @@ defmodule DbListAdmin.Resource.Publisher do
   alias DbListAdmin.Model
   alias DbListAdmin.Repo
   import Ecto.Query
+  alias Ecto.Multi
+
 
 
   def publishers_base do
@@ -25,22 +27,58 @@ defmodule DbListAdmin.Resource.Publisher do
   end
 
   def create_or_update(data) do
-    Model.Publisher.changeset(Model.Publisher.find(data["id"]), data)
-    |> Repo.insert_or_update()
-    |> case do
-      {:ok, res} -> Model.Publisher.remap((res))
-      {:error, reason} -> Model.Publisher.remap_error(reason.errors)
-    end
+  Multi.new()
+    |> Multi.run(:publisher, fn repo, _ ->
+      Model.Publisher.changeset(Model.Publisher.find(data["id"]), data)
+      |> repo.insert_or_update()
+      |> case do
+        {:ok, res} -> {:ok, Model.Publisher.remap((res))}
+        {:error, reason} -> {:error, Model.Publisher.remap_error(reason.errors)}
+      end
+    end)
+    |> Repo.transaction()
+    |> return_insert_or_update()
   end
 
-  def delete(%{"id" => id}) do
-    publisher = Repo.get(Model.Publisher, id)
-    case publisher do
-      nil -> %{error: %{publisher: %{error_code: "does_not_exist", id: id}}}
-      _   -> case Repo.delete publisher do
-              {:ok, struct}       -> Model.Publisher.remap(struct)
-              {:error, changeset} -> {:error, changeset}
+  def return_insert_or_update({:ok, res}) do
+    res
+  end
+
+  def return_insert_or_update({:error, _, reason, _}) do
+    reason
+  end
+
+
+  # def delete(%{"id" => id}) do
+  #   publisher = Repo.get(Model.Publisher, id)
+  #   case publisher do
+  #     nil -> %{error: %{publisher: %{error_code: "does_not_exist", id: id}}}
+  #     _   -> case Repo.delete publisher do
+  #             {:ok, struct}       -> Model.Publisher.remap(struct)
+  #             {:error, changeset} -> {:error, changeset}
+  #     end
+  #   end
+  # end
+
+  def delete(data) do
+    Multi.new()
+    |> Multi.run(:publisher, fn repo, _ ->
+      Model.Publisher.changeset(Model.Publisher.find(data["id"]), data)
+      |> repo.delete()
+      |> case do
+        {:ok, res} -> {:ok, res}
+        {:error, reason} -> {:error, Model.Publisher.remap_error(reason.errors)}
       end
-    end
+    end)
+    |> Repo.transaction()
+    |> return_deleted()
+  end
+
+  def return_deleted({:ok, _}) do
+    %{status: "deleted"}
+  end
+
+  def return_deleted({:error, _, err, _}) do
+    err
   end
 end
