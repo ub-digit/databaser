@@ -48,18 +48,6 @@ defmodule DbListAdmin.Resource.Publisher do
     reason
   end
 
-
-  # def delete(%{"id" => id}) do
-  #   publisher = Repo.get(Model.Publisher, id)
-  #   case publisher do
-  #     nil -> %{error: %{publisher: %{error_code: "does_not_exist", id: id}}}
-  #     _   -> case Repo.delete publisher do
-  #             {:ok, struct}       -> Model.Publisher.remap(struct)
-  #             {:error, changeset} -> {:error, changeset}
-  #     end
-  #   end
-  # end
-
   def delete(data) do
     Multi.new()
     |> Multi.run(:publisher, fn repo, _ ->
