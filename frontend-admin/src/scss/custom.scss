@@ -24,6 +24,10 @@ $dropdown-link-color: $white;
 
 $form-label-font-weight: bold;
 
+html {
+    overflow-y:scroll;
+}
+
 
 @import "../../node_modules/bootstrap/scss/variables";
 @import "../../node_modules/bootstrap/scss/mixins";
