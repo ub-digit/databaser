@@ -23,14 +23,18 @@ export default {
             title_en: "",
         };
         const saveMediatype = async (item) => {
-            errors.value = await store.newMediatype(item);
+            errors.value = null; 
+            const res = await store.updateMediatype(item);
+            if (res.data.error) {
+                errors.value = res.data.error;
+            }
             if (errors.value && (errors.value.mediatype.length)) {
                 message.set('error', "Errors in the form ")
             }
             if (!errors.value) {
-                mediatype = store.getMediatypeById(item.id);
+                mediatype = res.data.media_type;
                 message.set("success", "New mediatype has been saved")
-                router.push({name: 'MediatypeShow', params: {id: item.id }});
+                router.push({name: 'MediatypeShow', params: {id: mediatype.id }});
             }
         }
         return {

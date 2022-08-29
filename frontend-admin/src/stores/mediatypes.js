@@ -1,80 +1,70 @@
 
 import { defineStore } from "pinia";
 import _ from 'lodash'; 
+import nProgress, { done } from 'nprogress';
+import axios from "axios";
 
 export const useMediatypesStore = defineStore({
   id: "mediatypes",
   state: () => {
     return {
-        mediatypes:  [
-          {
-            id: 1,
-            name_sv: "mediatype 1 (sv)",
-            name_en: "mediatype 1 (en)",
-          },
-          {
-            id: 2,
-            name_sv: "mediatype 2 (sv)",
-            name_en: "mediatype 2 (en)",
-          },        
-        ]
+        baseUrl: 'http://localhost:4010',
+        mediatypes:  []
       } 
-  
   },
   getters: {
-    getMediatypeById: (state) => (id) => {
-        try {
-          return state.mediatypes.find((mediatype) => mediatype.id === parseInt(id) );
-        } catch (err) {
-          console.log(err.message);
-        }
-      }
   },
   actions: {
-    fakeApiCall(data) {
-      return new Promise((_, reject) => {
-        setTimeout(
-          () =>
-            reject({
-              mediatype: 'Error while saving mediatype',
-            }),
-          1000
-        )
-      })
+
+    async getMediatypeById(id) {
+      try {
+        const result = await axios.get(`${this.baseUrl}/media_types/${id}`);
+        return result.data; // state.publishers.find((publisher) => publisher.id === parseInt(id) );
+      } catch (err) {
+        console.log(err.message);
+      }
     },
-    removeMediatype(payload) {
-        try {
-            this.mediatypes.splice(this.mediatypes.indexOf(payload), 1)
-        } catch (err)  {
-          console.log(err.message)
+    async fetchMediatypes(payload) {
+      try {
+        nProgress.start();
+        const result = await axios.get(`${this.baseUrl}/media_types`);
+        this.mediatypes = result.data;
+        return result.data;
+      } catch (error) {
+        console.log(error)        
+      } finally {
+        nProgress.done();
+      }
+    },
+    async removeMediatype(payload) {
+      try {
+        nProgress.start();
+        const result = await axios.delete(this.baseUrl + '/media_types/' + payload.id)
+        console.log(result);
+        if (result.data.status && result.data.status === "deleted") {
+          this.fetchMediatypes();
         }
+        return result;
+    } catch (err)  {
+      console.log(err.message)
+    } finally {
+      nProgress.done();
+    }
     },
     async updateMediatype(payload) {
-        try {
-           //await this.fakeApiCall(payload)
-            // http://shzhangji.com/blog/2018/04/17/form-handling-in-vuex-strict-mode/
-            var obj = this.mediatypes.find(item => item.id === payload.id);
-            if (obj) {
-                _.assign(obj,payload);
-            }
-        } catch (inputErrors) {
-            if (inputErrors) {
-              console.log(`backend error: ${ inputErrors}` );
-              return inputErrors;
-            }
-        }
-    },
-    async newMediatype(payload) {
       try {
-       // await this.fakeApiCall(payload)
-        payload.id = parseInt(_.now());
-        this.mediatypes.push(payload)
-      } catch (inputErrors) {
-        if (inputErrors) {
-          console.log(`backend error: ${ inputErrors }`);
-          return inputErrors;
+        nProgress.start();
+        const result = await axios.post(this.baseUrl + '/media_types', payload)
+        console.log(result);
+        if (result.data.id) {
+          this.fetchMediatypes();
         }
+        return result;
+      } 
+      catch (errors) {
+      } finally {
+        nProgress.done();
       }
-    }
+    },
   }
 });

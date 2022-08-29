@@ -23,8 +23,12 @@
 
         <div v-if="props.errors" class="row mt-3">
           <div class="col">
-            <div v-if="props.errors.mediatype" class="alert alert-danger" role="alert">
-              {{props.errors.mediatype}}
+            <div v-if="props.errors.media_type" class="alert alert-danger" role="alert">
+              <ul>
+                <li v-for="(error,index) in props.errors.media_type" :key="index">
+                  {{ $t('mediatype.error_codes.' + error.field) }}: {{ $t('mediatype.error_codes.' + error.error_code) }} 
+                </li>
+              </ul>
           </div>
         </div>
           
@@ -37,8 +41,8 @@
                 input: 'form-control'
               }"
               label="Mediatype (en)"
-              name="mediatype_initial_state.title_en"
-              v-model="mediatype_initial_state.title_en"
+              name="mediatype_initial_state.name_en"
+              v-model="mediatype_initial_state.name_en"
               validation="required"
               placeholder="Enter mediatype in english"
             />
@@ -50,8 +54,8 @@
                 input: 'form-control'
               }"
               label="Mediatype (sv)"
-              name="mediatype_initial_state.title_sv"
-              v-model="mediatype_initial_state.title_sv"
+              name="mediatype_initial_state.name_sv"
+              v-model="mediatype_initial_state.name_sv"
               placeholder="Enter mediatype in swedish"
             />
           </div>

@@ -22,7 +22,15 @@ export const en = {
     publisher: {
         error_codes: {
             name: 'Publisher name',
-            validation_required: 'Field id required',
+            validation_required: 'Field is required',
+            constraint_unique: 'Unique required'
+        }
+    },
+    mediatype: {
+        error_codes: {
+            name_en: 'Mediatype name (en)',
+            name_sv: 'Meditype name (sv)',
+            validation_required: 'Field is required',
             constraint_unique: 'Unique required'
         }
     }
