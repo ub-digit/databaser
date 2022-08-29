@@ -15,7 +15,6 @@ export const useMediatypesStore = defineStore({
   getters: {
   },
   actions: {
-
     async getMediatypeById(id) {
       try {
         const result = await axios.get(`${this.baseUrl}/media_types/${id}`);

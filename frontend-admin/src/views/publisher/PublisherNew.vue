@@ -23,7 +23,7 @@ export default {
         };
         const savePublisher = async (item) => {
             errors.value = null;
-            const res = await store.newPublisher(item);
+            const res = await store.updatePublisher(item);
             if (res.data.error) {
                 errors.value = res.data.error;
             }

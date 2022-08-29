@@ -36,7 +36,7 @@ export default {
             }
             if (!errors.value) {
                 message.set("success", "Publisher has been saved")
-                router.push({name: 'PublisherShow', params: {id: res.data.id }});
+                router.push({name: 'PublisherShow', params: {id: res.data.publisher.id }});
             }
         }
 

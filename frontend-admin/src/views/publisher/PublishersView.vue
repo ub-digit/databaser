@@ -14,7 +14,7 @@
         </ul>
       </div>
       <div class="col">
-        <router-view :key="$route.fullPath"></router-view>
+        <router-view></router-view>
       </div>
     </div>
     <div v-else>
@@ -35,11 +35,11 @@ export default {
   setup() {
     const publishersStore = usePublishersStore();
     const route = useRoute();
-    const publishers = ref([]);
-
+    const publishers = computed(() => {
+      return publishersStore.publishers;
+    })
     onMounted(async () => {
       const res = await publishersStore.fetchPublishers();
-      publishers.value = res;
     })
 
     return {

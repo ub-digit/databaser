@@ -3,15 +3,13 @@ import { defineStore } from "pinia";
 import axios from 'axios';
 import _ from 'lodash'; 
 import NProgress, { done } from 'nprogress';
-import { findLastIndex } from "underscore";
-import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
-import nProgress from "nprogress";
 
 export const usePublishersStore = defineStore({
   id: "publishers",
   state: () => {
     return {
-      baseUrl: 'http://localhost:4010'
+      baseUrl: 'http://localhost:4010',
+      publishers: []
     } 
   },
   getters: {
@@ -29,7 +27,9 @@ export const usePublishersStore = defineStore({
     async fetchPublishers(payload) {
       try {
         NProgress.start();
+        this.publishers = [];
         const result = await axios.get(`${this.baseUrl}/publishers`);
+        this.publishers = result.data;
         return result.data;
       } catch (error) {
         console.log(error)        
@@ -39,37 +39,28 @@ export const usePublishersStore = defineStore({
     },
     async removePublisher(payload) {
         try {
-            nProgress.start();
+            NProgress.start();
             const result = await axios.delete(this.baseUrl + '/publishers/' + payload.id)
+            this.fetchPublishers();
             console.log(result);
             return result;
         } catch (err)  {
           console.log(err.message)
         } finally {
-          nProgress.done();
+          NProgress.done();
         }
     },
     async updatePublisher(payload) {
         try {
-          nProgress.start();
+          NProgress.start();
           const result = await axios.post(this.baseUrl + '/publishers', payload)
           console.log(result);
+          this.fetchPublishers();
           return result;
         } catch (errors) {
         } finally {
-          nProgress.done();
+          NProgress.done();
         }
     },
-    async newPublisher(payload) {
-      try {
-        nProgress.start();
-        const result = await axios.post(this.baseUrl + '/publishers', payload)
-        return result;
-      } catch (err) {
-          console.log(err);
-      } finally {
-        nProgress.done();
-      }
-    }
   }
 });
