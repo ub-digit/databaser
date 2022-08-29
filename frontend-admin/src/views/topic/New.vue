@@ -25,7 +25,7 @@ export default {
             sub_topics: []
         };
         const saveTopic = async (item) => {
-            const res = await store.newTopic(item);
+            const res = await store.updateTopic(item);
             errors.value = null;
             if (res.data.error) {
                 errors.value = res.data.error;

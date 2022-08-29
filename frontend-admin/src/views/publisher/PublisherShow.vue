@@ -31,6 +31,7 @@ export default {
     onMounted(async () => {
       const res = await publishersStore.getPublisherById(route.params.id);
       publisher.value = res;
+      window.scrollTo(0,0);
     })
 
     const removePublisher = async (publisher) => {  

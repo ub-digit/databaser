@@ -61,7 +61,9 @@ export default {
   setup() {
     const searchTerm = ref('');
     const topicStore = useTopicsStore();
-    const topics = ref([]);
+    const topics = computed(() => {
+      return topicStore.topics;
+    });
     const route = useRoute();
     const topicsFiltered = computed(() => {
       return topics.value.filter((topic) => {
@@ -78,7 +80,7 @@ export default {
       });
     })
     onMounted(async () => {
-      topics.value = await topicStore.fetchTopics();
+      const res = await topicStore.fetchTopics();
     })
     const resetSearch = () => {
       searchTerm.value = "";

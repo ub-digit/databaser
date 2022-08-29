@@ -29,6 +29,7 @@ export default {
     onMounted(async () => {
       const res = await mediatypesStore.getMediatypeById(route.params.id);
       mediatype.value = res;
+      window.scrollTo(0,0);
     })
     const removeMediatype = async (mediatype) => {
       if (confirm("Are you sure?")) {

@@ -57,6 +57,7 @@ export default {
 
     onMounted(async () => {
       topic.value = await topicsStore.getTopicById(route.params.id);
+      window.scrollTo(0,0);
     })    
     const cannotBeDeleted = computed(() => {
       if (topic.value.sub_topics && topic.value.sub_topics.length) {
