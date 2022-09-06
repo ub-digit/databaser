@@ -61,6 +61,7 @@ defmodule DbListAdmin.Model.Database do
     |> remap()
     |> serialize_topics()
     |> serialize_media_types()
+    |> serialize_publishers()
   end
 
   def serialize_topics(db) do
@@ -105,6 +106,21 @@ defmodule DbListAdmin.Model.Database do
       |> List.first()
     end)
     Map.put(db, :media_types, media_types)
+  end
+
+  def serialize_publishers(db) do
+    db_publishers = db.publishers
+    publishers = Resource.Publisher.get_publishers()
+    |> Enum.map(fn publisher ->
+      Enum.map(db_publishers, fn db_publisher ->
+        case publisher.id == db_publisher.id do
+          true -> Map.put(publisher, :selected, true)
+          _ -> publisher
+        end
+      end)
+      |> List.first()
+    end)
+    Map.put(db, :publishers, publishers)
   end
 
   def remap_error(error) do
