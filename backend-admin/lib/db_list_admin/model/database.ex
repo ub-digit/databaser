@@ -60,6 +60,7 @@ defmodule DbListAdmin.Model.Database do
     database
     |> remap()
     |> serialize_topics()
+    |> serialize_media_types()
   end
 
   def serialize_topics(db) do
@@ -89,6 +90,21 @@ defmodule DbListAdmin.Model.Database do
       end)
       |> List.first()
     end))
+  end
+
+  def serialize_media_types(db) do
+    db_media_types = db.media_types
+    media_types = Resource.MediaType.get_media_types()
+    |> Enum.map(fn media_type ->
+      Enum.map(db_media_types, fn db_media_type ->
+        case media_type.id == db_media_type.id do
+          true -> Map.put(media_type, :selected, true)
+          _ -> media_type
+        end
+      end)
+      |> List.first()
+    end)
+    Map.put(db, :media_types, media_types)
   end
 
   def remap_error(error) do
