@@ -50,7 +50,7 @@ defmodule Databases.Model.Database do
       description: database.description,
       is_popular: database.is_popular,
       recommended_in_topics: set_recommended_in(database.database_topics, :topic),
-      reccomennded_in_sub_topics: set_recommended_in(database.database_sub_topics, :sub_topic),
+      recommended_in_sub_topics: set_recommended_in(database.database_sub_topics, :sub_topic),
       alternative_titles: database.database_alternative_titles |> Enum.map(&Databases.Model.DatabaseAlternativeTitle.remap/1),
       urls: database.database_urls |> Enum.map(fn item -> Databases.Model.DatabaseUrl.remap(item, database.title) end),
       publishers: database.publishers |> Enum.map(fn item -> Model.Publisher.remap(item) end),
