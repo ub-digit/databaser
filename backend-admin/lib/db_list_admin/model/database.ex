@@ -39,7 +39,7 @@ defmodule DbListAdmin.Model.Database do
       description_sv: database.description_sv,
       is_popular: database.is_popular,
       recommended_in_topics: set_recommended_in(database.database_topics, :topic),
-      reccomennded_in_sub_topics: set_recommended_in(database.database_sub_topics, :sub_topic),
+      recommended_in_sub_topics: set_recommended_in(database.database_sub_topics, :sub_topic),
       alternative_titles: database.database_alternative_titles |> Enum.map(&Model.DatabaseAlternativeTitle.remap/1),
       urls: database.database_urls |> Enum.map(&Model.DatabaseUrl.remap/1),
       publishers: database.publishers |> Enum.map(&Model.Publisher.remap/1),
