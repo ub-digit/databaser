@@ -1,6 +1,7 @@
 defmodule DbListAdmin.Model.Database do
   use Ecto.Schema
   alias DbListAdmin.Repo
+  alias DbListAdmin.Resource
   alias DbListAdmin.Model
   import Ecto.Changeset
 
@@ -53,6 +54,41 @@ defmodule DbListAdmin.Model.Database do
       media_types: database.media_types |> Enum.map(&Model.MediaType.remap_for_database/1),
     }
     |> sort_topics
+  end
+
+  def remap_one_database(database) do
+    database
+    |> remap()
+    |> serialize_topics()
+  end
+
+  def serialize_topics(db) do
+    db_topics = db.topics
+
+    topics = Resource.Topic.get_topics()
+    |> Enum.map(fn topic ->
+      Enum.map(db_topics, fn db_topic ->
+        case topic.id == db_topic.id do
+          true -> Map.put(topic, :selected, true) |> mark_sub_topics(db_topic)
+          _ -> topic
+        end
+      end)
+      |> List.first()
+    end)
+    Map.put(db, :topics, topics)
+  end
+
+  def mark_sub_topics(topic, db_topic) do
+    topic
+    |> Map.put(:sub_topics, Enum.map(topic.sub_topics, fn sub_topic ->
+      Enum.map(db_topic.sub_topics, fn db_sub_topic ->
+        case sub_topic.id == db_sub_topic.id do
+          true -> Map.put(sub_topic, :selected, true)
+          _ -> sub_topic
+        end
+      end)
+      |> List.first()
+    end))
   end
 
   def remap_error(error) do
