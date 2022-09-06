@@ -39,6 +39,11 @@ defmodule DbListAdmin.Resource.Database.Remapper do
     end))
   end
 
+  # if database has no media types associated, provide full list with no selections
+  def serialize_media_types(%{media_types: []} = db) do
+    Map.put(db, :media_types, Resource.MediaType.get_media_types())
+  end
+
   def serialize_media_types(db) do
     db_media_types = db.media_types
     media_types = Resource.MediaType.get_media_types()
