@@ -85,4 +85,53 @@ defmodule Experiment do
     where: url.database_id == ^id)
     |> Repo.delete_all()
   end
+
+
+  def mark_topics do
+    topics = [
+      %{id: 1,
+      sub_topics:
+      [
+        %{id: 10}, %{id: 11}
+      ]},
+      %{id: 2,
+      sub_topics:
+      [
+        %{id: 20}, %{id: 21}
+      ]}
+    ]
+
+    db_topics = [
+      %{id: 1,
+      sub_topics:
+      [
+        %{id: 10}
+      ]}
+    ]
+
+
+    topics
+    |> Enum.map(fn topic ->
+      Enum.map(db_topics, fn db_topic ->
+        case topic.id == db_topic.id do
+          true -> Map.put(topic, :selected, true) |> mark_sub_topics(db_topic)
+          _ -> topic
+        end
+      end)
+      |> List.first()
+    end)
+  end
+
+  def mark_sub_topics(topic, db_topic) do
+    topic
+    |> Map.put(:sub_topics, Enum.map(topic.sub_topics, fn sub_topic ->
+      Enum.map(db_topic.sub_topics, fn db_sub_topic ->
+        case sub_topic.id == db_sub_topic.id do
+          true -> Map.put(sub_topic, :selected, true)
+          _ -> sub_topic
+        end
+      end)
+      |> List.first()
+    end))
+  end
 end
