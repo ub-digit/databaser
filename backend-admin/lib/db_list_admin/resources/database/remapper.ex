@@ -26,6 +26,7 @@ defmodule DbListAdmin.Resource.Database.Remapper do
     Map.put(db, :topics, topics)
   end
 
+  def mark_sub_topics(topic, %{sub_topics: []}), do: topic
   def mark_sub_topics(topic, db_topic) do
     topic
     |> Map.put(:sub_topics, Enum.map(topic.sub_topics, fn sub_topic ->
