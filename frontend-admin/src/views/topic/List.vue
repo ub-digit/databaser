@@ -28,10 +28,10 @@
             <a href="javascript:void()" class="resetBtn" v-if="isClearVisible" @click="resetSearch"><font-awesome-icon icon="times" /></a>
           </template>
         </FormKit>
-        <ul class="list-unstyled">
+        <ul class="list-unstyled left-nav">
           <li v-for="topic in topicsFiltered" :key="topic.id">
             <router-link :to="{ name: 'TopicShow', params: { id: topic.id }}"><span v-html="highlight(topic.name_en)"></span></router-link>
-            <ul>
+            <ul class="left-nav">
               <li v-for="sub_topic in topic.sub_topics" :key="sub_topic.id">
                 <span v-html="highlight(sub_topic.name_en)"></span>
               </li>

@@ -6,15 +6,15 @@
   </div>
   <div class="row subjects">
     <div v-if="publishers" class="row">
-      <div class="col-2">
-        <ul class="list-unstyled">
+      <div class="col-3">
+        <ul class="list-unstyled left-nav">
           <li v-for="publisher in publishers" :key="publisher.id">
             <router-link :to="{ name: 'PublisherShow', params: { id: publisher.id }}">{{publisher.name}}</router-link>
           </li>
         </ul>
       </div>
       <div class="col">
-        <router-view></router-view>
+        <router-view :key="$route.fullPath"></router-view>
       </div>
     </div>
     <div v-else>

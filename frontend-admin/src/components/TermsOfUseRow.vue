@@ -10,7 +10,7 @@
         <div class="select mb-2">
           <select class="form-select" name="select_terms_of_use" id="'term_of_use_' + term_of_use.id" :value="props.term_of_use.permitted" 
             @change="$emit('updateTermOfUse', $event.target.value, term_of_use.code)">
-            <option value="n/a">n/a</option>
+            <option value="N/A">N/A</option>
             <option value="yes">permitted</option>
             <option value="no">prohibited</option>
           </select>

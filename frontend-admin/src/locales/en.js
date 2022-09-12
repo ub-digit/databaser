@@ -1,6 +1,12 @@
 
 export const en = { 
     application_title: 'Databases - admin',
+    access_information_codes: {
+        available_to_the_university_of_gothenburg: 'available_to_the_university_of_gothenburg',
+        freely_available: 'freely_available',
+        available_to_the_university_of_gothenburg_on_campus_only_available_to_anyone: 'available_to_the_university_of_gothenburg_on_campus_only_available_to_anyone',
+        available_to_the_university_of_gothenburg_available_to_anyone_using_the_libraries_computers: 'available_to_the_university_of_gothenburg_available_to_anyone_using_the_libraries_computers'
+    },
     topic: {
         error_codes: {
             name_en: 'Topic name (en)',

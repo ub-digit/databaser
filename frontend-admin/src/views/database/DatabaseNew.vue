@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import DatabaseForm from "../../components/DatabaseForm.vue"
 import { useDatabasesStore } from "../../stores/databases";
@@ -25,11 +25,15 @@ export default {
             id: null,
             title_sv: "",
             title_en: "",
-            desc_sv: "",
-            desc_en: "",
-            topics: topicStore.topics,
-            mediatypes: mediatypeStore.mediatypes
+            description_en: "",
+            description_sv: "",
+            topics: computed(() => topicStore.topics),
+            media_types: mediatypeStore.mediatypes
         };
+
+        onMounted(async () => {
+            const res = await topicStore.fetchTopics();
+        })
         const saveDatabase = async (item) => {
             errors.value = await store.newDatabase(item);
             if (errors.value && (errors.value.database.length)) {

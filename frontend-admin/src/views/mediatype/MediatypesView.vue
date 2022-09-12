@@ -7,14 +7,14 @@
   <div class="row subjects">
     <div v-if="mediatypes && mediatypes.length" class="row">
       <div class="col-2">
-        <ul class="list-unstyled">
+        <ul class="list-unstyled left-nav">
           <li v-for="mediatype in mediatypes" :key="mediatype.id">
             <router-link :to="{ name: 'MediatypeShow', params: { id: mediatype.id }}">{{mediatype.name_en}}</router-link>
           </li>
         </ul>
       </div>
       <div class="col">
-        <router-view></router-view>
+        <router-view :key="$route.fullPath"></router-view>
       </div>
     </div>
     <div v-else>

@@ -1,5 +1,5 @@
 <template>
-<div  v-if="database" class="topicshow-wrapper">
+<div  v-if="database.id" class="topicshow-wrapper">
     <div class="row pb-4">
         <div class="col">
           <h1>{{database.title_en}} / {{database.title_sv}}</h1>
@@ -7,11 +7,11 @@
     </div>
     <div class="row pb-4">
       <div class="col">
-        <label class="db-property-header" for="desc_en">Description (en)</label>
+        <label class="db-property-header fw-bold" for="desc_en">Description (en)</label>
         <div id="desc_en" v-html="desc_en_markdown_output"></div>
       </div>
       <div class="col">
-        <label class="db-property-header" for="desc_en">Description (sv)</label>
+        <label class="db-property-header fw-bold" for="desc_en">Description (sv)</label>
         <div id="desc_sv" v-html="desc_sv_markdown_output"></div>
       </div>
     </div>
@@ -50,8 +50,8 @@
     <div class="row pb-4">
       <div class="col">
         <h3>Media type</h3>
-        <ul class="list-unstyled" v-if="database.mediatypes">
-          <div v-for="mediatype in database.mediatypes" :key="mediatype.id">
+        <ul class="list-unstyled" v-if="database.media_types">
+          <div v-for="mediatype in database.media_types" :key="mediatype.id">
             <li v-if="mediatype.selected">
               {{mediatype.name_en}} / {{mediatype.name_sv}}
             </li>
@@ -95,48 +95,49 @@
       </div>
     </div>
     <router-link class="btn btn-primary me-1" :to="{name: 'DatabaseEdit', params:{ id: database.id }}">Edit</router-link>
-    <a href="#" @click.prevent="removeDatabase(publisher)" class="btn btn-danger" >Remove</a>
+    <a href="#" @click.prevent="removeDatabase(database)" class="btn btn-danger" >Remove</a>
 </div>
 </template>
 
 <script>
 import { useRoute, useRouter } from 'vue-router'
 import { useDatabasesStore } from "@/stores/databases"
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { marked } from 'marked'
 
 export default {
-  name: 'TopicShow',
+  name: 'DatabaseShow',
 
   setup() {
     const route = useRoute();
     const router = useRouter();
     const store = useDatabasesStore();
-    const database = computed(() => store.getDatabaseById(route.params.id));
-    const desc_en_markdown_output = computed(() => marked(database.value.desc_en))
-    const desc_sv_markdown_output = computed(() => marked(database.value.desc_sv))
+    const database = ref({})
+    const desc_en_markdown_output = computed(() => marked(database.value.description_en))
+    const desc_sv_markdown_output = computed(() => marked(database.value.description_sv))
     const removeDatabase = (database) => {
       if (confirm("Are you sure?")) {
         store.removeDatabase(database);
         router.push({name:'databaseindex'});
       }
     }
-
-    
-
+    onMounted(async () => {
+      const res = await store.getDatabaseById(route.params.id);
+      database.value = res;
+      window.scrollTo(0,0);
+    })
     return {
       database, 
       desc_en_markdown_output,
       desc_sv_markdown_output,
       removeDatabase
     }
-
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style  lang="scss">
+<style  lang="scss">d
 .db-property-header {
   font-weight: bold;
 }

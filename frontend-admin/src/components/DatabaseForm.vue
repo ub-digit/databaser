@@ -60,7 +60,7 @@
               rows="10"
               label="Description (en)"
               name="database_initial_state.desc_en"
-              v-model="database_initial_state.desc_en"
+              v-model="database_initial_state.description_en"
               placeholder="Description"
             />
           </div>
@@ -71,7 +71,7 @@
               rows="10"
               label="Description (sv)"
               name="database_initial_state.desc_sv"
-              v-model="database_initial_state.desc_sv"
+              v-model="database_initial_state.description_sv"
               placeholder="Description"
             />
           </div>
@@ -136,8 +136,8 @@
         <div class="row">
           <div class="col">
             <h3>Media type</h3>
-            <ul class="list-unstyled" v-if="database_initial_state.mediatypes && database_initial_state.mediatypes.length">
-              <li v-for="mediatype in database_initial_state.mediatypes" :key="mediatype.id">
+            <ul class="list-unstyled" v-if="database_initial_state.media_types && database_initial_state.media_types.length">
+              <li v-for="mediatype in database_initial_state.media_types" :key="mediatype.id">
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" :id="'mediatype_' + mediatype.id" v-model="mediatype.selected">
                   <label :for="'mediatype_' + mediatype.id" class="form-check-label">{{mediatype.name_en}} / {{mediatype.name_sv}}</label>
@@ -164,6 +164,13 @@
           <TermsOfUse @updateTermOfUse="updateTermOfUse" @updateTermOfUseDescription="updateTermOfUseDescription" :terms_of_use="database_initial_state.terms_of_use"/>
          </div>
       </FormKit> <!-- end form --> 
+
+      <div class="row">
+        <div class="col">
+          <h3>Access information code</h3>
+            <AccessInformationCode @updateAccessInformationCode="updateAccessInformationCode" :access_information_code="database_initial_state.access_information_code"/>
+        </div>
+      </div>
   </div>
 </template>
 
@@ -175,13 +182,15 @@ import {useTopicsStore} from '@/stores/topics'
 import _ from 'lodash'
 import { marked } from 'marked'
 import TermsOfUse from "./TermsOfUse.vue";
+import AccessInformationCode from './AccessInformationCode.vue';
 
 export default {
   name: 'DatabaseForm',
   emits: ['saveDatabase'],
   props: ['database', 'title', 'errors'],
   components: {
-    TermsOfUse
+    TermsOfUse,
+    AccessInformationCode
   },
   setup(props, ctx) {
     const router = useRouter();
@@ -191,8 +200,8 @@ export default {
     const values = ref([]);
     const database = props.database;
     const database_initial_state = ref(_.cloneDeep(database));
-    const desc_en_markdown_output = computed(() => marked(database_initial_state.value.desc_en))
-    const desc_sv_markdown_output = computed(() => marked(database_initial_state.value.desc_sv))
+    const desc_en_markdown_output = computed(() => marked(database_initial_state.value.description_en))
+    const desc_sv_markdown_output = computed(() => marked(database_initial_state.value.description_sv))
     const isDirty = computed(() => _.isEqual(database, database_initial_state.value) ? false: true);
     let isSaved = false;
     watch(
@@ -228,6 +237,10 @@ export default {
       isSaved = true;
     }
 
+    const updateAccessInformationCode = (val) => {
+      database_initial_state.value.access_information_code = val;
+    }
+
     const updateTermOfUse = (code, val) => {
       let term_of_use = database_initial_state.value.terms_of_use.find(term_of_use => code === term_of_use.code)
       console.log(term_of_use);
@@ -245,6 +258,7 @@ export default {
     }
 
     return {
+      updateAccessInformationCode,
       updateTermOfUse,
       updateTermOfUseDescription,
       topicsStore,

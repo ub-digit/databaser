@@ -7,11 +7,22 @@ import Nav from './components/Nav.vue';
   <header>
     <Nav/>
   </header>
-  <div class="container">
+  <div class="container-fluid">
   <RouterView />
   </div>
 </template>
 
 <style lang="scss">
-
+ul {
+  &.left-nav {
+    li {  
+      margin-bottom: 8px;
+      a {
+        &:hover {
+          background-color: #ccc;
+        }
+      }
+    }
+  }
+}
 </style>
