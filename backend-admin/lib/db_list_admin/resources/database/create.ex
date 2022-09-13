@@ -9,8 +9,14 @@ defmodule DbListAdmin.Resource.Database.Create do
   alias DbListAdmin.Resource.Database.DatabaseTopic
   alias DbListAdmin.Resource.Database.DatabaseSubTopic
   alias DbListAdmin.Resource.Database.DatabaseTermsOfUse
+  alias DbListAdmin.Resource.Database.Remapper
 
   def create_or_update(data) do
+    data = data
+    |> Remapper.deserialize_topics()
+    |> Remapper.deserialize_publishers()
+    |> Remapper.deserialize_terms_of_use()
+
     Multi.new()
     |> Multi.run(:database, fn repo, _ ->
       Model.Database.changeset(Model.Database.find(data["id"]), data)

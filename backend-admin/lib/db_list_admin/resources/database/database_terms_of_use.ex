@@ -1,7 +1,7 @@
 defmodule DbListAdmin.Resource.Database.DatabaseTermsOfUse do
   alias DbListAdmin.Model
   alias Ecto.Multi
-  alias DbListAdmin.Model
+  alias DbListAdmin.Resource
   import Ecto.Query
 
   def create(repo, database_id, data) do
@@ -33,7 +33,7 @@ defmodule DbListAdmin.Resource.Database.DatabaseTermsOfUse do
     # delete all terms_of_use associated wid database with id
     multi = delete_all_terms_of_use(multi)
     data
-    |> Model.DatabaseTermsOfUse.deserialize_terms_of_use()
+    #|> Resource.Database.Remapper.deserialize_terms_of_use()
     |> Enum.with_index()
     |> Enum.map(fn {val, index} ->
       atom_name = String.to_atom("terms_of_use_" <> Integer.to_string(index))
