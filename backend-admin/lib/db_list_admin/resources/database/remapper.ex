@@ -5,10 +5,7 @@ defmodule DbListAdmin.Resource.Database.Remapper do
   def remap_one_database(database) do
     database
     |> Model.Database.remap()
-    |> serialize_topics()
-    |> serialize_media_types()
-    |> serialize_publishers()
-    |> serialize_terms_of_use()
+    |> serialize()
   end
 
   def remap_empty_database() do
@@ -18,6 +15,11 @@ defmodule DbListAdmin.Resource.Database.Remapper do
       publishers: [],
       terms_of_use: []
     }
+    |> serialize()
+  end
+
+  def serialize(db) do
+    db
     |> serialize_topics()
     |> serialize_media_types()
     |> serialize_publishers()
@@ -64,16 +66,16 @@ defmodule DbListAdmin.Resource.Database.Remapper do
     end)
   end
 
-  def get_default_terms_of_use do
-    [
-      %{code: "print_article_chapter", permitted: "N/A", description_en: "", description_sv: ""},
-      %{code: "download_article_chapter", permitted: "N/A", description_en: "", description_sv: ""},
-      %{code: "course_pack_print", permitted: "N/A", description_en: "", description_sv: ""},
-      %{code: "gul_course_pack_electronic", permitted: "N/A", description_en: "", description_sv: ""},
-      %{code: "scholarly_sharing", permitted: "N/A", description_en: "", description_sv: ""},
-      %{code: "interlibrary_loan", permitted: "N/A", description_en: "", description_sv: ""}
-    ]
-  end
+  # def get_default_terms_of_use do
+  #   [
+  #     %{code: "print_article_chapter", permitted: "N/A", description_en: "", description_sv: ""},
+  #     %{code: "download_article_chapter", permitted: "N/A", description_en: "", description_sv: ""},
+  #     %{code: "course_pack_print", permitted: "N/A", description_en: "", description_sv: ""},
+  #     %{code: "gul_course_pack_electronic", permitted: "N/A", description_en: "", description_sv: ""},
+  #     %{code: "scholarly_sharing", permitted: "N/A", description_en: "", description_sv: ""},
+  #     %{code: "interlibrary_loan", permitted: "N/A", description_en: "", description_sv: ""}
+  #   ]
+  # end
 
   def deserialize_terms_of_use(db) do
 
@@ -91,7 +93,7 @@ defmodule DbListAdmin.Resource.Database.Remapper do
   def serialize_terms_of_use(db) do
     tou = db.terms_of_use
    # IO.inspect(tou, label: "TOU")
-    default_tou = get_default_terms_of_use()
+    default_tou = Model.TermsOfUse.get_default_terms_of_use()
     |> Enum.map(fn default_tou ->
       state = Enum.filter(tou, fn t -> t.code == default_tou.code end)
       |> List.first()
