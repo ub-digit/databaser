@@ -17,4 +17,8 @@ defmodule DbListAdminWeb.DatabasesController do
     {:ok, res} =  DbListAdmin.Resource.Database.Delete.delete(id)
     json conn, res
   end
+
+  def new(conn, _params) do
+    json conn, DbListAdmin.Resource.Database.Remapper.remap_empty_database()
+  end
 end

@@ -17,7 +17,6 @@ defmodule DbListAdminWeb.Router do
   scope "/", DbListAdminWeb do
     pipe_through :browser
 
-    #get "/", PageController, :index
     get "/topics", TopicsController, :index
     post "/topics", TopicsController, :create
     get "/topics/:id", TopicsController, :show
@@ -31,12 +30,10 @@ defmodule DbListAdminWeb.Router do
     post "/publishers", PublishersController, :create
     delete "/publishers/:id", PublishersController, :delete
     get "/databases", DatabasesController, :index
+    get "/databases/new", DatabasesController, :new
     get "/databases/:id", DatabasesController, :show
     post "/databases", DatabasesController, :create
     delete "/databases/:id", DatabasesController, :delete
-    get "/terms_of_use", TermsOfUseController, :index
-    #put "/topics", TopicsController, :create_or_update
-    #delete "/topics", TopicsController, :create_or_update
   end
 
   # Other scopes may use custom stacks.
