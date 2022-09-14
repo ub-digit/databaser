@@ -94,7 +94,8 @@ defmodule DbListAdmin.Model.Database do
       :access_information_code,
       :malfunction_message_active,
       :malfunction_message,
-      ])
+      ],
+      [empty_values: [nil]])
     |> validate_required([:title_en, :title_sv])
     |> unique_constraint(:title_en, name: :database_title_en_key)
     |> unique_constraint(:title_sv, name: :database_title_sv_key)
