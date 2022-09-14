@@ -10,10 +10,23 @@ defmodule DbListAdmin.Resource.Database.Remapper do
 
   def remap_empty_database() do
     %{
+      title_en: "",
+      title_sv: "",
+      description_en: "",
+      description_sv: "",
+      access_information_code: "free",
+      alternative_titles: [],
+      public_access: false,
+      recommended_in_sub_topics: [],
+      recommended_in_topics: [],
+      is_popular: false,
+      malfunction_message: "",
+      malfunction_message_active: false,
       topics: [],
       media_types: [],
       publishers: [],
-      terms_of_use: []
+      terms_of_use: [],
+      urls: []
     }
     |> serialize()
   end
