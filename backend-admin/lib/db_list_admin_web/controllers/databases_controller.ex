@@ -1,8 +1,11 @@
 defmodule DbListAdminWeb.DatabasesController do
   use DbListAdminWeb, :controller
 
-  def index(conn, _params) do
-    json conn, DbListAdmin.Resource.Database.get_databases()
+  def index(conn, params) do
+    #json conn, DbListAdmin.Resource.Database.get_databases()
+    IO.inspect(params, label: "PARAMS")
+    term = Map.get(params, "term", "")
+    json conn, DbListAdmin.Resource.Elastic.get_databases_admin(term)
   end
 
   def show(conn, %{"id" => id}) do

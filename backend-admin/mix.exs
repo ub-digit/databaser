@@ -49,6 +49,7 @@ defmodule DbListAdmin.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
+      {:elastix, ">= 0.10.0"},
       {:cors_plug, "~> 2.0"}
     ]
   end
