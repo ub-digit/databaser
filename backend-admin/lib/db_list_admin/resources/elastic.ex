@@ -6,7 +6,7 @@ defmodule DbListAdmin.Resource.Elastic do
   end
 
   def elastic_url do
-    "http://localhost:9200"
+    System.get_env("ELASTIC_SEARCH_URL", "http://localhost:9200")
   end
 
   def base(term) do
