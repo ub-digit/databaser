@@ -29,8 +29,8 @@ export default {
 
 
         const saveDatabase = async (database) => {
-            errors.value = await store.updateDatabase(database);
-            if (errors.value && (errors.value.database.length)) {
+            const errors = await store.updateDatabase(database);
+            if (errors.value && errors.value.database && (errors.value.database.length)) {
                 message.set('error', "Errors in the form")
             }
             if (!errors.value) {

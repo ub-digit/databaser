@@ -7,7 +7,7 @@ import Nav from './components/Nav.vue';
   <header>
     <Nav/>
   </header>
-  <div class="container-fluid">
+  <div class="container mb-4">
   <RouterView />
   </div>
 </template>

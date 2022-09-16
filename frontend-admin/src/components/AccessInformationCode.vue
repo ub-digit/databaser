@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mb-4">
         <FormKit
             :classes="{input: 'form-select'}"
             type="select"
@@ -27,6 +27,7 @@ export default {
 
     setup(props, ctx) {
         const selected = ref(null);
+        selected.value = ref();
         selected.value = props.access_information_code;
         const updateAccessInformationCodeVal = (val) => {
             ctx.emit('updateAccessInformationCode', selected.value);

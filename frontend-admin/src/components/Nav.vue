@@ -46,6 +46,7 @@ export default {
     margin-bottom: 20px;
     .nav-item {
       a {
+        text-decoration: none;
         &:hover, &:focus {
             background-color: transparent;
           

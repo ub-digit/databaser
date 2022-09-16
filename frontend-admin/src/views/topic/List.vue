@@ -6,7 +6,7 @@
     </div>
   </div>
   <div class="row subjects">
-    <div v-if="topicsFiltered.length" class="row">
+    <div v-if="topicsFiltered" class="row">
       <div class="col-3">
         <FormKit 
           outer-class="topic-filter mb-4"
@@ -28,7 +28,7 @@
             <a href="javascript:void()" class="resetBtn" v-if="isClearVisible" @click="resetSearch"><font-awesome-icon icon="times" /></a>
           </template>
         </FormKit>
-        <ul class="list-unstyled left-nav">
+        <ul v-if="topicsFiltered.length" class="list-unstyled left-nav">
           <li v-for="topic in topicsFiltered" :key="topic.id">
             <router-link :to="{ name: 'TopicShow', params: { id: topic.id }}"><span v-html="highlight(topic.name_en)"></span></router-link>
             <ul class="left-nav">
@@ -38,13 +38,11 @@
             </ul>
           </li>
         </ul>
+        <div v-else>No topic was found</div>
       </div>
       <div class="col">
         <router-view :key="$route.fullPath"></router-view>
       </div>
-    </div>
-    <div v-else>
-      No topics created
     </div>
   </div>
 </div>

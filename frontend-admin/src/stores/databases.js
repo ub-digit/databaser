@@ -26,7 +26,8 @@ export const useDatabasesStore = defineStore({
     async fetchDatabases(payload) {
       try {
         nProgress.start();
-        const result = await axios.get(`${this.baseUrl}/databases`);
+        this.databases = [];
+        const result = await axios.get(`${this.baseUrl}/databases/`, {params: { term: payload}});
         this.databases = result.data;
         return result.data;
       } catch (error) {
@@ -42,9 +43,9 @@ export const useDatabasesStore = defineStore({
         const result = await axios.delete(this.baseUrl + '/databases/' + payload.id)
         console.log(result);
         if (result.data.status && result.data.status === "deleted") {
-          this.fetchDatabases();
+         // this.fetchDatabases();
         }
-        return result;
+        return result.data;
     } catch (err)  {
       console.log(err.message)
     } finally {
@@ -54,10 +55,10 @@ export const useDatabasesStore = defineStore({
     async updateDatabase(payload) {
       try {
         nProgress.start();
-        //const result = await axios.post(this.baseUrl + '/databases', payload)
+        const result = await axios.post(this.baseUrl + '/databases', payload)
         console.log(result);
         if (result.data.id) {
-          this.fetchDatabases();
+        //  this.fetchDatabases();
         }
         return result;
       } 
@@ -68,15 +69,18 @@ export const useDatabasesStore = defineStore({
     },
     async newDatabase(payload) {
       try {
-       // await this.fakeApiCall(payload)
-        payload.id = parseInt(_.now());
-        this.databases.push(payload)
-      } catch (inputErrors) {
-        if (inputErrors) {
-          console.log(`backend error: ${ inputErrors }`);
-          return inputErrors;
+        nProgress.start();
+        const result = await axios.get(this.baseUrl + '/databases/new')
+        console.log(result);
+        if (result.data.id) {
+       //   this.fetchDatabases();
         }
+        return result;
+      } 
+      catch (errors) {
+      } finally {
+        nProgress.done();
       }
-    }
+    },
   }
 });
