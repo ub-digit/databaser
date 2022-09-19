@@ -134,4 +134,9 @@ defmodule Experiment do
       |> List.first()
     end))
   end
+
+  def h do
+    [1, 2, 3, 4]
+    |> List.first()
+  end
 end
