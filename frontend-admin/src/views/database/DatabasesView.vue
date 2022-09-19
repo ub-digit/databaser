@@ -34,8 +34,11 @@
             </li>
             <button v-if="store.databases.length > numberOfDatabases" @click="showAll = showAll ? false : true" class="btn btn-primary"><span v-if="!showAll">Show all</span><span v-else>Show less</span></button>
           </ul>
-          <div v-else>
+          <div v-else="!loading">
             No database was found
+          </div>
+          <div v-if="loading">
+            loading...
           </div>
 
         </div>
@@ -60,22 +63,28 @@ export default {
   setup() {
     const store = useDatabasesStore();
     const route = useRoute();
+    const loading = ref(false);
     const searchTerm = ref("");
     const databases = null;
     const numberOfDatabases = 20;
     const showAll = ref(false);
-    store.fetchDatabases(searchTerm.value)
+    const fetchData = async () => {
+      loading.value = true;
+      const res = await store.fetchDatabases(searchTerm.value);
+      loading.value = false;
+    }
+    fetchData();
     watch(searchTerm, _.throttle(async() => { 
-        const res = await store.fetchDatabases(searchTerm.value)
+        fetchData();
       }, 500)  
     )
-
     watch(
       () => route.params,
-      async  => {
-        const res = await store.fetchDatabases(searchTerm.value)
+       () => {
+        fetchData();
       }
     )
+
     const resetSearch = () => {
       searchTerm.value = "";
     }
@@ -90,6 +99,7 @@ export default {
           }
         }
       }), 
+      loading, 
       searchTerm,
       resetSearch,
       showAll,

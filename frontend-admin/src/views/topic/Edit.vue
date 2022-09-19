@@ -36,7 +36,6 @@ export default {
                 router.push({name: 'TopicShow', params: {id: topic.id }});
             }
         }
-
         return {
             topic,
             errors,

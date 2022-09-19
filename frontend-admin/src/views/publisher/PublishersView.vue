@@ -18,10 +18,8 @@
       </div>
     </div>
     <div v-else>
-      No publishers created
+      No publisher was found
     </div>
-    
-    
   </div>
 </template>
 
@@ -41,7 +39,6 @@ export default {
     onMounted(async () => {
       const res = await publishersStore.fetchPublishers();
     })
-
     return {
       publishers, 
       isNewVisible: computed(() => route.name != 'PublisherNew')

@@ -11,7 +11,6 @@ import { useMessage } from '../../plugins/message';
 import { use } from 'chai';
 
 export default {
-
     setup() {
         const store = useTopicsStore();
         const router = useRouter();
@@ -43,14 +42,10 @@ export default {
             errors,
             saveTopic
         }
-
-
     },
     components: { TopicForm }
-
 }
 </script>
 
-<style>
-
+<style lang="scss">
 </style>

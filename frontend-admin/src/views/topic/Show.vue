@@ -5,7 +5,6 @@
           <h1>{{topic.name_en}} / {{topic.name_sv}}</h1>
         </div>
     </div>
-
     <div class="row">
       <div class="col">
         <div v-show="cannotBeDeleted" class="alert alert-warning" role="alert">
@@ -13,7 +12,6 @@
         </div>
       </div>
     </div>
-
     <div class="row" v-if="topic.sub_topics && topic.sub_topics.length">
       <div class="col">
         <h2>Subtopics</h2>
@@ -24,7 +22,6 @@
         </ul>
       </div>
     </div>
-
     <router-link class="btn btn-primary me-1" :to="{name: 'TopicEdit', params:{ id: topic.id }}">Edit</router-link>
     <a href="#" @click.prevent="removeTopic(topic)" class="btn btn-danger" :class="{disabled: cannotBeDeleted}" >Remove</a>
 </div>
@@ -39,7 +36,6 @@ import { useMessage } from '../../plugins/message';
 
 export default {
   name: 'TopicShow',
-
   setup() {
     const route = useRoute();
     const router = useRouter();
@@ -54,7 +50,6 @@ export default {
         router.push({name:'index'});
       }
     }
-
     onMounted(async () => {
       topic.value = await topicsStore.getTopicById(route.params.id);
       window.scrollTo(0,0);
@@ -65,13 +60,11 @@ export default {
       }
       return false;
     });
-
     return {
       topic, 
       removeTopic,
       cannotBeDeleted
     }
-
   }
 }
 </script>
