@@ -9,7 +9,19 @@ defmodule DbListAdminWeb.DatabasesController do
   end
 
   def show(conn, %{"id" => id}) do
-     json conn, DbListAdmin.Resource.Database.show(id)
+    case Integer.parse(id) do
+      {id, _} when is_integer(id) -> DbListAdmin.Resource.Database.show(id)
+      _  -> %{error: ""}
+    end
+    |> json_return(conn)
+  end
+
+  def json_return(%{error: _} = msg, conn) do
+    json Plug.Conn.put_status(conn, 404), msg
+  end
+
+  def json_return(msg, conn) do
+    json conn, msg
   end
 
   def create(conn, params) do
