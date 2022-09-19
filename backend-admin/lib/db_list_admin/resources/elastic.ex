@@ -2,7 +2,15 @@ defmodule DbListAdmin.Resource.Elastic do
 
   @admin_index "admin_index"
   def get_databases_admin(term \\ "") do
-    {:ok, %{body: %{"hits" => %{"hits" => hits}}}} = Elastix.Search.search(elastic_url(), @admin_index, [], base(term))
+    case Elastix.Search.search(elastic_url(), @admin_index, [], base(term)) do
+      {:ok, %{body: %{"hits" => %{"hits" => hits}}}} -> remap(hits)
+      {:ok, _} -> []
+    end
+  end
+
+
+
+  def remap(hits) do
     hits
     |> Enum.map(fn db -> %{id: db["_source"]["id"], title_en: db["_source"]["title_en"], title_sv: db["_source"]["title_sv"]} end)
   end
