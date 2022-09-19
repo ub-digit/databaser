@@ -76,7 +76,7 @@ defmodule DbListAdmin.Resource.Elastic do
             %{
                 query_string: %{
                   query: term <> "*",
-                  fields: ["title_sv^15", "title_en^15", "alternative_titles^8", "media_types.name^3", "description", "topics.name^3", "sub_topics.name^2", "publishers.name^2"]
+                  fields: ["title_sv^15", "title_en^15"]
               }
             }
           ]
