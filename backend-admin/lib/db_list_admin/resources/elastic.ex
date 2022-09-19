@@ -2,16 +2,13 @@ defmodule DbListAdmin.Resource.Elastic do
 
   @admin_index "admin_index"
   def get_databases_admin(term \\ "") do
-    #term = add_quotes(term)
     case Elastix.Search.search(elastic_url(), @admin_index, [], base(term)) do
       {:ok, %{body: %{"hits" => %{"hits" => hits}}}} -> remap(hits)
       {:ok, _} -> []
     end
   end
 
-  def add_quotes(string) do
-    "\"" <> String.replace(string, "\"", "") <> "\""
-  end
+
 
   def remap(hits) do
     hits
