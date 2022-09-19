@@ -39,6 +39,8 @@ defmodule DbListAdmin.Resource.Database.Create do
 
   def result({_, res}) do
     %{database: %{id: id}} = res
-    DbListAdmin.Resource.Database.show(id)
+    data = DbListAdmin.Resource.Database.show(id)
+    DbListAdmin.Resource.Elastic.add_to_index(data)
+    data
   end
 end
