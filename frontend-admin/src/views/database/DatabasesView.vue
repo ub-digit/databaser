@@ -37,9 +37,6 @@
           <div v-else="!loading">
             No database was found
           </div>
-          <div v-if="loading">
-            loading...
-          </div>
 
         </div>
         <div class="col">
@@ -84,7 +81,6 @@ export default {
         fetchData();
       }
     )
-
     const resetSearch = () => {
       searchTerm.value = "";
     }
@@ -109,7 +105,7 @@ export default {
         if (searchTerm.value.length) return true;
         return false;
       }),
-      isNewVisible: computed(() => route.name != 'PublisherNew')
+      isNewVisible: computed(() => route.name != 'DatabaseNew')
     } 
   }
 }
@@ -145,6 +141,4 @@ export default {
     }
   }
 }
-
-
 </style>

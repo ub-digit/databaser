@@ -42,16 +42,12 @@ export default {
             errors,
             saveMediatype
         }
-
-
     },
     components: { 
         MediatypeForm
     }
-
 }
 </script>
 
-<style>
-
+<style lang="scss">
 </style>

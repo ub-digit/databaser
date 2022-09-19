@@ -19,7 +19,6 @@ import { useMessage } from '../../plugins/message'
 
 export default {
   name: 'TopicShow',
-
   setup() {
     const message = useMessage();
     const route = useRoute();

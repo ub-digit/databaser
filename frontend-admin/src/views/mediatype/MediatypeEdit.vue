@@ -38,7 +38,6 @@ export default {
                 router.push({name: 'MediatypeShow', params: {id: mediatype.id }});
             }
         }
-
         return {
             mediatype,
             errors,
@@ -50,6 +49,5 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
 </style>
