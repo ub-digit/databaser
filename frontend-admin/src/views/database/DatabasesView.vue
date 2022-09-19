@@ -5,7 +5,6 @@
           <router-link v-if="isNewVisible" class="btn btn-light" :to="{name: 'DatabaseNew'}">New database +</router-link>
       </div>
     </div>
-
     <div class="row">
       <div class="col">
 
@@ -40,7 +39,7 @@
             <li v-for="database in databases" :key="database.id">
               <router-link :to="{ name: 'DatabaseShow', params: { id: database.id }}">{{database.title}}</router-link>
             </li>
-            <button @click="showAll = showAll ? false : true" class="btn btn-primary"><span v-if="!showAll">Show all</span><span v-else>Show less</span></button>
+            <button v-if="store.databases.length > numberOfDatabases" @click="showAll = showAll ? false : true" class="btn btn-primary"><span v-if="!showAll">Show all</span><span v-else>Show less</span></button>
           </ul>
           <div v-else>
             No database was found
@@ -70,6 +69,7 @@ export default {
     const route = useRoute();
     const searchTerm = ref("");
     const databases = null;
+    const numberOfDatabases = 20;
     const showAll = ref(false);
     store.fetchDatabases(searchTerm.value)
     watch(searchTerm, _.throttle(async() => { 
@@ -89,13 +89,15 @@ export default {
             return store.databases;
           }
           else {
-            return store.databases.slice(0,20)
+            return store.databases.slice(0,numberOfDatabases)
           }
         }
       }), 
       searchTerm,
       resetSearch,
       showAll,
+      store,
+      numberOfDatabases,
       isClearVisible: computed(() => {
         if (searchTerm.value.length) return true;
         return false;
