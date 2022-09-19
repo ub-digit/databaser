@@ -139,4 +139,19 @@ defmodule Experiment do
     [1, 2, 3, 4]
     |> List.first()
   end
+
+
+  def search(term) do
+    q =
+      %{
+        query: %{
+          query_string: %{
+            query: term,
+            fields: ["title_en"]
+          }
+        }
+      }
+      {:ok, %{body: %{"hits" => %{"hits" => hits}}}} = Elastix.Search.search("http://localhost:9200", "admin_index", [], q)
+      hits
+  end
 end
