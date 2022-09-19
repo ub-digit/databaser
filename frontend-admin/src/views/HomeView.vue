@@ -47,7 +47,6 @@
 <style  lang="scss" scoped>
 .home {
   a {
-    font-size: 20px;
     text-decoration: none;
     &:hover {
       text-decoration: underline;

@@ -34,8 +34,11 @@
             </li>
             <button v-if="store.databases.length > numberOfDatabases" @click="showAll = showAll ? false : true" class="btn btn-primary"><span v-if="!showAll">Show all</span><span v-else>Show less</span></button>
           </ul>
-          <div v-else="!loading">
+          <div v-else-if="!loading">
             No database was found
+          </div>
+          <div v-else>
+            loading...
           </div>
 
         </div>

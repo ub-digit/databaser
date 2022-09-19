@@ -43,10 +43,9 @@ export default {
         }
     },
     components: { TopicForm }
-
 }
 </script>
 
-<style>
+<style lang="scss">
 
 </style>

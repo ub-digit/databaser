@@ -38,7 +38,10 @@
             </ul>
           </li>
         </ul>
-        <div v-else>No topic was found</div>
+        <div v-else-if="!loading">No topic was found</div>
+        <div v-else>
+          loading...
+        </div>
       </div>
       <div class="col">
         <router-view :key="$route.fullPath"></router-view>
@@ -58,6 +61,7 @@ export default {
   name: 'Topics',
   setup() {
     const searchTerm = ref('');
+    const loading = ref(false);
     const topicStore = useTopicsStore();
     const topics = computed(() => {
       return topicStore.topics;
@@ -78,7 +82,9 @@ export default {
       });
     })
     onMounted(async () => {
+      loading.value = true;
       const res = await topicStore.fetchTopics();
+      loading.value = false;
     })
     const resetSearch = () => {
       searchTerm.value = "";
@@ -90,6 +96,7 @@ export default {
 
     return {
       highlight,
+      loading,
       searchTerm,
       resetSearch, 
       topicsFiltered,
