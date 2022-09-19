@@ -1,12 +1,19 @@
 <template>
-<div  v-if="publisher && publisher.id" class="topicshow-wrapper">
+<div  v-if="publisher && publisher.id" class="publisher-wrapper">
+    <div class="row">
+      <div class="col">
+        <div v-show="!publisher.can_be_deleted" class="alert alert-warning" role="alert">
+          This publisher is connected to at least one database. First remove all connected databases before you can delete this mediatype.
+        </div>
+      </div>
+    </div>
     <div class="row">
         <div class="col">
           <h1>{{publisher.name}}</h1>
         </div>
     </div>
     <router-link class="btn btn-primary me-1" :to="{name: 'PublisherEdit', params:{ id: publisher.id }}">Edit</router-link>
-    <a href="#" @click.prevent="removePublisher(publisher)" class="btn btn-danger" >Remove</a>
+    <button :disabled="!publisher.can_be_deleted" @click.prevent="removePublisher(publisher)" class="btn btn-danger" >Remove</button>
 </div>
 
 </template>
@@ -18,7 +25,7 @@ import { computed, onMounted, ref } from 'vue'
 import { useMessage } from '../../plugins/message';
 
 export default {
-  name: 'TopicShow',
+  name: 'DatabaseShow',
 
   setup() {
     const route = useRoute();

@@ -55,7 +55,7 @@ export const useMediatypesStore = defineStore({
         nProgress.start();
         const result = await axios.post(this.baseUrl + '/media_types', payload)
         console.log(result);
-        if (result.data.id) {
+        if (result.data.media_type.id) {
           this.fetchMediatypes();
         }
         return result;

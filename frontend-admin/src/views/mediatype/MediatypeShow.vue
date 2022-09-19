@@ -1,12 +1,19 @@
 <template>
 <div  v-if="mediatype && mediatype.id" class="topicshow-wrapper">
     <div class="row">
+      <div class="col">
+        <div v-show="!mediatype.can_be_deleted" class="alert alert-warning" role="alert">
+          This mediatype is connected to at least one database. First remove all connected databases before you can delete this mediatype.
+        </div>
+      </div>
+    </div>
+    <div class="row">
         <div class="col">
           <h1>{{mediatype.name_en}} / {{mediatype.name_sv}}</h1>
         </div>
     </div>
     <router-link class="btn btn-primary me-1" :to="{name: 'MediatypeEdit', params:{ id: mediatype.id }}">Edit</router-link>
-    <a href="#" @click.prevent="removeMediatype(mediatype)" class="btn btn-danger" >Remove</a>
+    <button :disabled="!mediatype.can_be_deleted" href="#" @click.prevent="removeMediatype(mediatype)" class="btn btn-danger" >Remove</button>
 </div>
 
 </template>
