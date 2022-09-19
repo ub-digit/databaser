@@ -82,6 +82,7 @@ export default {
       });
     })
     onMounted(async () => {
+      const el = document.getElementById('topic_filter').focus();
       loading.value = true;
       const res = await topicStore.fetchTopics();
       loading.value = false;
@@ -100,7 +101,6 @@ export default {
       searchTerm,
       resetSearch, 
       topicsFiltered,
-     // topics: computed(() => topicStore.topics), 
       isClearVisible: computed(() => {
         if (searchTerm.value.length) return true;
         return false;

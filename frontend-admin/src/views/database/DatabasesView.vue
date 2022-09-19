@@ -87,6 +87,9 @@ export default {
     const resetSearch = () => {
       searchTerm.value = "";
     }
+    onMounted(() => {
+      const el = document.getElementById('database_filter').focus();
+    })
     return {
       databases: computed(() => {
         if (store.databases) {
