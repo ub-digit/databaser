@@ -3,7 +3,7 @@
     <h1>{{error}}</h1> 
   </div>
   <div v-else>
-    <div v-if="database.id" class="databaseshow-wrapper">
+    <div v-if="database && database.id" class="databaseshow-wrapper">
         <div class="row pb-4">
             <div class="col">
               <h1>{{database.title_en}} / {{database.title_sv}}</h1>
@@ -175,7 +175,7 @@ export default {
     onMounted(async () => {
       error.value = null;
       const res = await store.getDatabaseById(route.params.id);
-      if (res.error) {
+      if (res && res.error) {
         error.value = res.error;
       }
       else {

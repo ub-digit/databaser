@@ -5,14 +5,7 @@
           <router-link v-if="isNewVisible" class="btn btn-light" :to="{name: 'DatabaseNew'}">New database +</router-link>
       </div>
     </div>
-    <div class="row">
-      <div class="col">
-
-      </div>
-    </div>
-
-
-    <div class="row subjects">
+    <div class="row databases">
       <div class="row">
         <div class="col-3">
           <FormKit 
@@ -37,7 +30,7 @@
           </FormKit>
           <ul v-if="databases && databases.length"  class="list-unstyled left-nav">
             <li v-for="database in databases" :key="database.id">
-              <router-link :to="{ name: 'DatabaseShow', params: { id: database.id }}">{{database.title}}</router-link>
+              <router-link :to="{ name: 'DatabaseShow', params: { id: database.id }}">{{database.title_en}}</router-link>
             </li>
             <button v-if="store.databases.length > numberOfDatabases" @click="showAll = showAll ? false : true" class="btn btn-primary"><span v-if="!showAll">Show all</span><span v-else>Show less</span></button>
           </ul>
@@ -74,14 +67,18 @@ export default {
     store.fetchDatabases(searchTerm.value)
     watch(searchTerm, _.throttle(async() => { 
         const res = await store.fetchDatabases(searchTerm.value)
-      }, 2000)  
+      }, 500)  
+    )
+
+    watch(
+      () => route.params,
+      async  => {
+        const res = await store.fetchDatabases(searchTerm.value)
+      }
     )
     const resetSearch = () => {
       searchTerm.value = "";
     }
-    onMounted(async () => {
-     // const res = await store.fetchDatabases();
-    })
     return {
       databases: computed(() => {
         if (store.databases) {
@@ -137,8 +134,6 @@ export default {
       text-decoration: underline;
     }
   }
-
-
 }
 
 

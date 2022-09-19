@@ -24,6 +24,7 @@ import Database from "../views/database/Database.vue"
 import DatabaseNew from "../views/database/DatabaseNew.vue"
 import DatabaseShow from "../views/database/DatabaseShow.vue"
 import DatabaseEdit from "../views/database/DatabaseEdit.vue"
+import NotFound from "../components/NotFound.vue"
 
 
 const router = createRouter({
@@ -167,6 +168,7 @@ const router = createRouter({
         }
       ]
     },
+    { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
   ],
 });
 
