@@ -15,7 +15,7 @@
     <div class="row" v-if="topic.sub_topics && topic.sub_topics.length">
       <div class="col">
         <h2>Subtopics</h2>
-        <ul class="list-unstyled">
+        <ul>
           <li v-for="sub_topic in topic.sub_topics" :key="sub_topic.id">
             {{sub_topic.name_en}} / {{sub_topic.name_sv}}
           </li>

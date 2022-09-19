@@ -28,7 +28,7 @@
             <a href="javascript:void()" class="resetBtn" v-if="isClearVisible" @click="resetSearch"><font-awesome-icon icon="times" /></a>
           </template>
         </FormKit>
-        <ul v-if="topicsFiltered.length" class="list-unstyled left-nav">
+        <ul v-if="topicsFiltered.length" class="left-nav">
           <li v-for="topic in topicsFiltered" :key="topic.id">
             <router-link :to="{ name: 'TopicShow', params: { id: topic.id }}"><span v-html="highlight(topic.name_en)"></span></router-link>
             <ul class="left-nav">

@@ -27,7 +27,7 @@
             <a href="javascript:void()" class="resetBtn" v-if="isClearVisible" @click.prevent="resetSearch"><font-awesome-icon icon="times" /></a>
           </template>
         </FormKit>
-        <ul v-if="publishersFiltered && publishersFiltered.length" class="list-unstyled publisher-list left-nav">
+        <ul v-if="publishersFiltered && publishersFiltered.length" class="publisher-list left-nav">
           <li v-for="publisher in publishersFiltered" :key="publisher.id">
             <router-link :to="{ name: 'PublisherShow', params: { id: publisher.id }}">
               <span v-html="highlight(publisher.name)"></span>

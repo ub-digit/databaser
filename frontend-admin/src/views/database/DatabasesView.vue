@@ -28,7 +28,7 @@
               <a href="javascript:void()" class="resetBtn" v-if="isClearVisible" @click="resetSearch"><font-awesome-icon icon="times" /></a>
             </template>
           </FormKit>
-          <ul v-if="databases && databases.length"  class="list-unstyled left-nav">
+          <ul v-if="databases && databases.length"  class="left-nav">
             <li v-for="database in databases" :key="database.id">
               <router-link :to="{ name: 'DatabaseShow', params: { id: database.id }}">{{database.title_en}}</router-link>
             </li>
