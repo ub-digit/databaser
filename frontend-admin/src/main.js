@@ -18,7 +18,7 @@ axios.get(local_url).then((result) => {
   return result.data
 },() => {
   return {
-    backend_url: /* process.env["VUE_APP_API_BASE_URL"] ||*/ "http://localhost:4010",
+    backend_url: /* process.env["VUE_APP_API_BASE_URL"] ||*/ "http://localhost:4011",
   }
 }).then((data) => {
   let app = createApp(App)
