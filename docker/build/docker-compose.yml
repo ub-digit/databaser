@@ -7,6 +7,13 @@ services:
       args:
         - GIT_REPO_URL=${GIT_REPO_URL}
         - GIT_REVISION=${GIT_REVISION}
+  frontend-admin:
+    image: docker.ub.gu.se/db-list-frontend-admin:${GIT_REVISION}
+    build:
+      context: ./frontend-admin
+      args:
+        - GIT_REPO_URL=${GIT_REPO_URL}
+        - GIT_REVISION=${GIT_REVISION}
   backend:
     image: docker.ub.gu.se/db-list-backend:${GIT_REVISION}
     build:

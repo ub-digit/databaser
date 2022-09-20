@@ -11,3 +11,10 @@ services:
       DB_LIST_ALERT_URL: "${DB_LIST_ALERT_URL}"
     ports:
       - ${FRONTEND_HOST_PORT}:80
+  frontend-admin:
+    image: docker.ub.gu.se/db-list-frontend-admin:${GIT_REVISION}
+    environment:
+      DB_LIST_BACKEND_ADMIN_URL: "${DB_LIST_BACKEND_ADMIN_URL}"
+      #DB_LIST_ALERT_URL: "${DB_LIST_ALERT_URL}"
+    ports:
+      - ${FRONTEND_ADMIN_HOST_PORT}:80
