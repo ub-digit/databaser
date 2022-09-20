@@ -34,7 +34,7 @@ defmodule DbListAdmin.Resource.MediaType do
       Model.MediaType.changeset(Model.MediaType.find(data["id"]), data)
       |> repo.insert_or_update()
       |> case do
-        {:ok, res} -> {:ok, Model.MediaType.remap((res))}
+        {:ok, res} -> {:ok, Model.MediaType.remap(res)}
         {:error, reason} -> {:error, Model.MediaType.remap_error(reason.errors)}
       end
     end)
@@ -42,8 +42,8 @@ defmodule DbListAdmin.Resource.MediaType do
     |> return_insert_or_update()
   end
 
-  def return_insert_or_update({:ok, res}) do
-    res
+  def return_insert_or_update({:ok, %{media_type: media_type}}) do
+    media_type
   end
 
   def return_insert_or_update({:error, _, reason, _}) do

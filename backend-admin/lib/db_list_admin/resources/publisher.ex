@@ -21,8 +21,7 @@ defmodule DbListAdmin.Resource.Publisher do
   end
 
   def show(%{"id" => id}) do
-    Repo.get!(Model.Publisher, id)
-    #|> Repo.preload([:database_publishers])
+    Model.Publisher.find(id)
     |> Model.Publisher.remap()
   end
 
@@ -32,7 +31,7 @@ defmodule DbListAdmin.Resource.Publisher do
       Model.Publisher.changeset(Model.Publisher.find(data["id"]), data)
       |> repo.insert_or_update()
       |> case do
-        {:ok, res} -> {:ok, Model.Publisher.remap((res))}
+        {:ok, res} -> {:ok, Model.Publisher.remap(res)}
         {:error, reason} -> {:error, Model.Publisher.remap_error(reason.errors)}
       end
     end)
@@ -40,8 +39,8 @@ defmodule DbListAdmin.Resource.Publisher do
     |> return_insert_or_update()
   end
 
-  def return_insert_or_update({:ok, res}) do
-    res
+  def return_insert_or_update({:ok, %{publisher: publisher}}) do
+    publisher
   end
 
   def return_insert_or_update({:error, _, reason, _}) do
