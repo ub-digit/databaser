@@ -3,12 +3,13 @@ import NProgress, { done } from 'nprogress';
 import axios from 'axios';
 import _ from 'lodash'; 
 import nProgress from "nprogress";
+import { inject } from 'vue'
 
 export const useTopicsStore = defineStore({
   id: "topics",
   state: () => {
     return {
-        baseUrl: 'http://localhost:4010',
+        baseUrl: inject("baseURL"),
         topics: []
       } 
   

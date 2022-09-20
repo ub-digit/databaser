@@ -31,12 +31,12 @@ export default {
             if (res.data.error) {
                 errors.value = res.data.error;
             }
-            if (errors.value && (errors.value.publisher.length)) {
+            if (errors.value && (errors.value.length)) {
                 message.set('error', "Errors in the form")
             }
             if (!errors.value) {
                 message.set("success", "Publisher has been saved")
-                router.push({name: 'PublisherShow', params: {id: res.data.publisher.id }});
+                router.push({name: 'PublisherShow', params: {id: res.data.id }});
             }
         }
 

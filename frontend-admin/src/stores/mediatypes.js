@@ -3,12 +3,13 @@ import { defineStore } from "pinia";
 import _ from 'lodash'; 
 import nProgress, { done } from 'nprogress';
 import axios from "axios";
+import { inject } from 'vue'
 
 export const useMediatypesStore = defineStore({
   id: "mediatypes",
   state: () => {
     return {
-        baseUrl: 'http://localhost:4010',
+        baseUrl: inject('baseURL'),
         mediatypes:  []
       } 
   },
@@ -55,7 +56,7 @@ export const useMediatypesStore = defineStore({
         nProgress.start();
         const result = await axios.post(this.baseUrl + '/media_types', payload)
         console.log(result);
-        if (result.data.media_type.id) {
+        if (result.data.id) {
           this.fetchMediatypes();
         }
         return result;

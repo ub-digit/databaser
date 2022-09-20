@@ -3,12 +3,13 @@ import { defineStore } from "pinia";
 import axios from 'axios';
 import _ from 'lodash'; 
 import NProgress, { done } from 'nprogress';
+import { inject } from 'vue'
 
 export const usePublishersStore = defineStore({
   id: "publishers",
   state: () => {
     return {
-      baseUrl: 'http://localhost:4010',
+      baseUrl: inject("baseURL"),
       publishers: []
     } 
   },

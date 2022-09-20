@@ -3,12 +3,13 @@ import { defineStore } from "pinia";
 import _ from 'lodash';
 import axios from 'axios';
 import nProgress, { done } from 'nprogress';
+import { inject } from 'vue'
 
 export const useDatabasesStore = defineStore({
   id: "databases",
   state: () => {
     return {
-      baseUrl: 'http://localhost:4010',
+      baseUrl: inject("baseURL"),
       databases: [],
     }
   },
