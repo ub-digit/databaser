@@ -154,4 +154,22 @@ defmodule Experiment do
       {:ok, %{body: %{"hits" => %{"hits" => hits}}}} = Elastix.Search.search("http://localhost:9200", "admin_index", [], q)
       hits
   end
+
+  def test_with(json) do
+    with {:ok, val} <- hey(json)
+
+    do
+      %{status: "All ok"}
+    else
+      nil -> %{error: %{}}
+      error -> error
+    end
+  end
+
+
+  def hey(%{id: _} = json) do
+    {:ok, json}
+  end
+
+
 end
