@@ -10,7 +10,6 @@ import "@/scss/custom.scss";
 import 'nprogress/nprogress.css';
 import { i18n } from "./locales";
 
-
 const local_url = '/cgi-bin/backend.cgi'
 const {FontAwesomeIcon} = useFontawesome();
 
@@ -18,7 +17,7 @@ axios.get(local_url).then((result) => {
   return result.data
 },() => {
   return {
-    backend_url: /* process.env["VUE_APP_API_BASE_URL"] ||*/ "http://localhost:4011",
+    backend_url: /* process.env["VUE_APP_API_BASE_URL"] ||*/ "http://localhost:4010",
   }
 }).then((data) => {
   let app = createApp(App)
