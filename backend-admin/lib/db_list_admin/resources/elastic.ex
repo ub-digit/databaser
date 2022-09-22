@@ -44,13 +44,11 @@ defmodule DbListAdmin.Resource.Elastic do
   end
 
   def delete_from_index(id) do
-    IO.inspect("DELETE FROM INDEX")
     Elastix.Document.delete(elastic_url(), @admin_index, "_doc", id)
     Elastix.Index.refresh(elastic_url(), @admin_index)
   end
 
   def add_to_index(data) do
-    IO.inspect(data, label: "ADD TO INDEX")
     Elastix.Document.index(elastic_url(), @admin_index, "_doc", data.id, data)
     #Elastix.Index.refresh(elastic_url(), @admin_index)
   end

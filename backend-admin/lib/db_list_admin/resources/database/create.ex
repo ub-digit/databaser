@@ -10,13 +10,21 @@ defmodule DbListAdmin.Resource.Database.Create do
   alias DbListAdmin.Resource.Database.DatabaseSubTopic
   alias DbListAdmin.Resource.Database.DatabaseTermsOfUse
   alias DbListAdmin.Resource.Database.Remapper
+  alias DbListAdmin.Resource.Database.InputValidator
 
   def create_or_update(data) do
-    data = data
+    data
     |> Remapper.deserialize_topics()
     |> Remapper.deserialize_publishers()
     |> Remapper.deserialize_terms_of_use()
+    |> InputValidator.validate_input()
+    |> case do
+      {:ok, data} -> process_database(data)
+      {:error, reasons} -> %{error: reasons}
+    end
+  end
 
+  def process_database(data) do
     Multi.new()
     |> Multi.run(:database, fn repo, _ ->
       Model.Database.changeset(Model.Database.find(data["id"]), data)
