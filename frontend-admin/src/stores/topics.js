@@ -54,12 +54,9 @@ export const useTopicsStore = defineStore({
     async updateTopic(payload) {
         try {
           NProgress.start();
-           //const topic = await this.fakeApiCallEditTopic(true, payload)
            const topic = await axios.post(this.baseUrl + '/topics', payload)
            this.fetchTopics();
            return topic;
-           console.log(topic);
-           //this.getTopicById(topic.id);
         } catch (errors) {
             if (errors) {
               console.log(`backend update topic errors: ${ errors }` );
