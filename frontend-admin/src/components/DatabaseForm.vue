@@ -1,5 +1,19 @@
 <template>
+
   <div v-if="database_initial_state" class="edit-topic-wrapper">
+      <div class="row">
+        <div v-if="props.errors && props.errors.length" class="row mt-3">
+          <div class="col">
+            <div class="alert alert-danger" role="alert">
+              <ul>
+                <li v-for="(error,index) in props.errors" :key="index">
+                  {{ error }} 
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
       <FormKit type="form" :actions="false">
           <div class="row">
             <div class="col">
@@ -92,7 +106,7 @@
         </div> <!-- end row -->
         <div class="row">
           <div class="mb-3 col-6">
-            <h3>Subject</h3>
+            <h3>Topics</h3>
             <ul style="max-height: 400px; overflow-y:scroll" class="list-unstyled" v-if="database_initial_state.topics">
               <li v-for="topic in database_initial_state.topics" :key="topic.id">
                 <div class="form-check">

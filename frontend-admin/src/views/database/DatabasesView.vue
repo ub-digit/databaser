@@ -42,7 +42,7 @@
           </div>
 
         </div>
-        <div class="col">
+        <div class="col-9">
           <router-view :key="$route.fullPath"></router-view>
         </div>
       </div>

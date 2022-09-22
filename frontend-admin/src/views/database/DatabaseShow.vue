@@ -21,7 +21,7 @@
         </div>
         <div class="row pb-4">
           <div class="col-6">
-            <h3>Subject</h3>
+            <h3>Topics</h3>
             <ul class="list-unstyled" v-if="database.topics">
               <li v-for="topic in database.topics" :key="topic.id">
                 <div v-if="topic.selected">{{topic.name_en}} / {{topic.name_sv}}</div>
