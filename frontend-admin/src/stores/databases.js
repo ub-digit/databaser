@@ -43,9 +43,6 @@ export const useDatabasesStore = defineStore({
         nProgress.start();
         const result = await axios.delete(this.baseUrl + '/databases/' + payload.id)
         console.log(result);
-        if (result.data.status && result.data.status === "deleted") {
-         // this.fetchDatabases();
-        }
         return result.data;
     } catch (err)  {
       console.log(err.message)
@@ -57,10 +54,6 @@ export const useDatabasesStore = defineStore({
       try {
         nProgress.start();
         const result = await axios.post(this.baseUrl + '/databases', payload)
-        console.log(result);
-        if (result.data.id) {
-        //  this.fetchDatabases();
-        }
         return result;
       } 
       catch (errors) {
@@ -72,10 +65,6 @@ export const useDatabasesStore = defineStore({
       try {
         nProgress.start();
         const result = await axios.get(this.baseUrl + '/databases/new')
-        console.log(result);
-        if (result.data.id) {
-       //   this.fetchDatabases();
-        }
         return result;
       } 
       catch (errors) {
