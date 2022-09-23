@@ -27,7 +27,7 @@ defmodule DbListAdmin.Model.MediaType do
   end
 
   def can_be_deleted(%{:database_media_types => db_media_types}) when is_list(db_media_types) do
-    db_media_types < 1
+    length(db_media_types) < 1
  end
 #TODO this might not be correct.
  def can_be_deleted(_), do: true
