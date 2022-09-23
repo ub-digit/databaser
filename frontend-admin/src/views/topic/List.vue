@@ -25,7 +25,7 @@
             </span>
           </template>
           <template #suffix="context">
-            <a href="javascript:void()" class="resetBtn" v-if="isClearVisible" @click="resetSearch"><font-awesome-icon icon="times" /></a>
+            <a href="javascript:void()" class="resetBtn" v-if="isClearVisible" @click.prevent="resetSearch"><font-awesome-icon icon="times" /></a>
           </template>
         </FormKit>
         <ul v-if="topicsFiltered.length" class="left-nav">

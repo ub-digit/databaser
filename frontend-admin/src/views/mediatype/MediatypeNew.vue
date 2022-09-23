@@ -32,7 +32,7 @@ export default {
                 message.set('error', "Errors in the form ")
             }
             if (!errors.value) {
-                mediatype = res.data.media_type;
+                mediatype = res.data;
                 message.set("success", "New mediatype has been saved")
                 router.push({name: 'MediatypeShow', params: {id: mediatype.id }});
             }
