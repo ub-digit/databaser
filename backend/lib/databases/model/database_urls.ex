@@ -15,6 +15,13 @@ defmodule Databases.Model.DatabaseUrl do
     }
   end
 
+  def remap(%{title: nil} = url, title) do
+    %{
+      title: title,
+      url: url.url
+    }
+  end
+
   def remap(url, title) do
     %{
       title: title <> "(" <> url.title <> ")",
