@@ -27,6 +27,7 @@ export default {
         })
         const saveDatabase = async (database) => {
             const res = await store.updateDatabase(database);
+            errors.value = null;
             if (res.data.error) {
                 errors.value = res.data.error;
             }
