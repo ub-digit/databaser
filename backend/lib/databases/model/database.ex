@@ -42,7 +42,6 @@ defmodule Databases.Model.Database do
     |> Map.delete(:title_sv)
     |> remap("sv")
   end
-
   def remap(%{description: _, title: _} = database, lang) do
     %{
       id: database.id,
