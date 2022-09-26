@@ -38,13 +38,20 @@ defmodule DbListAdmin.Resource.Database do
     |> Enum.map(fn item -> Model.Database.remap(item) end)
   end
 
+
+
   def show(id) do
+    get_one(id)
+    |> DbListAdmin.Resource.Database.Remapper.remap_one_database()
+  end
+
+  def get_one(id) do
     (from db in database_base(),
     where: db.id == ^id)
     |> Repo.one
     |> case do
       nil -> %{error: "No database with id: " <> to_string(id) <> " was found"}
-      db  -> DbListAdmin.Resource.Database.Remapper.remap_one_database(db)
+      db  -> db
     end
   end
 end

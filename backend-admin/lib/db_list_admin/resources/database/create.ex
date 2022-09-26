@@ -46,9 +46,14 @@ defmodule DbListAdmin.Resource.Database.Create do
   end
 
   def result({_, res}) do
+
     %{database: %{id: id}} = res
-    data = DbListAdmin.Resource.Database.show(id)
-    DbListAdmin.Resource.Elastic.add_to_index(data)
+    data = DbListAdmin.Resource.Database.get_one(id)
     data
+    |> DbListAdmin.Model.Database.remap()
+    |> DbListAdmin.Resource.Elastic.add_to_index()
+
+    data
+    |> DbListAdmin.Resource.Database.Remapper.remap_one_database()
   end
 end
