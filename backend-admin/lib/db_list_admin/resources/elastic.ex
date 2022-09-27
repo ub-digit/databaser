@@ -50,7 +50,7 @@ defmodule DbListAdmin.Resource.Elastic do
 
   def add_to_index(data) do
     Elastix.Document.index(elastic_url(), @admin_index, "_doc", data.id, data)
-    #Elastix.Index.refresh(elastic_url(), @admin_index)
+    Elastix.Index.refresh(elastic_url(), @admin_index)
   end
 
   def base(term) do
