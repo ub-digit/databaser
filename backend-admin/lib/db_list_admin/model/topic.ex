@@ -12,7 +12,30 @@ defmodule DbListAdmin.Model.Topic do
     has_many :sub_topics, Model.SubTopic
   end
 
-  def remap(%{} = topic) do
+  # From public
+  def remap(%Model.Topic{name_sv: name} = topic, "sv") do
+    Map.put(topic, :name, name)
+    |> Map.delete(:name_sv)
+    |> Map.delete(:name_en)
+    |> remap
+  end
+
+  def remap(%Model.Topic{name_en: name} = topic, "en") do
+    Map.put(topic, :name, name)
+    |> Map.delete(:name_sv)
+    |> Map.delete(:name_en)
+    |> remap
+  end
+
+  def remap(%{name: _} = topic) do
+    %{
+      id: topic.id,
+      name: topic.name
+    }
+  end
+  # End
+
+  def remap(%{name_en: _} = topic) do
     %{
       id: topic.id,
       name_en: topic.name_en,

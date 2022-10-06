@@ -9,6 +9,28 @@ defmodule DbListAdmin.Model.DatabaseUrl do
     field :url, :string
   end
 
+  def remap(%{title: ""} = url, title) do
+    %{
+      title: title,
+      url: url.url
+    }
+  end
+
+  def remap(%{title: nil} = url, title) do
+    %{
+      title: title,
+      url: url.url
+    }
+  end
+
+  def remap(url, title) do
+    %{
+      title: title <> "(" <> url.title <> ")",
+      url: url.url
+    }
+  end
+  # END
+
   def remap(%{} = url) do
     %{
       title: url.title,

@@ -51,7 +51,7 @@ defmodule DbListAdmin.Resource.Database.Create do
     data = DbListAdmin.Resource.Database.get_one(id)
     data
     |> DbListAdmin.Model.Database.remap()
-    |> DbListAdmin.Resource.Elastic.add_to_index()
+    |> DbListAdmin.Resource.Elastic.add_to_index(id)
 
     data
     |> DbListAdmin.Resource.Database.Remapper.remap_one_database()

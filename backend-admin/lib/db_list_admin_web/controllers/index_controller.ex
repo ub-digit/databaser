@@ -3,7 +3,10 @@ defmodule DbListAdminWeb.IndexController do
 
   def reindex_admin_index(conn, params) do
     reindex = Map.get(params, "reindex", false) == "true"
-    IO.inspect(reindex, label: "REINDEX")
-    json conn, DbListAdmin.Resource.Elastic.reindex(reindex)
+    case reindex do
+      false -> json conn, %{error: "no reindexing done, pass '?reindex=true' "}
+      true -> json conn, DbListAdmin.Resource.Elastic.Index.initialize()
+    end
+
   end
 end

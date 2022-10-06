@@ -11,7 +11,28 @@ defmodule DbListAdmin.Model.DatabaseTermsOfUse do
     field :permitted, :boolean
   end
 
-  def remap(%{} = database_terms_of_use) do
+  def remap(%Model.DatabaseTermsOfUse{description_en: description} = database_terms_of_use, "en") do
+    Map.put(database_terms_of_use, :description, description)
+    |> Map.delete(:description_en)
+    |> remap()
+  end
+
+  def remap(%Model.DatabaseTermsOfUse{description_sv: description} = database_terms_of_use, "sv") do
+    Map.put(database_terms_of_use, :description, description)
+    |> Map.delete(:description_sv)
+    |> remap()
+  end
+
+  def remap(%{description: _} = database_terms_of_use) do
+    %{
+      permitted: database_terms_of_use.permitted,
+      description: database_terms_of_use.description,
+      code: database_terms_of_use.code,
+      id: database_terms_of_use.id
+    }
+  end
+
+  def remap(%{description_en: _, description_sv: _} = database_terms_of_use) do
     %{
       permitted: database_terms_of_use.permitted,
       description_en: database_terms_of_use.description_en,
