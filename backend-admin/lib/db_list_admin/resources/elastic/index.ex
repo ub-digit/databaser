@@ -15,7 +15,8 @@ defmodule DbListAdmin.Resource.Elastic.Index do
     with {:ok, _} <- creaate_index(Elastic.index_admin()),
     {:ok, _} <- creaate_index(Elastic.index_sv()),
     {:ok, _} <- apply_index_mappings(Elastic.index_sv()),
-    {:ok, _} <- creaate_index(Elastic.index_en())
+    {:ok, _} <- creaate_index(Elastic.index_en()),
+    {:ok, _} <- apply_index_mappings(Elastic.index_en())
     do
       index_all()
     else
