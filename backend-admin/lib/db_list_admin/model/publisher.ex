@@ -25,7 +25,6 @@ defmodule DbListAdmin.Model.Publisher do
     true
   end
 
-
   def remap_error(error) do
     error_list =
     error

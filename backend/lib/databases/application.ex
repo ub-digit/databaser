@@ -15,7 +15,7 @@ defmodule Databases.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Databases.PubSub},
       # Start the Endpoint (http/https)
-      Supervisor.Spec.worker(Task, [&Databases.Resource.Database.init/0], restart: :temporary),
+     # Supervisor.Spec.worker(Task, [&Databases.Resource.Database.init/0], restart: :temporary),
       # Start the Endpoint (http/https)
       DatabasesWeb.Endpoint
       # Start a worker by calling: Databases.Worker.start_link(arg)

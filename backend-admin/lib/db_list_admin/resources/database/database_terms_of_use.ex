@@ -1,7 +1,6 @@
 defmodule DbListAdmin.Resource.Database.DatabaseTermsOfUse do
   alias DbListAdmin.Model
   alias Ecto.Multi
-  alias DbListAdmin.Resource
   import Ecto.Query
 
   def create(repo, database_id, data) do

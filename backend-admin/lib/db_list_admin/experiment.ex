@@ -159,7 +159,7 @@ defmodule Experiment do
     with {:ok, val} <- hey(json)
 
     do
-      %{status: "All ok"}
+      %{status: "All ok", val: val}
     else
       nil -> %{error: %{}}
       error -> error
@@ -171,5 +171,27 @@ defmodule Experiment do
     {:ok, json}
   end
 
+  def hey(%{} = json) do
+    {:error, json}
+  end
 
+  def test_index do
+    data = DbListAdmin.Resource.Database.get_databases_raw()
+    |> Enum.map(fn db -> Model.Database.remap(db, "sv") end)
+    |> Enum.map(fn db -> [%{index: %{_id: db.id}}, db] end)
+    |> List.flatten()
+    |> IO.inspect(label: "Index list")
+    Elastix.Bulk.post("http://localhost:9200", data, index: "test", type: "_doc")
+  end
+
+  # Elastix.Bulk.post("http://localhost:9200", [%{index: %{_id: "1"}}, %{user: "kimchy"}], index: "twitter", type: "tweet")
+  def start do
+    IO.inspect("HEY I'M STARTING")
+  end
+
+  def test_db do
+    DbListAdmin.Resource.Database.get_databases_raw()
+
+    |> Enum.map(fn item -> DbListAdmin.Model.Database.remap(item, "sv") end)
+  end
 end

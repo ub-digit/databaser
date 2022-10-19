@@ -1,15 +1,8 @@
 defmodule Databases.Resource.Search do
   @query_limit 2000
   @default_language "en"
-  @index_prefix "db_"
+  @index_prefix "databases_"
 
-  def index_all(data, lang) do
-    index_name = get_index(lang)
-    Elastix.Index.delete(elastic_url(), index_name)
-    create_index(Elastix.Index.exists?(elastic_url(), index_name), index_name)
-    IO.inspect(lang, label: "INDEX ALL")
-    Enum.map(data, fn item -> Elastix.Document.index(elastic_url(), index_name, "_doc", item.id, item) end)
-  end
 
   def elastic_url do
     System.get_env("ELASTIC_SEARCH_URL", "http://localhost:9200")
@@ -17,29 +10,6 @@ defmodule Databases.Resource.Search do
 
   def get_index(lang) do
     @index_prefix <> lang
-  end
-
-  def create_index({:error, _} = _res, _n) do
-    IO.inspect(elastic_url(), label: "ERROR CREATING INDEX!")
-  end
-
-  def create_index({:ok, true}, _n), do: nil
-  def create_index({:ok, false}, index_name) do
-    Elastix.Index.create(elastic_url(), index_name, %{})
-    {:ok, _} = Elastix.Mapping.put(elastic_url(), index_name, [], %{
-    "properties" => %{
-      "title" => %{
-        "type" => "text",
-        "fields" => %{
-          "sort" => %{
-            "type" => "icu_collation_keyword",
-            "language" => "sv",
-            "country" => "SE"
-          }
-        }
-      }
-    }
-  })
   end
 
   def show(%{"id" => _id} = payload) do

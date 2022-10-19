@@ -9,7 +9,6 @@ defmodule DbListAdmin.Model.DatabaseSubTopic do
     field :is_recommended, :boolean
   end
 
-  @doc false
   def changeset(database_sub_topics, attrs) do
       database_sub_topics
     |> cast(attrs, [:database_id, :sub_topic_id, :is_recommended])

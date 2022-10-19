@@ -7,6 +7,9 @@ defmodule DbListAdmin.Application do
 
   @impl true
   def start(_type, _args) do
+
+    # initialize all indexes
+
     children = [
       # Start the Ecto repository
       DbListAdmin.Repo,
@@ -15,9 +18,9 @@ defmodule DbListAdmin.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: DbListAdmin.PubSub},
       # Start the Endpoint (http/https)
-      DbListAdminWeb.Endpoint
+      DbListAdminWeb.Endpoint,
       # Start a worker by calling: DbListAdmin.Worker.start_link(arg)
-      # {DbListAdmin.Worker, arg}
+      DbListAdmin.Resource.Elastic.Index
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

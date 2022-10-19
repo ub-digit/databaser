@@ -32,17 +32,30 @@ defmodule DbListAdmin.Resource.Database do
     preload: [database_topics: db_topics, topics: topic, database_sub_topics: st_for, sub_topics: st, database_alternative_titles: database_alternative_titles, database_terms_of_use: database_terms_of_use, database_urls: database_urls, database_media_types: mt_db, media_types: mt, database_publishers: db_pb, publishers: {pb, :database_publishers}])
   end
 
-  def get_databases() do
+  def load_databases() do
     database_base()
     |> Repo.all()
-    |> Enum.map(fn item -> Model.Database.remap(item) end)
   end
 
+  def get_databases_raw do
+    load_databases()
+  end
 
+  def get_databases(lang) do
+    load_databases()
+    |> Enum.map(fn db -> Model.Database.remap(db, lang) end)
+  end
+  def get_databases() do
+    load_databases()
+    |> Enum.map(fn db -> Model.Database.remap(db) end)
+  end
 
   def show(id) do
     get_one(id)
-    |> DbListAdmin.Resource.Database.Remapper.remap_one_database()
+    |> case do
+      {:error, reason} -> %{error: reason}
+      db -> DbListAdmin.Resource.Database.Remapper.remap_one_database(db)
+    end
   end
 
   def get_one(id) do
@@ -50,7 +63,7 @@ defmodule DbListAdmin.Resource.Database do
     where: db.id == ^id)
     |> Repo.one
     |> case do
-      nil -> %{error: "No database with id: " <> to_string(id) <> " was found"}
+      nil -> {:error, "No database with id: " <> to_string(id) <> " was found"}
       db  -> db
     end
   end

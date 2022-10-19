@@ -11,8 +11,29 @@ defmodule DbListAdmin.Model.SubTopic do
     has_many :database_sub_topics, Model.DatabaseSubTopic
   end
 
-  def remap(%Model.SubTopic{} = sub_topic) do
+  def remap(%Model.SubTopic{name_sv: name} = sub_topic, "sv") do
+    Map.put(sub_topic, :name, name)
+    |> Map.delete(:name_sv)
+    |> Map.delete(:name_en)
+    |> remap
+  end
 
+  def remap(%Model.SubTopic{name_en: name} = sub_topic, "en") do
+    Map.put(sub_topic, :name, name)
+    |> Map.delete(:name_sv)
+    |> Map.delete(:name_en)
+    |> remap
+  end
+
+  def remap(%{name: _} = sub_topic) do
+    %{
+      id: sub_topic.id,
+      topic_id: sub_topic.topic_id,
+      name: sub_topic.name
+    }
+  end
+
+  def remap(%Model.SubTopic{name_sv: _, name_en: _} = sub_topic) do
     %{
       id: sub_topic.id,
       topic_id: sub_topic.topic_id,

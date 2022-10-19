@@ -4,8 +4,6 @@ defmodule DbListAdmin.Model.Database do
   alias DbListAdmin.Model
   import Ecto.Changeset
 
- # import Access
-
   schema "databases" do
     field :description_en, :string
     field :description_sv, :string
@@ -28,6 +26,46 @@ defmodule DbListAdmin.Model.Database do
     has_many :terms_of_use, through: [:database_terms_of_use, :terms_of_use]
     has_many :database_media_types, Model.DatabaseMediaType
     has_many :media_types, through: [:database_media_types, :media_type]
+  end
+
+  def remap(%Model.Database{description_en: description, title_en: title} = database, "en") do
+    Map.put(database, :description, description)
+    |> Map.put(:title, title)
+    |> Map.delete(:description_en)
+    |> Map.delete(:title_en)
+    |> remap("en")
+  end
+
+  def remap(%Model.Database{description_sv: description, title_sv: title} = database, "sv") do
+    Map.put(database, :description, description)
+    |> Map.put(:title, title)
+    |> Map.delete(:description_sv)
+    |> Map.delete(:title_sv)
+    |> remap("sv")
+  end
+
+  def remap(%{description: _, title: _} = database, lang) do
+    %{
+      id: database.id,
+      title: database.title,
+      description: database.description,
+      is_popular: database.is_popular,
+      recommended_in_topics: set_recommended_in(database.database_topics, :topic),
+      recommended_in_sub_topics: set_recommended_in(database.database_sub_topics, :sub_topic),
+      alternative_titles: database.database_alternative_titles |> Enum.map(&DbListAdmin.Model.DatabaseAlternativeTitle.remap/1),
+      urls: database.database_urls |> Enum.map(fn item -> DbListAdmin.Model.DatabaseUrl.remap(item, database.title) end),
+      publishers: database.publishers |> Enum.map(fn item -> Model.Publisher.remap(item) end),
+      public_access: database.public_access,
+      access_information_code: database.access_information_code,
+      malfunction_message_active: database.malfunction_message_active,
+      malfunction_message: database.malfunction_message,
+      topics: database.topics |> Enum.map(fn item -> Model.Topic.remap(item, lang) end),
+      sub_topics: database.sub_topics |> Enum.map(fn item -> Model.SubTopic.remap(item, lang) end),
+      terms_of_use: database.database_terms_of_use |> Enum.map(fn item -> Model.DatabaseTermsOfUse.remap(item, lang) end),
+      media_types: database.media_types |> Enum.map(fn item -> Model.MediaType.remap(item, lang) end),
+      sanitized_title: Slugy.slugify(database.title)
+    }
+    |> sort_topics
   end
 
   def remap(%{} = database) do
