@@ -26,7 +26,8 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     '@nuxtjs/style-resources',
-    '@nuxtjs/fontawesome'
+    '@nuxtjs/fontawesome',
+    '@nuxtjs/router-extras',
   ],
 
   fontawesome: {
@@ -42,13 +43,8 @@ export default {
     '@nuxtjs/axios',
     // https://i18n.nuxtjs.org/setup
     '@nuxtjs/i18n',
-    'bootstrap-vue/nuxt',
   ],
 
-  bootstrapVue: {
-    bootstrapCSS: false,
-    bootstrapVueCSS: false
-  },
   styleResources: {
     scss: '@/assets/scss/_variables.scss'
   },
@@ -61,6 +57,8 @@ export default {
   i18n: {
     /* module options */
     baseUrl: 'http://localhost:3000',
+    strategy: 'prefix_and_default',
+    defaultLocale: 'sv',
     locales: [
       {
         code: 'en',
@@ -71,9 +69,8 @@ export default {
         iso: 'sv'
       } 
     ],
-    defaultLocale: 'en',
     vueI18n: {
-      fallbackLocale: 'en',
+      fallbackLocale: 'sv',
       messages: {
         en: {
           seo: {
@@ -262,9 +259,10 @@ export default {
             },
             home: {
               title: "Database search",
-              desc: "Enter the database title to find the database you are looking for. Limit your search by subject, subject terms and media types to find databases within your subject area.",
-              no_result: "No database was found. Change your search and try again."
+              desc:
+                "Enter the database title to find the database you are looking for. Limit your search by subject, subject terms and media types to find databases within your subject area.",
             },
+        
         
           },
         
@@ -274,5 +272,6 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+  }
 }

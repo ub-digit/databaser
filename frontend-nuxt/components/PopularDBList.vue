@@ -7,7 +7,7 @@
         <div class="col-md-auto">
           <ul class="list-unstyled">
             <li class="d-md-inline-block" v-for="db in databases" :key="db.id">
-              <router-link :to="{ name: 'Database', params: { id: db.id, title: db.title } }">{{db.title}}</router-link>
+                <nuxtLink :to="localePath(`/${db.sanitized_title}/${db.id}`)">{{db.title}}</nuxtLink>
             </li>
           </ul>
         </div>

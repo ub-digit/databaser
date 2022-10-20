@@ -6,17 +6,17 @@
         </button>
       </div>
     </div>
-  </template>
+</template>
   
-  <script>
-  export default {
-      methods: {
+<script>
+export default {
+    methods: {
         setLanguage(locale) {
-            this.$i18n.locale = locale
+            this.$i18n.setLocale(locale);
         }
-      }
-  }
-  </script>
+    }
+}
+</script>
   
   <style lang="scss" scoped>
     .locale-toggler {

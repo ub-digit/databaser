@@ -9,7 +9,9 @@
 import TheHeader from '~/components/TheHeader.vue';
 export default {
     head() {
-        return this.$nuxtI18nHead({ addSeoAttributes: true });
+        return {
+            title: this.$i18n.t('seo.application_title')
+        }
     },
     components: { TheHeader }
 }
