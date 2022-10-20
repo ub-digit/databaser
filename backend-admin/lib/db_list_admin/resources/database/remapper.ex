@@ -14,7 +14,7 @@ defmodule DbListAdmin.Resource.Database.Remapper do
       title_sv: "",
       description_en: "",
       description_sv: "",
-      access_information_code: "free",
+      access_information_code: "freely_available",
       alternative_titles: [],
       public_access: false,
       recommended_in_sub_topics: [],
