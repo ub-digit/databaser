@@ -95,7 +95,17 @@ defmodule DbListAdmin.Model.Database do
 
 
   def remap_error(error) do
+    error_list =
     error
+    |> Enum.map(fn {k, {_, reason}} ->
+      {r1, r2} = List.first(reason)
+      %{:field => k, :error_code => Atom.to_string(r1) <> "_" <> Atom.to_string(r2)}
+    end)
+    %{
+      error: %{
+      database: error_list
+      }
+    }
   end
 
   def set_recommended_in(topics, type) do
@@ -135,7 +145,7 @@ defmodule DbListAdmin.Model.Database do
       ],
       [empty_values: [nil]])
     |> validate_required([:title_en, :title_sv])
-    |> unique_constraint(:title_en, name: :database_title_en_key)
-    |> unique_constraint(:title_sv, name: :database_title_sv_key)
+    |> unique_constraint(:title_en, name: :databases_title_en_key)
+    |> unique_constraint(:title_sv, name: :databases_title_sv_key)
   end
 end
