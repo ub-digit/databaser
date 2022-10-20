@@ -7,7 +7,6 @@
             name="access_code"
             placeholder="Choose"
             v-model="selected"
-            @change="updateAccessInformationCodeVal"
             :options="[
                 { label: $t('access_information_codes.available_to_the_university_of_gothenburg'), value: 'available_to_the_university_of_gothenburg' },
                 { label: $t('access_information_codes.freely_available'), value: 'freely_available' },
@@ -29,12 +28,11 @@ export default {
         const selected = ref(null);
         selected.value = ref();
         selected.value = props.access_information_code;
-        const updateAccessInformationCodeVal = (val) => {
-            ctx.emit('updateAccessInformationCode', selected.value);
-        }
+        watch(selected, (val) => {
+            ctx.emit('updateAccessInformationCode', val);
+        })
 
         return {
-            updateAccessInformationCodeVal,
             selected
         }
     }
