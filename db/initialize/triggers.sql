@@ -15,6 +15,8 @@ ALTER TABLE database_alternative_titles ADD CONSTRAINT database_alternative_titl
 
 ALTER TABLE database_terms_of_use ADD CONSTRAINT database_terms_of_use_fk_databases FOREIGN KEY (database_id) REFERENCES databases (id) ON DELETE CASCADE;
 
+ALTER TABLE database_publishers ADD CONSTRAINT database_publishers_fk_publishers FOREIGN KEY (publisher_id) REFERENCES publishers (id) ON DELETE RESTRICT;
+
 
 
 

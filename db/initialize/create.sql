@@ -1,21 +1,24 @@
 DROP TABLE IF EXISTS databases;
 DROP TABLE IF EXISTS database_media_types;
+DROP TABLE IF EXISTS media_types;
 DROP TABLE IF EXISTS database_alternative_titles;
-DROP TABLE IF EXISTS topics;
 DROP TABLE IF EXISTS database_topics;
+DROP TABLE IF EXISTS topics;
 DROP TABLE IF EXISTS database_sub_topics;
+DROP TABLE IF EXISTS sub_topics;
+DROP TABLE IF EXISTS database_publishers;
 DROP TABLE IF EXISTS publishers;
 DROP TABLE IF EXISTS database_urls;
 DROP TABLE IF EXISTS database_terms_of_use;
-DROP TABLE IF EXISTS media_types;
 DROP TABLE IF EXISTS media_type_for;
-DROP TABLE IF EXISTS sub_topics;
-DROP TABLE IF EXISTS database_publishers;
+
+-- Add extention for non case sensitive uniqueness
+CREATE EXTENSION IF NOT EXISTS citext; 
 
 CREATE TABLE databases (
     id serial PRIMARY KEY,
-    title_en text UNIQUE NOT NULL,
-    title_sv text UNIQUE NOT NULL,
+    title_en citext UNIQUE NOT NULL,
+    title_sv citext UNIQUE NOT NULL,
     description_en text,
     description_sv text,
     is_popular boolean,
@@ -52,16 +55,16 @@ CREATE TABLE database_urls (
 
 CREATE TABLE topics (
     id serial PRIMARY KEY,
-    name_en text UNIQUE NOT NULL,
-    name_sv text UNIQUE NOT NULL,
+    name_en citext UNIQUE NOT NULL,
+    name_sv citext UNIQUE NOT NULL,
     updated_at timestamp default now(),
     inserted_at timestamp default now()
 );
 
 CREATE TABLE sub_topics (
     id serial PRIMARY KEY,
-    name_en text NOT NULL,
-    name_sv text NOT NULL,
+    name_en citext NOT NULL,
+    name_sv citext NOT NULL,
     topic_id int
 );
 
@@ -92,7 +95,7 @@ CREATE TABLE database_sub_topics (
 
 CREATE TABLE publishers (
     id serial PRIMARY KEY,
-    name text UNIQUE NOT NULL
+    name citext UNIQUE NOT NULL
 );
 
 CREATE TABLE database_publishers (

@@ -7366,4 +7366,4 @@ INSERT INTO database_publishers(database_id, publisher_id) VALUES(189294, 1030);
 SELECT pg_catalog.setval('public.topics_id_seq', 1000, true);
 SELECT pg_catalog.setval('public.sub_topics_id_seq', 1000, true);
 SELECT pg_catalog.setval('public.media_types_id_seq', 1000, true);
-SELECT pg_catalog.setval('public.publishers_id_seq', 1000, true);
+SELECT pg_catalog.setval('public.publishers_id_seq', 2000, true);

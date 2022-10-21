@@ -48,6 +48,7 @@ defmodule DbListAdmin.Model.Publisher do
   def changeset(%Model.Publisher{} = publisher, attrs) do
     publisher
     |> cast(attrs, [:name])
+    |> foreign_key_constraint(:database_publishers, name: :database_publishers_fk_publishers )
     |> validate_required([:name])
     |> unique_constraint(:name, name: :publishers_name_key)
   end
