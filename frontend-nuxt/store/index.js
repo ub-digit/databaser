@@ -5,15 +5,10 @@ export const state = () => ({
 })
 
 export const getters = {
-  getCounter(state) {
-    return state.counter
-  }
 }
 
 export const mutations = {
-  increment(state) {
-    state.counter++
-  }
+
 }
 
 export const actions = {

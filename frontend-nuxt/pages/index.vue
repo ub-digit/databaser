@@ -225,6 +225,9 @@ export default {
     border-radius: 4px;
     margin-bottom: 20px;
     .facet-header {
+      &:focus-visible {
+        border: 1px solid rgb(15, 15, 15);
+      }
       &.active {
         background-color: #025da6;
         color: white;
