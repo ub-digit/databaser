@@ -25,6 +25,11 @@ defmodule Databases.Resource.Search do
   def base(term) do
     %{
       aggs: %{
+        freely_available: %{
+          terms: %{
+            field: "public_access"
+          }
+        },
         topics: %{
           terms: %{
             field: "topics.id",
@@ -140,11 +145,25 @@ defmodule Databases.Resource.Search do
       data: databases,
       filters:
       %{
+        show_freely_available: freely_available(aggregations),
         mediatypes: get_media_types(databases, aggregations),
         topics: get_topics(payload)
       }
     }
   end
+
+  def freely_available(%{"freely_available" => %{"buckets" => buckets}}) when length(buckets) > 0 do
+    buckets
+    |> Enum.filter(fn bucket -> Map.get(bucket, "key_as_string") == "true" end)
+    |> List.first
+    |> Map.get("doc_count")
+    |> case do
+      len when len > 0 -> true
+      _ -> false
+    end
+  end
+
+  def freely_available(%{"freely_available" => %{"buckets" => buckets}}) when length(buckets) == 0, do: false
 
   def get_topics(payload) do
     sub_topics_param = Map.get(payload, "sub_topics", [])
