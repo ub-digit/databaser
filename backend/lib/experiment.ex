@@ -99,4 +99,9 @@ defmodule Experiment do
 
      end
   end
+
+  def sort_test() do
+    [%{name: "öl"}, %{name: "sven"}, %{name: "åke"}, %{name: "ärligt"}, %{name: "roy"}, %{name: "alf"}]
+    |> Enum.sort_by(fn l -> Map.get(l, :name) end)
+  end
 end

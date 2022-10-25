@@ -47,7 +47,9 @@ defmodule Databases.Resource.Search do
             field: "media_types.id",
             size: 1000
           }
+
         }
+
       },
       size: @query_limit,
       query: %{
@@ -242,6 +244,8 @@ defmodule Databases.Resource.Search do
     |> List.flatten
     |> Enum.uniq
     |> add_aggregations(media_types_agg)
+    |> Enum.sort_by(fn media_type -> Map.get(media_type , "name") end)
+
   end
 
   def has_filter([]), do: nil
