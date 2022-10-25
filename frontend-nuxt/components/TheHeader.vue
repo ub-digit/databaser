@@ -4,7 +4,7 @@
         <div class="container-md">
           <div class="row">
             <div class="col-auto">
-              <a :href="getLogoURL"><div class="logo" :class="$i18n.locale"></div></a>
+              <a :href="getLogoURL" aria-label="Gothenburg University"><div class="logo" :class="$i18n.locale"></div></a>
             </div>
             <div class="col align-self-center">
               <div class="header">
