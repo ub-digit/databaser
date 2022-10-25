@@ -22,6 +22,6 @@ export default {
 <style lang="scss" scoped>
 .access-information {
     color: #555555;
-    font-size: 0.875em;
+    font-size: 0.8rem;
 }
 </style>
