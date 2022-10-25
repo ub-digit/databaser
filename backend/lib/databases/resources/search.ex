@@ -152,15 +152,9 @@ defmodule Databases.Resource.Search do
     }
   end
 
-  def freely_available(%{"freely_available" => %{"buckets" => buckets}}) when length(buckets) > 0 do
+  def freely_available(%{"freely_available" => %{"buckets" => buckets}}) when is_list(buckets) do
     buckets
-    |> Enum.filter(fn bucket -> Map.get(bucket, "key_as_string") == "true" end)
-    |> List.first
-    |> Map.get("doc_count")
-    |> case do
-      len when len > 0 -> true
-      _ -> false
-    end
+    |> Enum.any?(fn bucket -> Map.get(bucket, "key_as_string") == "true" end)
   end
 
   def freely_available(%{"freely_available" => %{"buckets" => buckets}}) when length(buckets) == 0, do: false
@@ -171,7 +165,7 @@ defmodule Databases.Resource.Search do
     payload = Map.delete(payload, "sub_topics")
     payload
     |> remap_payload
-    load_topics(payload, topic, sub_topics_param)
+    |> load_topics(topic, sub_topics_param)
   end
 
 
@@ -202,7 +196,7 @@ defmodule Databases.Resource.Search do
     %{"sub_topics" => %{"buckets" => sub_topics_agg}} = aggregations
     topics = sort_topics(databases, topic)
     |> List.first
-    st = Map.get(topics, "sub_topics")
+    st = Map.get(topics, "sub_topics", [])
     |> add_aggregations(sub_topics_agg)
     |> Enum.map(fn item -> mark_selected(item, sub_topics) end)
     |> Enum.uniq
