@@ -168,8 +168,6 @@ defmodule Databases.Resource.Search do
     |> load_topics(topic, sub_topics_param)
   end
 
-
-
   def add_aggregations(node, node_aggregations) do
     node_aggregations = Enum.reduce(node_aggregations, %{}, fn n, acc -> Map.put(acc, n["key"], n["doc_count"]) end)
     node
@@ -214,6 +212,7 @@ defmodule Databases.Resource.Search do
     |> List.flatten
     |> Enum.map(fn item -> Map.delete(item, "sub_topics") end)
     |> Enum.uniq
+    |> Enum.sort_by(fn topic -> Map.get(topic, "name") end)
   end
 
   def sort_topics(databases, filter_topic) do
@@ -227,10 +226,13 @@ defmodule Databases.Resource.Search do
     |> Enum.map(fn topic -> Map.get(topic, "sub_topics") end)
     |> List.flatten
     |> Enum.uniq
+    |> Enum.sort_by(fn sub_topic -> Map.get(sub_topic, "name") end)
+
     topics
     |> Enum.map(fn item -> Map.delete(item, "sub_topics") end)
     |> Enum.uniq
     |> Enum.map(fn item -> Map.put(item, "sub_topics", sub_topics) end)
+    |> Enum.sort_by(fn topic -> Map.get(topic, "name") end)
   end
 
   def get_media_types(databases, aggregations) do
