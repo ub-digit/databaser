@@ -18,7 +18,7 @@
 
     <div class="row">
       <div class="col-12 col-lg-4">
-        <aside v-if="databases._meta" class="facet-filter-area">
+        <aside v-if="databases && databases._meta" class="facet-filter-area">
           <TopicsFilter
             :topics="databases.filters.topics"
             :topic="topic"
@@ -28,7 +28,7 @@
             @clearAllSelected="clearAllSelected"
           />
           <mediatypeFilter :mediatypes="databases.filters.mediatypes" :mediatype="mediatype" @updateFilterMediatype="updateFilterMediatype"/>
-          <FreelyAccessibleFilter :show_free="show_free" @updateShowFreeFilter="updateShowFreeFilter"/>
+          <FreelyAccessibleFilter v-if="databases.filters.show_freely_available" :show_free="show_free" @updateShowFreeFilter="updateShowFreeFilter"/>
         </aside>
       </div>  
       <div class="col">
@@ -36,7 +36,7 @@
             <DatabaseList :databases="databases" :sort_order="sort_order" :sortOrders="sortOrders" @updateSortOrderSelected="updateSortOrderSelected"/>
         </main>
         <main v-else>
-          <div v-if="databases.data && databases.data.length === 0" class="col no-result">
+          <div v-if="databases && databases.data && databases.data.length === 0" class="col no-result">
             {{ $t("views.home.no_result") }}
           </div>
         </main>
