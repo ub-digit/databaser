@@ -21,7 +21,7 @@
             <li v-for="mediatype in mediatypes" :key="mediatype.id">
                 <a href="javascript:" @click.prevent="setMediatypeSelected(mediatype.id)">
                     {{ mediatype.name }}
-                </a>
+                </a>({{mediatype.count}})
             </li>
         </ul>
     </div>

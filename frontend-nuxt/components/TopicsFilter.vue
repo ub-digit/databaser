@@ -22,8 +22,9 @@
       <ul class="list-unstyled subject-list" v-if="topicExpanded">
         <li v-for="topic in topics" :key="topic.id">
           <a href="javascript:" @click.prevent="setTopicSelected(topic.id)">
-            {{ topic.name }}
+            {{ topic.name }} 
           </a>
+          ({{topic.count}})
         </li>
       </ul>
       <div v-if="topic">
@@ -52,7 +53,7 @@
               <a href="javascript:" @click.prevent="setSubTopicslSelected(topic)">
                 <span v-if="isSubTopicSelected(topic)"><font-awesome-icon icon="minus"/></span
                 ><span v-else><font-awesome-icon icon="plus"/></span>{{ topic.name }}
-              </a>
+              </a>({{topic.count}})
             </li>
           </ul>
         </div>
