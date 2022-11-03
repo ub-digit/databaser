@@ -17,6 +17,7 @@ defmodule DbListAdmin.Resource.Database.Create do
     |> Remapper.deserialize_topics()
     |> Remapper.deserialize_publishers()
     |> Remapper.deserialize_terms_of_use()
+    |> Remapper.deserialize_media_types()
     |> InputValidator.validate_input()
     |> case do
       {:ok, data} -> process_database(data)

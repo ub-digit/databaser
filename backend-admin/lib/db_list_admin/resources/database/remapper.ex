@@ -79,19 +79,13 @@ defmodule DbListAdmin.Resource.Database.Remapper do
     end)
   end
 
-  # def get_default_terms_of_use do
-  #   [
-  #     %{code: "print_article_chapter", permitted: "N/A", description_en: "", description_sv: ""},
-  #     %{code: "download_article_chapter", permitted: "N/A", description_en: "", description_sv: ""},
-  #     %{code: "course_pack_print", permitted: "N/A", description_en: "", description_sv: ""},
-  #     %{code: "gul_course_pack_electronic", permitted: "N/A", description_en: "", description_sv: ""},
-  #     %{code: "scholarly_sharing", permitted: "N/A", description_en: "", description_sv: ""},
-  #     %{code: "interlibrary_loan", permitted: "N/A", description_en: "", description_sv: ""}
-  #   ]
-  # end
+  def deserialize_media_types(db) do
+    media_types = db["media_types"]
+    |> Enum.filter(fn media_type -> media_type["selected"] == true end)
+    Map.put(db, "media_types", media_types)
+  end
 
   def deserialize_terms_of_use(db) do
-
     tou = db["terms_of_use"]
     |> Enum.filter(fn t -> Map.get(t, "permitted") != "N/A" end)
     |> Enum.map(fn t ->
@@ -134,14 +128,12 @@ defmodule DbListAdmin.Resource.Database.Remapper do
   def serialize_media_types(db) do
     db_media_types = db.media_types
     media_types = Resource.MediaType.get_media_types()
-    |> Enum.map(fn media_type ->
-      Enum.map(db_media_types, fn db_media_type ->
-        case media_type.id == db_media_type.id do
-          true -> Map.put(media_type, :selected, true)
-          _ -> media_type
-        end
-      end)
-      |> List.first()
+    |> Enum.map(fn default_media_type ->
+      Enum.any?(db_media_types, fn db_type -> db_type.id == default_media_type.id end)
+      |> case do
+        true -> Map.put(default_media_type, :selected, true)
+        _ -> default_media_type
+      end
     end)
     Map.put(db, :media_types, media_types)
   end
@@ -153,14 +145,12 @@ defmodule DbListAdmin.Resource.Database.Remapper do
   def serialize_publishers(db) do
     db_publishers = db.publishers
     publishers = Resource.Publisher.get_publishers()
-    |> Enum.map(fn publisher ->
-      Enum.map(db_publishers, fn db_publisher ->
-        case publisher.id == db_publisher.id do
-          true -> Map.put(publisher, :selected, true)
-          _ -> publisher
-        end
-      end)
-      |> List.first()
+    |> Enum.map(fn default_publisher ->
+      Enum.any?(db_publishers, fn db_publisher -> db_publisher.id == default_publisher.id end)
+      |> case do
+        true -> Map.put(default_publisher, :selected, true)
+        _ -> default_publisher
+      end
     end)
     Map.put(db, :publishers, publishers)
   end
