@@ -1,0 +1,17 @@
+
+// Variable overrides must come after our functions are imported, but before the rest of the imports.
+$font-family-sans-serif: "Open Sans", sans-serif; //"Helvetica Neue", Helvetica, Arial, sans-serif;
+$blue: #025da6;
+
+$h1-font-size: 3rem;
+$headings-margin-bottom: 34px;
+$headings-margin-top: 24px;
+$headings-font-family: "NimbusSanNovCon-SemBol", "Arial Narrow", Helvetica, Arial, "Lucida Grande", sans-serif;
+$warning: #fcf8e3;
+$alert-bg-scale: 0;
+
+$link-decoration:                         none;
+$link-shade-percentage:                   20% !default;
+$link-hover-decoration:                   underline;
+$utilities-border-colors:                 blue;
+
