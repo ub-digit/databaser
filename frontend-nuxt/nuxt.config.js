@@ -28,6 +28,7 @@ export default {
     '@nuxtjs/style-resources',
     '@nuxtjs/fontawesome',
     '@nuxtjs/router-extras',
+    '@nuxtjs/dotenv',
   ],
 
   fontawesome: {
@@ -51,12 +52,11 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: 'http://localhost:4000',
+    baseURL: process.env.API_URL,
   },
 
   i18n: {
     /* module options */
-    baseUrl: 'http://localhost:3000',
     strategy: 'prefix_and_default',
     defaultLocale: 'sv',
     langDir: 'locales/',

@@ -126,7 +126,9 @@
 import { marked } from 'marked';
 export default {
     head() {
-        // Set Meta Tags for this Page
+        return {
+            title: `${this.$i18n.t('seo.application_title')} | ${this.database.title}`
+        }
     },
     async asyncData({ app, params, redirect, store }) {
         const database = await store.dispatch('fetchDatabase', {id: params.id, lang: app.i18n.locale})
