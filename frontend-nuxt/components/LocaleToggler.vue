@@ -18,9 +18,8 @@ export default {
 }
 </script>
   
-  <style lang="scss" scoped>
-    .locale-toggler {
-      margin-top:10px;
-    }
-  </style>
-  
+<style lang="scss" scoped>
+  .locale-toggler {
+    margin-top:10px;
+  }
+</style>
