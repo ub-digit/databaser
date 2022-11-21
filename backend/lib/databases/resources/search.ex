@@ -79,7 +79,6 @@ defmodule Databases.Resource.Search do
     q = base(params["search"])
     q = add_filter(filter, q)
     |> add_sort_order(params["search"])
-    #|> IO.inspect(label: "QUERY")
     {:ok, %{body: %{"aggregations" => aggregations, "hits" => %{"hits" => hits}}}} = Elastix.Search.search(elastic_url(), get_index(lang), [], q)
     databases = hits
     |> Enum.map(fn item -> Map.get(item, "_source") end)
@@ -92,47 +91,73 @@ defmodule Databases.Resource.Search do
   def search(payload \\ %{}) do
     payload
     |> search_index
-    |> mark_recommended_databases(payload)
-    |> shift_recommended_to_top
+    |> shift_recommended_databases_to_top(payload)
     |> remap(payload)
   end
 
-  def shift_recommended_to_top({databases, aggregations}) do
-    recommended_databases = Enum.filter(databases, fn db -> Map.get(db, "is_recommended") == true end)
-    databases = Enum.filter(databases, fn db -> Map.get(db, "is_recommended") != true end)
-    |> List.flatten
-    databases = [recommended_databases | databases]
-    |> List.flatten
-    {databases, aggregations}
-  end
 
-  def mark_recommended_databases({databases, aggregations}, %{"topic" => topic} = payload) do
-    #IO.inspect(aggregations, label: "aggregations")
-    databases
-    |> Enum.map(fn db -> Map.put(db, "is_recommended", Enum.member?(db["recommended_in_topics"], topic)) end)
-    |> mark_recommended_databases_sub_topics(payload)
-    {databases, aggregations}
-  end
 
-  def mark_recommended_databases({databases, aggregations}, _payload),do: {databases, aggregations}
+  #No sub topics in filter
+  def shift_recommended_databases_to_top({databases, aggregations}, %{"topic" => topic, "sub_topics" => []}) do
+    recommended_databeses =
+      Enum.filter(databases, fn db ->
+        Enum.any?(db["topics"], fn db_topic ->
+          db_topic["id"] == topic && db_topic["recommended"]
+        end)
+      end)
+      |> Enum.map(fn db -> Map.put(db, "is_recommended", true) end)
 
-  def mark_recommended_databases_sub_topics(%{"is_recommended" => false} = databases, %{"sub_topics" => sub_topics}) do
-    databases
-    |> Enum.map(fn db -> Map.put(db, "is_recommended", Enum.member?(db["recommended_in_sub_topics"], sub_topics)) end)
-  end
+      rest = Enum.filter(databases, fn db ->
+        Enum.member?(recommended_databeses, db) != true
+      end)
+      databases = [recommended_databeses | rest]
+      |> List.flatten()
 
-  def mark_recommended_databases_sub_topics(databases, _payload), do: databases
+      {databases, aggregations}
+    end
+
+    def shift_recommended_databases_to_top({databases, aggregations}, %{"topic" => _, "sub_topics" => sub_topics}) when length(sub_topics) > 0 do
+      recommended_databases  =
+      Enum.filter(databases, fn db ->
+        topics = db["topics"]
+        Enum.map(topics, fn topic ->
+           db_sub_topics = topic["sub_topics"]
+           Enum.map(db_sub_topics, fn db_sub_topic ->
+            Enum.member?(sub_topics, db_sub_topic["id"]) && db_sub_topic["recommended"]
+          end)
+        end)
+         |> List.first()
+         |> Enum.member?(true)
+      end)
+      |> Enum.map(fn db -> Map.put(db, "is_recommended", true) end)
+
+      rest = Enum.reject(databases, fn db ->
+        Enum.any?(recommended_databases, fn r_db ->
+          (r_db["id"] == db["id"])
+        end)
+      end)
+      databases = [recommended_databases | rest]
+      |> List.flatten()
+
+      {databases, aggregations}
+    end
+
+    def shift_recommended_databases_to_top({databases, aggregations}, %{}) do
+      {databases, aggregations}
+    end
 
   def remap_payload(%{} = payload) do
     %{
       params: %{
         "search"                => String.trim(payload["search"] || ""),
         "lang"                  => payload["lang"] || @default_language,
-        "sort_order"            => payload["sort_order"] || "asc"
+        "sort_order"            => payload["sort_order"] || "asc",
+        "topic"                 => payload["topic"] || nil,
+        "sub_topics"            => payload["sub_topics"] || []
       },
       filter: %{
         "id"                    => payload["id"],
-        "topics.id"             => payload["topic"],
+        "topics.id"             => payload["topic"] || nil,
         "topics.sub_topics.id"  => payload["sub_topics"] || [],
         "media_types.id"        => payload["mediatype"],
         "public_access"         => payload["show_free"] || nil,
@@ -164,8 +189,7 @@ defmodule Databases.Resource.Search do
   def get_topics(payload) do
     sub_topics_param = Map.get(payload, "sub_topics", [])
     topic = Map.get(payload, "topic")
-    payload = Map.delete(payload, "sub_topics")
-    payload
+    Map.delete(payload, "sub_topics")
     |> remap_payload
     |> load_topics(topic, sub_topics_param)
   end
@@ -174,7 +198,6 @@ defmodule Databases.Resource.Search do
     node_aggregations = Enum.reduce(node_aggregations, %{}, fn n, acc -> Map.put(acc, n["key"], n["doc_count"]) end)
     node
     |> Enum.map(fn item -> Map.put(item, "count", node_aggregations[item["id"]]) end)
-#    |> IO.inspect(label: "add aggreations")
   end
 
   def mark_sub_topics(item) do
@@ -197,6 +220,8 @@ defmodule Databases.Resource.Search do
     topics = sort_topics(databases, topic)
     |> List.first
     st = Map.get(topics, "sub_topics", [])
+    |> Enum.map(fn sub -> Map.delete(sub, "recommended") end)
+    |> Enum.uniq()
     |> add_aggregations(sub_topics_agg)
     |> Enum.map(fn item -> mark_selected(item, sub_topics) end)
     |> Enum.uniq
@@ -213,6 +238,7 @@ defmodule Databases.Resource.Search do
     |> Enum.map(fn item -> Map.get(item, "topics") end)
     |> List.flatten
     |> Enum.map(fn item -> Map.delete(item, "sub_topics") end)
+    |> Enum.map(fn item -> Map.delete(item, "recommended") end)
     |> Enum.uniq
     |> Enum.sort_by(fn topic -> Map.get(topic, "name") end)
   end
@@ -283,8 +309,5 @@ defmodule Databases.Resource.Search do
     %{match: %{k => v}}
   end
 
-  def  mark(dbs, _tp) do
-    dbs
-    |> Enum.map(fn (db) -> IO.inspect(db) end)
-  end
+
 end

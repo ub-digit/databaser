@@ -50,8 +50,6 @@ defmodule DbListAdmin.Model.Database do
       title: database.title,
       description: database.description,
       is_popular: database.is_popular,
-      recommended_in_topics: set_recommended_in(database.database_topics, :topic),
-      recommended_in_sub_topics: set_recommended_in(database.database_sub_topics, :sub_topic),
       alternative_titles: database.database_alternative_titles |> Enum.map(&DbListAdmin.Model.DatabaseAlternativeTitle.remap/1),
       urls: database.database_urls |> Enum.map(fn item -> DbListAdmin.Model.DatabaseUrl.remap(item, database.title) end),
       publishers: database.publishers |> Enum.map(fn item -> Model.Publisher.remap(item) end),
@@ -59,8 +57,8 @@ defmodule DbListAdmin.Model.Database do
       access_information_code: database.access_information_code,
       malfunction_message_active: database.malfunction_message_active,
       malfunction_message: database.malfunction_message,
-      topics: database.topics |> Enum.map(fn item -> Model.Topic.remap(item, lang) end),
-      sub_topics: database.sub_topics |> Enum.map(fn item -> Model.SubTopic.remap(item, lang) end),
+      topics: database.topics |> Enum.map(fn item -> Model.Topic.remap(item, lang) end) |> recommended(database.database_topics),
+      sub_topics: database.sub_topics |> Enum.map(fn item -> Model.SubTopic.remap(item, lang) end) |> recommended_sub(database.database_sub_topics),
       terms_of_use: database.database_terms_of_use |> Enum.map(fn item -> Model.DatabaseTermsOfUse.remap(item, lang) end),
       media_types: database.media_types |> Enum.map(fn item -> Model.MediaType.remap(item, lang) end),
       sanitized_title: Slugy.slugify(database.title)
@@ -76,8 +74,6 @@ defmodule DbListAdmin.Model.Database do
       description_en: database.description_en,
       description_sv: database.description_sv,
       is_popular: database.is_popular,
-      recommended_in_topics: set_recommended_in(database.database_topics, :topic),
-      recommended_in_sub_topics: set_recommended_in(database.database_sub_topics, :sub_topic),
       alternative_titles: database.database_alternative_titles |> Enum.map(&Model.DatabaseAlternativeTitle.remap/1),
       urls: database.database_urls |> Enum.map(&Model.DatabaseUrl.remap/1),
       publishers: database.publishers |> Enum.map(&Model.Publisher.remap/1),
@@ -85,12 +81,34 @@ defmodule DbListAdmin.Model.Database do
       access_information_code: database.access_information_code,
       malfunction_message_active: database.malfunction_message_active,
       malfunction_message: database.malfunction_message,
-      topics: database.topics |> Enum.map(&Model.Topic.remap/1),
-      sub_topics: database.sub_topics |> Enum.map(&Model.SubTopic.remap/1),
+      topics: database.topics |> Enum.map(&Model.Topic.remap/1) |> recommended(database.database_topics),
+      sub_topics: database.sub_topics |> Enum.map(&Model.SubTopic.remap/1) |> recommended_sub(database.database_sub_topics),
       terms_of_use: database.database_terms_of_use |> Enum.map(&Model.DatabaseTermsOfUse.remap/1),
       media_types: database.media_types |> Enum.map(&Model.MediaType.remap_for_database/1),
     }
     |> sort_topics
+  end
+  def recommended_sub(sub_topics, db_sub_topics) do
+    Enum.map(sub_topics, fn sub_topic ->
+      Enum.any?(db_sub_topics, fn db_sub_topic ->
+        db_sub_topic.sub_topic_id == sub_topic.id && db_sub_topic.is_recommended
+      end)
+      |> case do
+        true -> Map.put(sub_topic, :recommended, true)
+        _ ->  Map.put(sub_topic, :recommended, false)
+      end
+    end)
+  end
+  def recommended(topics, db_topics) do
+    Enum.map(topics, fn topic ->
+      Enum.any?(db_topics, fn db_topic ->
+        db_topic.topic_id == topic.id && db_topic.is_recommended
+      end)
+      |> case do
+        true -> Map.put(topic, :recommended, true)
+        _ ->  Map.put(topic, :recommended, false)
+      end
+    end)
   end
 
 

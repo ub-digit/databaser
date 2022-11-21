@@ -48,6 +48,15 @@ defmodule DbListAdmin.Resource.Database.Remapper do
         hit -> Map.put(topic, :selected, true) |> mark_sub_topics(hit)
       end
     end)
+    |> Enum.map(fn topic ->
+      Enum.any?(db_topics, fn db_topic ->
+        db_topic.id == topic.id && db_topic.recommended
+      end)
+      |> case do
+        true -> Map.put(topic, :recommended, true)
+        false -> Map.put(topic, :recommended, false)
+      end
+    end)
     Map.put(db, :topics, topics)
   end
 
@@ -56,13 +65,25 @@ defmodule DbListAdmin.Resource.Database.Remapper do
       Enum.map(topic.sub_topics, fn sub_topic ->
         case Enum.find(db_topic.sub_topics, fn db_sub_tp -> db_sub_tp.id == sub_topic.id end) do
           nil -> sub_topic
-          _ -> Map.put(sub_topic, :selected, true)
+          _ -> Map.put(sub_topic, :selected, true) |> set_is_recommended_in_sub_topic(db_topic.sub_topics)
         end
       end)
     )
   end
 
+
+
   def mark_sub_topics(topic, _), do: topic
+
+  def set_is_recommended_in_sub_topic(sub_topic, db_sub_topoics) do
+    Enum.find(db_sub_topoics, fn db_sub_topic -> db_sub_topic.id == sub_topic.id end)
+    |> Map.get(:recommended)
+    |> case do
+      true -> Map.put(sub_topic, :recommended, true)
+      _ ->  Map.put(sub_topic, :recommended, false)
+    end
+  end
+
 
   def deserialize_topics(db) do
     topics = db["topics"]
@@ -99,13 +120,12 @@ defmodule DbListAdmin.Resource.Database.Remapper do
 
   def serialize_terms_of_use(db) do
     tou = db.terms_of_use
-   # IO.inspect(tou, label: "TOU")
     default_tou = Model.TermsOfUse.get_default_terms_of_use()
     |> Enum.map(fn default_tou ->
       state = Enum.filter(tou, fn t -> t.code == default_tou.code end)
       |> List.first()
       |> get_tou_state()
-      Map.put(default_tou, "permitted", state)
+      Map.put(default_tou, :permitted, state)
     end)
     Map.put(db, :terms_of_use, default_tou)
   end

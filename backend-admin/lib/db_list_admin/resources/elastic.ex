@@ -25,8 +25,6 @@ defmodule DbListAdmin.Resource.Elastic do
     |> update_index(@index_admin)
     |> update_index(@index_sv, "sv")
     |> update_index(@index_en, "en")
-
-
   end
 
   def update_index(data, index) do
