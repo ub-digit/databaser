@@ -9,7 +9,7 @@
       </div>
     </div>
     <Alert :url="alertURL"/>
-    <div class="popular">
+    <div v-if="popularDatabases" class="popular">
       <PopularDBList :databases="popularDatabases" />
     </div>
     <div class="searchbar">

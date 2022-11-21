@@ -76,6 +76,7 @@ export default {
         database: {
         title: "Database",
         backButton: "Back to search result",
+        homeButton: "To list of databases",
         subjects: "Subjects",
         mediatypes: "Media types",
         vendor: "Vendor",
