@@ -4,7 +4,7 @@
       <div class="col col-md-8 col-lg-6">
         <div class="row">
           <div class="col-auto mb-4">
-              <a href="javascript:" @click.prevent="goBack"><span class="icon"><font-awesome-icon icon="arrow-left"/></span>{{$t("views.database.backButton")}}</a>
+              <a href="javascript:" @click.prevent="goBack"><span class="icon"><font-awesome-icon icon="arrow-left"/></span><span v-if="display_back_url">{{$t("views.database.backButton")}}</span> <span v-else>{{$t("views.database.homeButton")}}</span></a>
           </div>
         </div>
         <div v-if="database.title" class="row">
@@ -130,10 +130,12 @@ export default {
             title: `${this.$i18n.t('seo.application_title')} | ${this.database.title}`
         }
     },
-    async asyncData({ app, params, redirect, store }) {
+    async asyncData({ from, app, params, redirect, store }) {
+        const display_back_url = from ? from.path : null;
         const database = await store.dispatch('fetchDatabase', {id: params.id, lang: app.i18n.locale})
         return {
-            database
+            database, 
+            display_back_url
         }
     },
     computed: {
@@ -149,7 +151,7 @@ export default {
             return this.$t("shared.terms_of_use_code." + code);
         },
         goBack() {
-            window.history.length > 1 ? this.$router.go(-1) : this.$router.push("/");
+            this.display_back_url ? this.$router.go(-1) : this.$router.push("/");
         },
     },
 }
