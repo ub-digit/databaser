@@ -27,7 +27,7 @@ defmodule DbListAdmin.Resource.Database.DatabaseSubTopic do
     |> Enum.with_index()
     |> Enum.map(fn {sub_topic, index} ->
       atom_name = String.to_atom("sub_topic_" <> Integer.to_string(index))
-      {%{"sub_topic_id" => Map.get(sub_topic, "id")}, atom_name}
+      {%{"sub_topic_id" => Map.get(sub_topic, "id"), "is_recommended" => Map.get(sub_topic, "recommended")}, atom_name}
     end)
     |> Enum.reduce(multi, fn {sub_topic, atom_name}, acc ->
         insert(acc, atom_name, sub_topic)

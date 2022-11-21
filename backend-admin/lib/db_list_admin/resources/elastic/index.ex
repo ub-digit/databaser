@@ -51,7 +51,9 @@ defmodule DbListAdmin.Resource.Elastic.Index do
           _ -> DbListAdmin.Model.Database.remap(db, lang)
         end
       end)
-    |> Enum.map(fn db -> Elastix.Document.index(Elastic.elastic_url(), index, "_doc", db.id, db, []) end)
+    |> Enum.map(fn db ->
+      Elastix.Document.index(Elastic.elastic_url(), index, "_doc", db.id, db, [])
+    end)
     data
   end
 

@@ -10,8 +10,8 @@ defmodule DatabasesWeb.DatabaseController do
       %{"payload" => p} -> Jason.decode!(p)
       _ -> %{}
     end
-    databases = Jason.encode!(Databases.Resource.Search.search(payload))
-    text conn, databases
+    databases = Databases.Resource.Search.search(payload)
+    json conn, databases
   end
 
   def get_popular_databases(conn, params) do
@@ -22,8 +22,8 @@ defmodule DatabasesWeb.DatabaseController do
 
 #TODO: payload  contain a "paload" object. Correct this in frontend
   def show(conn, %{"id" => _, "payload" => payload}) do
-    database = Jason.encode!(Databases.Resource.Search.show(Jason.decode!((payload))))
-    text conn, database
+    database = Databases.Resource.Search.show(Jason.decode!((payload)))
+    json conn, database
   end
 
   def get_lang (params) do

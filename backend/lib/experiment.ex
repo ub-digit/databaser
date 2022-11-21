@@ -104,4 +104,55 @@ defmodule Experiment do
     [%{name: "öl"}, %{name: "sven"}, %{name: "åke"}, %{name: "ärligt"}, %{name: "roy"}, %{name: "alf"}]
     |> Enum.sort_by(fn l -> Map.get(l, :name) end)
   end
+
+  def sort_by_property() do
+    topic_id = 2
+    compare = fn
+      true, false -> :gt
+      false, true -> :lt
+      false, false -> :eq
+      true, true -> :eq
+    end
+
+    sf = fn x, y ->
+      x_recommended = Enum.any?(x["topics"], fn topic -> topic["is_recommended"] == true && topic["id"] == topic_id end)
+      y_recommended = Enum.any?(y["topics"], fn topic -> topic["is_recommended"] == true && topic["id"] == topic_id end)
+      case compare.(x_recommended, y_recommended) do
+        :lt -> false
+        :gt -> true
+        :eq -> x["name"] < y["name"]
+      end
+
+
+    end
+    data = [
+      %{"name" => "ccc", "topics" => [
+        %{"is_recommended" => true, "id" => 2}
+      ]},
+      %{"name" => "aaa", "topics" => [
+        %{"is_recommended" => true, "id" => 1}
+      ]},
+      %{"name" => "ddd", "topics" => [
+        %{"is_recommended" => false, "id" => 1}
+      ]},
+      %{"name" => "ccc", "topics" => [
+        %{"is_recommended" => true, "id" => 1}
+      ]},
+      %{"name" => "bbb", "topics" => [
+        %{"is_recommended" => true, "id" => 2}
+      ]},
+      %{"name" => "bbbb", "topics" => [
+        %{"is_recommended" => false, "id" => 1}
+      ]},
+      %{"name" => "fffff", "topics" => [
+        %{"is_recommended" => true, "id" => 2}
+      ]}
+  ]
+
+  |> Enum.sort(sf)
+  #|> Enum.sort_by(&{!&1["is_recommended"], &1["name"]})
+
+  end
+
+
 end
