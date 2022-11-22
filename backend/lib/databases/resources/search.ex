@@ -78,7 +78,7 @@ defmodule Databases.Resource.Search do
     filter = build_filter(filter)
     q = base(params["search"])
     q = add_filter(filter, q)
-    |> add_sort_order(params["search"])
+    |> add_sort_order(params["sort_order"])
     {:ok, %{body: %{"aggregations" => aggregations, "hits" => %{"hits" => hits}}}} = Elastix.Search.search(elastic_url(), get_index(lang), [], q)
     databases = hits
     |> Enum.map(fn item -> Map.get(item, "_source") end)
@@ -167,6 +167,7 @@ defmodule Databases.Resource.Search do
   end
 
   def remap({databases, aggregations}, payload) do
+    IO.inspect(payload, label: "PAYLOAD IN REMAP")
     %{
       _meta: %{total: get_total_documents(), found: length(databases)},
       data: databases,
@@ -190,7 +191,7 @@ defmodule Databases.Resource.Search do
     sub_topics_param = Map.get(payload, "sub_topics", [])
     topic = Map.get(payload, "topic")
     Map.delete(payload, "sub_topics")
-    |> remap_payload
+    #|> remap_payload
     |> load_topics(topic, sub_topics_param)
   end
 
