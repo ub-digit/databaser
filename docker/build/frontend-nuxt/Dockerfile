@@ -1,20 +1,32 @@
-# Stage 1 - build
-FROM node:8.15-alpine AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN  npm install
-COPY . .
-RUN npm run build
+# build environment
+FROM node:lts AS build
 
-# Stage 2 - production
-FROM node:8.15-alpine AS final
-WORKDIR /app
-ADD package.json .
-ADD nuxt.config.js .
-COPY --from=builder /app/.nuxt ./.nuxt
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/static ./static
+ARG GIT_REVISION
+ARG GIT_REPO_URL
+
+WORKDIR /app/
+
+RUN set -ex \
+  && git clone $GIT_REPO_URL release -b $GIT_REVISION --depth 1
+
+WORKDIR /app/release/frontend-nuxt/
+
+RUN set -ex \ 
+ && npm install \
+ && npm run build
+
+# production environment
+FROM node:lts
+ENV TZ=Europe/Stockholm
+WORKDIR /app/
+COPY --from=build /app/release/frontend-nuxt/.nuxt/. .
 ENV NUXT_HOST=0.0.0.0
-ENV NUXT_PORT=3000
-EXPOSE 3000
-CMD ["npm", "start"]
+# set app port
+ENV NUXT_PORT=5000
+# expose 5000 on container
+EXPOSE 5000
+
+# start the app
+CMD [ "npm", "start" ]
+
+
