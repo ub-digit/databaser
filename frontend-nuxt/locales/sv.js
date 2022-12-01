@@ -32,8 +32,8 @@ export default {
         submit: "Search"
         },
         the_header: {
-        logo_link: "http://gu.se/en",
-        header_level1_link: "http://www.ub.gu.se/en",
+        logo_link: "http://gu.se/sv",
+        header_level1_link: "http://www.ub.gu.se/sv",
         header_level1: "Gothenburg University Library",
         header_level2: "Database Search",
         language_otherCode: "en",
