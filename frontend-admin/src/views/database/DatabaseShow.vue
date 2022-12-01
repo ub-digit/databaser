@@ -4,6 +4,14 @@
   </div>
   <div v-else>
     <div v-if="database && database.id" class="databaseshow-wrapper">
+        <div class="row mb-4">
+          <div class="col">
+            <div class="float-end">
+              <router-link class="btn btn-primary me-1" :to="{name: 'DatabaseEdit', params:{ id: database.id }}">Edit</router-link>
+              <a href="#" @click.prevent="removeDatabase(database)" class="btn btn-danger" >Remove</a>
+            </div>
+          </div>
+        </div>
         <div class="row pb-4">
             <div class="col">
               <h1>{{database.title_en}} / {{database.title_sv}}</h1>
@@ -135,8 +143,10 @@
               </div>
           </div>
         </div> <!-- end row -->
-        <router-link class="btn btn-primary me-1" :to="{name: 'DatabaseEdit', params:{ id: database.id }}">Edit</router-link>
-        <a href="#" @click.prevent="removeDatabase(database)" class="btn btn-danger" >Remove</a>
+        <div class="float-end">
+          <router-link class="btn btn-primary me-1" :to="{name: 'DatabaseEdit', params:{ id: database.id }}">Edit</router-link>
+          <a href="#" @click.prevent="removeDatabase(database)" class="btn btn-danger" >Remove</a>
+        </div>
     </div>
   </div>
 

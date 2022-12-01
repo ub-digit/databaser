@@ -258,6 +258,7 @@
             />
         </div>
       </div>
+
       <div class="row">
         <div class="mb-3 col-6">
           <label for="malfunction_message_en" class="formkit-label">Malfunction message preview (en)</label>
@@ -267,6 +268,24 @@
         <div class="mb-3 col-6">
           <label for="malfunction_message_sv" class="formkit-label">Malfunction message preview (sv)</label>
           <div id="malfunction_message_sv" class="faded"  v-html="malfunction_message_en_output_sv">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="float-end">
+            <router-link v-if="database_initial_state.id" class="btn btn-light me-2" :to="{name: 'DatabaseShow', params: {id: database_initial_state.id}}">Cancel</router-link>
+            <router-link v-else class="btn btn-light me-2" :to="{name: 'databaseindex', params: {id: database_initial_state.id}}">Cancel</router-link>
+            <FormKit
+              :classes="{
+                outer: 'd-inline-block',
+                input: 'btn btn-primary'
+              }"
+              @click.prevent="saveDatabase"
+              type="submit"
+              label="Save"
+              :disabled="!isDirty"
+            />
           </div>
         </div>
       </div>
