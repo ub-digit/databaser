@@ -148,17 +148,19 @@
             </ul>
           </div>
         </div> <!-- end row --> 
-        <div class="row">
-          <div class="col-auto">
+        <div class="row mb-4">
+          <div class="col">
+
             <h3>Publisher</h3>
-            <ul style="max-height: 400px; overflow-y:scroll" class="list-unstyled" v-if="database_initial_state.publishers && database_initial_state.publishers.length">
+            <VueMultiselect track-by="id" v-model="publishers" @select="addSelectedPublisher" @remove="removeSelectedPublisher" :multiple="true" label="name" :options="database_initial_state.publishers" ></VueMultiselect>
+            <!--<ul style="max-height: 400px; overflow-y:scroll" class="list-unstyled" v-if="database_initial_state.publishers && database_initial_state.publishers.length">
               <li v-for="publisher in database_initial_state.publishers" :key="publisher.id">
                 <div class="form-check">
                   <input type="checkbox" class="form-check-input" :id="'publisher_'+ publisher.id" v-model="publisher.selected">
                   <label :for="'publisher_'+ publisher.id" class="form-check-label">{{publisher.name}}</label>
                 </div>
               </li>
-            </ul>
+            </ul>-->
           </div>
         </div> <!-- end row -->
         <div class="row">
@@ -280,6 +282,9 @@ import _ from 'lodash'
 import { marked } from 'marked'
 import TermsOfUse from "./TermsOfUse.vue";
 import AccessInformationCode from './AccessInformationCode.vue';
+import VueMultiselect from 'vue-multiselect'
+
+
 
 export default {
   name: 'DatabaseForm',
@@ -287,13 +292,15 @@ export default {
   props: ['database', 'title', 'errors'],
   components: {
     TermsOfUse,
-    AccessInformationCode
+    AccessInformationCode,
+    VueMultiselect
   },
   setup(props, ctx) {
     const router = useRouter();
     const route = useRoute();
     const store = useDatabasesStore();
     const topicsStore = useTopicsStore();
+    const publishers = ref([])
     const values = ref([]);
     const database = props.database;
     const database_initial_state = ref(_.cloneDeep(database));
@@ -331,6 +338,7 @@ export default {
         if (!answer) return false;
       }
     })
+
     const saveDatabase = () => {
       const val = database_initial_state.value.urls.filter(item => item.url != "") 
       database_initial_state.value.urls = val;
@@ -353,6 +361,27 @@ export default {
       console.log(val)
       term_of_use.permitted = val;
     }
+
+    const addSelectedPublisher = (selectedOption,id) => {
+      const found = database_initial_state.value.publishers.find((publisher) => selectedOption.id === publisher.id);
+      found.selected = true;
+      console.log(found);
+    }
+
+    const addAllSelectedPublishersOnLoad = () => {
+      const found = database_initial_state.value.publishers.filter((publisher) => {
+        if (publisher.selected) {
+          return publisher;
+        }
+      })
+      publishers.value = [...found];
+    }
+    addAllSelectedPublishersOnLoad();
+
+    const removeSelectedPublisher = (selectedOption, id) => {
+      const found = database_initial_state.value.publishers.find((publisher) => selectedOption.id === publisher.id);
+      found.selected = false;
+    }
     
     const updateTermOfUseDescription = (val, code, lang) => {
       let term_of_use = database_initial_state.value.terms_of_use.find(term_of_use => code === term_of_use.code)
@@ -370,9 +399,12 @@ export default {
       topicsStore,
       subTopicSelected,
       values,
+      publishers,
       database_initial_state,
       saveDatabase,
       addDatabaseUrl,
+      addSelectedPublisher,
+      removeSelectedPublisher,
       removeURL,
       isDirty,
       malfunction_message_en_output_en,
