@@ -194,4 +194,34 @@ defmodule Experiment do
 
     |> Enum.map(fn item -> DbListAdmin.Model.Database.remap(item, "sv") end)
   end
+
+
+  def test_merge do
+    #tou = %{code: "hey", permitted: false, description_en: "en description", description_sv: "Description sv"}
+    tou = nil
+    tou_default = %{code: "hey", permitted: "N/A", description_en: "", description_sv: ""}
+    Map.merge(tou_default, tou, &fix_conflicts/3)
+  end
+
+
+
+  def fix_conflicts(key, v1, v2) when key == :permitted do
+    "hola bandola"
+  end
+
+  def fix_conflicts(_, v1, _) do
+    v1
+  end
+
+  def (a) ||| (b) do
+    Map.merge(a, b)
+  end
+
+  def short_merge do
+    %{name: "Lars"} ||| %{age: 30}
+  end
+
+  def a --- b do
+    Map.merge(a, b)
+  end
 end

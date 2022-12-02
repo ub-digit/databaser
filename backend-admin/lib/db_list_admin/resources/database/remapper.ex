@@ -71,8 +71,6 @@ defmodule DbListAdmin.Resource.Database.Remapper do
     )
   end
 
-
-
   def mark_sub_topics(topic, _), do: topic
 
   def set_is_recommended_in_sub_topic(sub_topic, db_sub_topoics) do
@@ -119,26 +117,30 @@ defmodule DbListAdmin.Resource.Database.Remapper do
   end
 
   def serialize_terms_of_use(db) do
-    tou = db.terms_of_use
-    default_tou = Model.TermsOfUse.get_default_terms_of_use()
+    tous = db.terms_of_use
+    default_tous = Model.TermsOfUse.get_default_terms_of_use()
     |> Enum.map(fn default_tou ->
-      state = Enum.filter(tou, fn t -> t.code == default_tou.code end)
-      |> List.first()
-      |> get_tou_state()
-      Map.put(default_tou, :permitted, state)
+      tou = Enum.find(tous, fn t -> t.code == default_tou.code end)
+      merge_tou(default_tou, tou)
     end)
-    Map.put(db, :terms_of_use, default_tou)
+    Map.put(db, :terms_of_use, default_tous)
   end
 
-  def get_tou_state(tou) when is_nil(tou), do: "N/A"
 
-  def get_tou_state(tou) do
-    Map.get(tou, :permitted)
-    |> case do
+  def merge_tou(default_tou, tou) when is_nil(tou), do: default_tou
+  def merge_tou(default_tou, tou) do
+    Map.merge(default_tou, tou, &tou_merge_rules/3)
+  end
+
+  def tou_merge_rules(key, _, val2) when key == :permitted do
+    convert = fn
       true -> "yes"
       false -> "no"
     end
+    convert.(val2)
   end
+
+  def tou_merge_rules(_,_ , val2), do: val2
 
   # if database has no media types associated, provide full list with no selections
   def serialize_media_types(%{media_types: []} = db) do
