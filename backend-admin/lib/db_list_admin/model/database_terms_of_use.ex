@@ -61,7 +61,7 @@ defmodule DbListAdmin.Model.DatabaseTermsOfUse do
 
   def changeset(database_terms_of_use, attrs) do
     database_terms_of_use
-    |> cast(attrs, [:database_id, :code, :description_en, :description_sv, :permitted])
+    |> cast(attrs, [:database_id, :code, :description_en, :description_sv, :permitted], [empty_values: [nil]])
     |> validate_required([:code])
     |> validate_required([:permitted])
   end
