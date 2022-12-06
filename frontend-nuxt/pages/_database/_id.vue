@@ -16,7 +16,7 @@
         </div>
         <div v-if="database.malfunction_message_active" class="row mb-4">
           <div class="col">
-            <div class="alert alert-warning" role="alert" v-html="malfunction_message_markdown_output"></div>
+            <div class="alert alert-warning" role="alert"><font-awesome-icon class="text-danger" icon="triangle-exclamation"/> <span class="malfunction-message" v-html="malfunction_message_markdown_output"></span></div>
           </div>
         </div>
         <div v-if="database.description" class="row">
@@ -165,7 +165,17 @@ export default {
 }
 </script>
   
-<style lang="scss" scoped>
+<style lang="scss">
+    .alert-warning {
+      .fa-triangle-exclamation {
+        margin-right: 10px;
+      }
+    }
+    .malfunction-message {
+      p {
+        display: inline-block;
+      }
+    }
     a {
       &.underlined {
         text-decoration: underline;

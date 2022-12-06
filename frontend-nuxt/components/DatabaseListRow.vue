@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-lg-auto">
                 <span v-if="database.malfunction_message_active" class="db-malfunction-msg me-2">
-                    <font-awesome-icon class="text-danger" icon="exclamation-triangle" :title="malfunction_message_markdown_output"/>
+                  <font-awesome-icon class="text-danger" icon="triangle-exclamation" :title="malfunction_message_markdown_output" />
                 </span> 
                 <nuxtLink
                     class="database-link"
