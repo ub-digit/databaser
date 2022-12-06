@@ -12,6 +12,8 @@
                     :to="localePath(`/${database.sanitized_title}/${database.id}`)"
                     >{{ database.title }} <font-awesome-icon icon="arrow-right"/>
                 </nuxtLink> 
+                <span v-if="database.is_trial" class="badge text-bg-warning">{{$t("components.database_list_row.is_trial")}}</span>
+                <span v-if="database.is_new" class="badge text-bg-success">{{$t("components.database_list_row.is_new")}}</span>
                 </div>
                 <div class="col-lg-auto">
                 <span class="badge bg-dark ms-4-xl" v-if="database.is_recommended">{{$t("components.database_list_row.recommended")}}</span>

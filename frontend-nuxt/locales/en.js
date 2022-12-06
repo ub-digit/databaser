@@ -85,7 +85,8 @@ export default {
         permitted: "Permitted",
         prohibited: "Prohibited",
         link_prefix: "To",
-    
+        is_new: "new",
+        is_trial: "trial"
         },
         home: {
         title: "Database search",

@@ -9,7 +9,9 @@
         </div>
         <div v-if="database.title" class="row">
           <div class="col">
-            <h1>{{ database.title }}</h1>
+            <h1>
+              {{ database.title }}
+            </h1>
           </div>
         </div>
         <div v-if="database.malfunction_message_active" class="row mb-4">
@@ -20,6 +22,12 @@
         <div v-if="database.description" class="row">
           <div class="col">
             <div v-html="desc_markdown_output"></div>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div v-if="(database.is_trial || database.is_new)" class="col-auto">
+            <span  v-if="database.is_trial" class="badge text-bg-warning">{{$t("components.database_list_row.is_trial")}}</span>
+            <span  v-if="database.is_new" class="badge text-bg-success">{{$t("components.database_list_row.is_new")}}</span>
           </div>
         </div>
         <div v-if="database.access_information_code" class="row">
