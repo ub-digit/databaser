@@ -27,7 +27,10 @@ defmodule DbListAdmin.Resource.Database.Remapper do
       media_types: [],
       publishers: [],
       terms_of_use: [],
-      urls: []
+      urls: [],
+      published: false,
+      is_trial: false,
+      is_new: false
     }
     |> serialize()
   end

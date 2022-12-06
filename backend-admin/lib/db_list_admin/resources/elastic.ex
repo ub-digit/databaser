@@ -34,7 +34,12 @@ defmodule DbListAdmin.Resource.Elastic do
   end
 
   def update_index(data, index, lang) do
-    Elastix.Document.index(elastic_url(), index, "_doc", data.id, DbListAdmin.Model.Database.remap(data, lang))
+    # Check for published or not
+    case data.published do
+      true -> Elastix.Document.index(elastic_url(), index, "_doc", data.id, DbListAdmin.Model.Database.remap(data, lang))
+      false -> Elastix.Document.delete(elastic_url(), index, "_doc", data.id)
+    end
+
     Elastix.Index.refresh(elastic_url(), index)
     data
   end

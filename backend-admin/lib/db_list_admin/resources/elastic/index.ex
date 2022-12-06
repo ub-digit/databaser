@@ -52,7 +52,12 @@ defmodule DbListAdmin.Resource.Elastic.Index do
         end
       end)
     |> Enum.map(fn db ->
-      Elastix.Document.index(Elastic.elastic_url(), index, "_doc", db.id, db, [])
+      {lang, db.published}
+      |> case do
+        {"admin", _} -> Elastix.Document.index(Elastic.elastic_url(), index, "_doc", db.id, db, [])
+        {_, true} -> Elastix.Document.index(Elastic.elastic_url(), index, "_doc", db.id, db, [])
+        {_, false} -> IO.inspect("Omit index for item")
+      end
     end)
     data
   end
