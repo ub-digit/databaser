@@ -13,7 +13,8 @@ defmodule DbListAdmin.Model.Database do
     field :public_access, :boolean
     field :access_information_code, :string
     field :malfunction_message_active, :boolean
-    field :malfunction_message, :string
+    field :malfunction_message_en, :string
+    field :malfunction_message_sv, :string
     has_many :database_publishers, Model.DatabasePublisher
     has_many :publishers, through: [:database_publishers, :publisher]
     has_many :database_topics, Model.DatabaseTopic
@@ -28,19 +29,24 @@ defmodule DbListAdmin.Model.Database do
     has_many :media_types, through: [:database_media_types, :media_type]
   end
 
-  def remap(%Model.Database{description_en: description, title_en: title} = database, "en") do
+
+  def remap(%Model.Database{description_en: description, title_en: title, malfunction_message_en: malfunction_message} = database, "en") do
     Map.put(database, :description, description)
     |> Map.put(:title, title)
+    |> Map.put(:malfunction_message, malfunction_message)
     |> Map.delete(:description_en)
     |> Map.delete(:title_en)
+    |> Map.delete(:malfunction_message_en)
     |> remap("en")
   end
 
-  def remap(%Model.Database{description_sv: description, title_sv: title} = database, "sv") do
+  def remap(%Model.Database{description_sv: description, title_sv: title, malfunction_message_sv: malfunction_message} = database, "sv") do
     Map.put(database, :description, description)
     |> Map.put(:title, title)
+    |> Map.put(:malfunction_message, malfunction_message)
     |> Map.delete(:description_sv)
     |> Map.delete(:title_sv)
+    |> Map.delete(:malfunction_message_sv)
     |> remap("sv")
   end
 
@@ -80,7 +86,8 @@ defmodule DbListAdmin.Model.Database do
       public_access: database.public_access,
       access_information_code: database.access_information_code,
       malfunction_message_active: database.malfunction_message_active,
-      malfunction_message: database.malfunction_message,
+      malfunction_message_en: database.malfunction_message_en,
+      malfunction_message_sv: database.malfunction_message_sv,
       topics: database.topics |> Enum.map(&Model.Topic.remap/1) |> recommended(database.database_topics),
       sub_topics: database.sub_topics |> Enum.map(&Model.SubTopic.remap/1) |> recommended_sub(database.database_sub_topics),
       terms_of_use: database.database_terms_of_use |> Enum.map(&Model.DatabaseTermsOfUse.remap/1),
@@ -159,7 +166,8 @@ defmodule DbListAdmin.Model.Database do
       :public_access,
       :access_information_code,
       :malfunction_message_active,
-      :malfunction_message,
+      :malfunction_message_en,
+      :malfunction_message_sv
       ],
       [empty_values: [nil]])
     |> validate_required([:title_en, :title_sv])

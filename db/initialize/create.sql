@@ -24,7 +24,8 @@ CREATE TABLE databases (
     is_popular boolean,
     public_access boolean,
     malfunction_message_active boolean,
-    malfunction_message text,
+    malfunction_message_en text,
+    malfunction_message_sv text,
     access_information_code text NOT NULL
 );
 
