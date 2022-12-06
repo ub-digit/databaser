@@ -15,6 +15,9 @@ defmodule DbListAdmin.Model.Database do
     field :malfunction_message_active, :boolean
     field :malfunction_message_en, :string
     field :malfunction_message_sv, :string
+    field :published, :boolean
+    field :is_trial, :boolean
+    field :is_new, :boolean
     has_many :database_publishers, Model.DatabasePublisher
     has_many :publishers, through: [:database_publishers, :publisher]
     has_many :database_topics, Model.DatabaseTopic
@@ -67,7 +70,10 @@ defmodule DbListAdmin.Model.Database do
       sub_topics: database.sub_topics |> Enum.map(fn item -> Model.SubTopic.remap(item, lang) end) |> recommended_sub(database.database_sub_topics),
       terms_of_use: database.database_terms_of_use |> Enum.map(fn item -> Model.DatabaseTermsOfUse.remap(item, lang) end),
       media_types: database.media_types |> Enum.map(fn item -> Model.MediaType.remap(item, lang) end),
-      sanitized_title: Slugy.slugify(database.title)
+      sanitized_title: Slugy.slugify(database.title),
+      published: database.published,
+      is_trial: database.is_trial,
+      is_new: database.is_new
     }
     |> sort_topics
   end
@@ -92,6 +98,9 @@ defmodule DbListAdmin.Model.Database do
       sub_topics: database.sub_topics |> Enum.map(&Model.SubTopic.remap/1) |> recommended_sub(database.database_sub_topics),
       terms_of_use: database.database_terms_of_use |> Enum.map(&Model.DatabaseTermsOfUse.remap/1),
       media_types: database.media_types |> Enum.map(&Model.MediaType.remap_for_database/1),
+      published: database.published,
+      is_trial: database.is_trial,
+      is_new: database.is_new
     }
     |> sort_topics
   end
@@ -167,7 +176,10 @@ defmodule DbListAdmin.Model.Database do
       :access_information_code,
       :malfunction_message_active,
       :malfunction_message_en,
-      :malfunction_message_sv
+      :malfunction_message_sv,
+      :published,
+      :is_trial,
+      :is_new
       ],
       [empty_values: [nil]])
     |> validate_required([:title_en, :title_sv])

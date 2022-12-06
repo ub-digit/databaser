@@ -26,7 +26,10 @@ CREATE TABLE databases (
     malfunction_message_active boolean,
     malfunction_message_en text,
     malfunction_message_sv text,
-    access_information_code text NOT NULL
+    access_information_code text NOT NULL,
+    published boolean default true,
+    is_trial boolean default false,
+    is_new boolean default false
 );
 
 CREATE TABLE database_alternative_titles (
