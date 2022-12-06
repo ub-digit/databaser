@@ -17,6 +17,22 @@
               <h1>{{database.title_en}} / {{database.title_sv}}</h1>
             </div>
         </div>
+
+        <div class="row pb-4">
+            <div class="col-auto">
+              Published: <span v-if="database.published" class="text-success">Yes</span><span class="text-danger" v-else>No</span>
+            </div>
+            <div class="col-auto">
+              Promoted as popular: <span v-if="database.is_popular" class="text-success">Yes</span><span class="text-danger" v-else>No</span>
+            </div>
+            <div class="col-auto">
+              Marked as new: <span v-if="database.is_new" class="text-success">Yes</span><span class="text-danger" v-else>No</span>
+            </div>
+            <div class="col-auto">
+              Marked as trial: <span v-if="database.is_trial" class="text-success">Yes</span><span class="text-danger" v-else>No</span>
+            </div>
+        </div>
+
         <div class="row pb-4">
           <div class="col">
             <label class="db-property-header fw-bold" for="desc_en">Description (en)</label>

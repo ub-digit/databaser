@@ -15,7 +15,7 @@
         </div>
       </div>
       <FormKit type="form" :actions="false">
-          <div class="row">
+          <div class="row mb-4">
             <div class="col">
               <h1>{{props.title}}</h1>
             </div>
@@ -42,6 +42,32 @@
           </div>
         </div>
           
+        </div>
+        <div class="row mb-4">
+          <div class="col-auto">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="published" v-model="database_initial_state.published">
+                <label class="form-check-label" for="published">Published</label>
+            </div>
+          </div>
+          <div class="col-auto">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="isPopular" v-model="database_initial_state.is_popular">
+                <label class="form-check-label" for="isPopular">Promoted as popular</label>
+            </div>
+          </div>
+          <div class="col-auto">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="isNew" v-model="database_initial_state.is_new">
+                <label class="form-check-label" for="isNew">Mark as new</label>
+            </div>
+          </div>
+          <div class="col-auto">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="isTrial" v-model="database_initial_state.is_trial">
+                <label class="form-check-label" for="isTrial">Mark as trial</label>
+            </div>
+          </div>
         </div>
         <div class="row">
           <div class="mb-3 col-6">
