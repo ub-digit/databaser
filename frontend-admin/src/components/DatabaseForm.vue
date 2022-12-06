@@ -267,8 +267,8 @@
               :classes="{input: 'form-control'}"
               rows="10"
               label="Malfunction message (en)"
-              name="database_initial_state.malfunction_message"
-              v-model="database_initial_state.malfunction_message"
+              name="database_initial_state.malfunction_message_en"
+              v-model="database_initial_state.malfunction_message_en"
               placeholder="Malfunction message"
             />
         </div>
@@ -278,8 +278,8 @@
               :classes="{input: 'form-control'}"
               rows="10"
               label="Malfunction message (sv)"
-              name="database_initial_state.malfunction_message"
-              v-model="database_initial_state.malfunction_message"
+              name="database_initial_state.malfunction_message_sv"
+              v-model="database_initial_state.malfunction_message_sv"
               placeholder="Malfunction message"
             />
         </div>
@@ -351,8 +351,8 @@ export default {
     const database_initial_state = ref(_.cloneDeep(database));
     const desc_en_markdown_output = computed(() => database_initial_state.value.description_en ? marked(database_initial_state.value.description_en) : null)
     const desc_sv_markdown_output = computed(() => marked(database_initial_state.value.description_sv))
-    const malfunction_message_en_output_en = computed(() => database_initial_state.value.malfunction_message ? marked(database_initial_state.value.malfunction_message) : "")
-    const malfunction_message_en_output_sv = computed(() => database_initial_state.value.malfunction_message ? marked(database_initial_state.value.malfunction_message) : "")
+    const malfunction_message_en_output_en = computed(() => database_initial_state.value.malfunction_message_en ? marked(database_initial_state.value.malfunction_message_en) : "")
+    const malfunction_message_en_output_sv = computed(() => database_initial_state.value.malfunction_message_sv ? marked(database_initial_state.value.malfunction_message_sv) : "")
     const isDirty = computed(() => _.isEqual(database, database_initial_state.value) ? false: true);
     let isSaved = false;
     watch(

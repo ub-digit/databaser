@@ -187,8 +187,8 @@ export default {
     const error = ref(null);
     const desc_en_markdown_output = computed(() => marked(database.value.description_en))
     const desc_sv_markdown_output = computed(() => marked(database.value.description_sv))
-    const malfunction_message_en_output_en = computed(() => database.value.malfunction_message ? marked(database.value.malfunction_message) : "")
-    const malfunction_message_en_output_sv = computed(() => database.value.malfunction_message ? marked(database.value.malfunction_message) : "")
+    const malfunction_message_en_output_en = computed(() => database.value.malfunction_message_en ? marked(database.value.malfunction_message_en) : "")
+    const malfunction_message_en_output_sv = computed(() => database.value.malfunction_message_sv ? marked(database.value.malfunction_message_sv) : "")
     const removeDatabase = async (database) => {
       if (confirm("Are you sure?")) {
         const res = await store.removeDatabase(database);
