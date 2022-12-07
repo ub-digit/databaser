@@ -29,7 +29,9 @@ CREATE TABLE databases (
     access_information_code text NOT NULL,
     published boolean default true,
     is_trial boolean default false,
-    is_new boolean default false
+    is_new boolean default false,
+    direct_link_is_hidden boolean default false
+
 );
 
 CREATE TABLE database_alternative_titles (

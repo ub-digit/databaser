@@ -18,6 +18,7 @@ defmodule DbListAdmin.Model.Database do
     field :published, :boolean
     field :is_trial, :boolean
     field :is_new, :boolean
+    field :direct_link_is_hidden, :boolean
     has_many :database_publishers, Model.DatabasePublisher
     has_many :publishers, through: [:database_publishers, :publisher]
     has_many :database_topics, Model.DatabaseTopic
@@ -73,7 +74,8 @@ defmodule DbListAdmin.Model.Database do
       sanitized_title: Slugy.slugify(database.title),
       published: database.published,
       is_trial: database.is_trial,
-      is_new: database.is_new
+      is_new: database.is_new,
+      direct_link_is_hidden: database.direct_link_is_hidden
     }
     |> sort_topics
   end
@@ -100,7 +102,8 @@ defmodule DbListAdmin.Model.Database do
       media_types: database.media_types |> Enum.map(&Model.MediaType.remap_for_database/1),
       published: database.published,
       is_trial: database.is_trial,
-      is_new: database.is_new
+      is_new: database.is_new,
+      direct_link_is_hidden: database.direct_link_is_hidden
     }
     |> sort_topics
   end
@@ -179,7 +182,8 @@ defmodule DbListAdmin.Model.Database do
       :malfunction_message_sv,
       :published,
       :is_trial,
-      :is_new
+      :is_new,
+      :direct_link_is_hidden
       ],
       [empty_values: [nil]])
     |> validate_required([:title_en, :title_sv])

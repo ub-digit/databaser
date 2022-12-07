@@ -30,7 +30,8 @@ defmodule DbListAdmin.Resource.Database.Remapper do
       urls: [],
       published: false,
       is_trial: false,
-      is_new: false
+      is_new: false,
+      direct_link_is_hidden: false
     }
     |> serialize()
   end
