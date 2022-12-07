@@ -60,7 +60,7 @@ defmodule DbListAdmin.Model.Database do
       title: database.title,
       description: database.description,
       is_popular: database.is_popular,
-      alternative_titles: database.database_alternative_titles |> Enum.map(&DbListAdmin.Model.DatabaseAlternativeTitle.remap/1),
+      alternative_titles: database.database_alternative_titles |> Enum.map(fn item -> DbListAdmin.Model.DatabaseAlternativeTitle.remap(item, lang) end),
       urls: database.database_urls |> Enum.map(fn item -> DbListAdmin.Model.DatabaseUrl.remap(item, database.title) end),
       publishers: database.publishers |> Enum.map(fn item -> Model.Publisher.remap(item) end),
       public_access: database.public_access,
