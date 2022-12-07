@@ -37,7 +37,8 @@ CREATE TABLE databases (
 CREATE TABLE database_alternative_titles (
     id serial PRIMARY KEY,
     database_id int,
-    title text
+    title_en text,
+    title_sv text
 );
 
 

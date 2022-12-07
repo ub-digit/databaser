@@ -34,9 +34,8 @@ defmodule DbListAdmin.Resource.Database.DatabaseAlternativeTitle do
     data
     |> Enum.with_index()
     |> Enum.map(fn {val, index} ->
-    #TODO: Alternative titles are treated differently, and is only a list of strngs. All other entitys have a "name" or "title" field in an object.
       atom_name = String.to_atom("alternative_title_" <> Integer.to_string(index))
-      {%{"title" => val}, atom_name}
+      {%{"title_en" => val["title_en"], "title_sv" => val["title_sv"]}, atom_name}
     end)
     |> Enum.reduce(multi, fn {alternative_title, atom_name}, acc ->
         insert_or_update(acc, atom_name, alternative_title)
