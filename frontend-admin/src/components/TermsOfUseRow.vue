@@ -2,7 +2,7 @@
   <li class="pb-4">
     <div class="row">
       <div class="col-auto mb-2">
-        <strong>{{props.term_of_use.code}}</strong>
+        <strong>{{$t('terms_of_use_code.' + props.term_of_use.code)}}</strong>
       </div>
       <div class="col">
       </div>
@@ -22,13 +22,13 @@
       </div>
       <div class="col-5">
         <div class="desc mb-2">
-          <label class="formkit-label" :for="'term_of_use_desc_en_' + term_of_use.id">description (en)</label>
+          <label class="formkit-label" :for="'term_of_use_desc_en_' + term_of_use.id">Description (en)</label>
           <input @keyup="$emit('updateTermOfUseDescription', $event.target.value, term_of_use.code, 'en')" type="text" class="desc_en form-control mb-2" :id="'term_of_use_desc_en_' + term_of_use.id" v-model="term_of_use.description_en">
         </div>
       </div>
       <div class="col-5">
         <div class="desc mb-2">
-          <label class="formkit-label" :for="'term_of_use_desc_sv_' + term_of_use.id">description (sv)</label>
+          <label class="formkit-label" :for="'term_of_use_desc_sv_' + term_of_use.id">Description (sv)</label>
           <input  @keyup="$emit('updateTermOfUseDescription', $event.target.value, term_of_use.code, 'sv')" type="text" class="desc_sv form-control" :id="'term_of_use_desc_sv_' + term_of_use.id" v-model="term_of_use.description_sv">  
         </div>
       </div>

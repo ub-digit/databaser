@@ -7,6 +7,14 @@ export const en = {
         available_to_the_university_of_gothenburg_on_campus_only_available_to_anyone: 'available_to_the_university_of_gothenburg_on_campus_only_available_to_anyone',
         available_to_the_university_of_gothenburg_available_to_anyone_using_the_libraries_computers: 'available_to_the_university_of_gothenburg_available_to_anyone_using_the_libraries_computers'
     },
+    terms_of_use_code: {
+        print_article_chapter: "Print article or chapter",
+        download_article_chapter: "Download article or chapter",
+        course_pack_print: "Print course pack",
+        gul_course_pack_electronic: "Upload course pack to learning management system",
+        scholarly_sharing: "Scholarly sharing",
+        interlibrary_loan: "Interlibrary loan"
+    },
     topic: {
         error_codes: {
             name_en: 'Topic name (en)',
