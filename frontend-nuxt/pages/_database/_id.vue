@@ -90,7 +90,7 @@
             <div>
               <strong>{{$t("views.database.alt_title")}}:</strong>
               <ul class="list-inline">
-                <li class="list-inline-item" v-for="(alternative_title, index) in database.alternative_titles" :key="alternative_title" >
+                <li class="list-inline-item" v-for="(alternative_title, index) in database.alternative_titles" :key="index" >
                     {{alternative_title}}<span v-if="index+1 < database.alternative_titles.length">, </span>
                 </li>
               </ul>

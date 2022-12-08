@@ -28,7 +28,7 @@
             <div class="access-info mb-2">
                 <AccessInformation :database="database" />
             </div>
-            <div class="direct-link">
+            <div v-if="!database.direct_link_is_hidden" class="direct-link">
                 <a v-if="getDatabaseURL" :href="getDatabaseURL.url">{{$t("components.database_list_row.link_prefix")}} {{getDatabaseURL.title}} <font-awesome-icon icon="arrow-right"/></a>
             </div>
             </div>
