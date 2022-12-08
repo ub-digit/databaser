@@ -2,10 +2,10 @@
 export const en = { 
     application_title: 'Databases - admin',
     access_information_codes: {
-        available_to_the_university_of_gothenburg: 'available_to_the_university_of_gothenburg',
-        freely_available: 'freely_available',
-        available_to_the_university_of_gothenburg_on_campus_only_available_to_anyone: 'available_to_the_university_of_gothenburg_on_campus_only_available_to_anyone',
-        available_to_the_university_of_gothenburg_available_to_anyone_using_the_libraries_computers: 'available_to_the_university_of_gothenburg_available_to_anyone_using_the_libraries_computers'
+        available_to_the_university_of_gothenburg: 'Available to the University of Gothenburg',
+        freely_available: 'Freely available',
+        available_to_the_university_of_gothenburg_on_campus_only_available_to_anyone: 'Available to the University of Gothenburg, on campus only. Available to anyone using the libraries computers',
+        available_to_the_university_of_gothenburg_available_to_anyone_using_the_libraries_computers: 'Available to the University of Gothenburg. Available to anyone using the libraries computers'
     },
     terms_of_use_code: {
         print_article_chapter: "Print article or chapter",
