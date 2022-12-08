@@ -33,6 +33,17 @@
             </div>
         </div>
 
+        <div class="row mb-4">
+          <div class="col">
+            <h3>Alternative titles</h3>
+            <ul>
+              <li v-for="alt_title in database.alternative_titles">
+                {{alt_title.title_en}} <strong>/</strong> {{alt_title.title_sv}}
+              </li>
+            </ul>
+          </div>
+        </div>
+
         <div class="row pb-4">
           <div class="col">
             <label class="db-property-header fw-bold" for="desc_en">Description (en)</label>

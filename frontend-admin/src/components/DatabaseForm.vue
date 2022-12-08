@@ -93,6 +93,41 @@
             />
           </div>
         </div> <!-- end row -->
+        <div class="row mb-4">
+          <div class="col-12">
+          <h3>Alternative titles</h3>
+            <ul class="list-unstyled" v-if="database_initial_state.alternative_titles">
+              <li class="mb-4" v-for="(alternative_title, index) in database_initial_state.alternative_titles" :key="index">
+                <div class="row">
+                  <div class="col-5">
+                    <FormKit 
+                      type="text" 
+                      :classes="{input: 'form-control'}"
+                      label="Alternative title (en)"
+                      :name="'alt_title__en' + index"
+                      v-model="alternative_title.title_en"
+                      placeholder="Title (en)"
+                    />
+                  </div>
+                  <div class="col-5">
+                    <FormKit 
+                      type="text" 
+                      :classes="{input: 'form-control'}"
+                      label="Alternative title (sv)"
+                      :name="'alt_title__sv' + index"
+                      v-model="alternative_title.title_sv"
+                      placeholder="Title (sv)"
+                    />
+                  </div>
+                  <div class="col-2">
+                    <button @click.prevent="removeAltTitle(index)" class="mt-4 btn btn-danger float-end">Remove</button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <button @click.prevent="addAltTitle()" class="btn btn-primary">Add another alternative title +</button>
+          </div>
+        </div>
         <div class="row">
           <div class="mb-3 col-6">
             <FormKit 
@@ -406,9 +441,17 @@ export default {
     const addDatabaseUrl = (val) => {
       database_initial_state.value.urls.push({title: "", url: ""})
     }
+    const addAltTitle = (val) => {
+      database_initial_state.value.alternative_titles.push({title_en: "", title_sv: ""})
+    }
+    
     const removeURL = (index) => {
       database_initial_state.value.urls.splice(index, 1);
     }
+    const removeAltTitle = (index) => {
+      database_initial_state.value.alternative_titles.splice(index, 1);
+    }
+    
     const updateTermOfUse = (code, val) => {
       let term_of_use = database_initial_state.value.terms_of_use.find(term_of_use => code === term_of_use.code)
       console.log(term_of_use);
@@ -457,9 +500,11 @@ export default {
       database_initial_state,
       saveDatabase,
       addDatabaseUrl,
+      addAltTitle,
       addSelectedPublisher,
       removeSelectedPublisher,
       removeURL,
+      removeAltTitle,
       isDirty,
       malfunction_message_en_output_en,
       malfunction_message_en_output_sv,
