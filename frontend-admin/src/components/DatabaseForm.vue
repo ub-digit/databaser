@@ -206,6 +206,15 @@
         <div class="row mb-4">
           <div class="col-12">
           <h3>Database urls</h3>
+            <div class="row mb-4">
+              <div class="col">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="hide-direct-link" v-model="(database_initial_state.direct_link_is_hidden)">
+                  <label for="hide-direct-link" class="form-check-label">Hide direct link in search results</label>
+                </div>
+              </div>
+            </div>
+            
             <ul class="list-unstyled" v-if="database_initial_state.urls">
               <li class="mb-4" v-for="(url, index) in database_initial_state.urls" :key="index">
                 <div class="row">
