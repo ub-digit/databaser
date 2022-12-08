@@ -63,7 +63,7 @@
                 <ul v-if="topic.sub_topics.length">
                   <div v-for="subtopic in topic.sub_topics" :key="subtopic.id">
                     <li v-if="subtopic.selected">
-                        <div v-if="subtopic.selected">{{subtopic.name_sv}} / {{subtopic.name_en}}</div>
+                        <div v-if="subtopic.selected">{{subtopic.name_en}} / {{subtopic.name_sv}} </div>
                     </li>
                   </div>
                 </ul>
@@ -78,7 +78,7 @@
                 <ul v-if="topic.sub_topics.length">
                   <div v-for="subtopic in topic.sub_topics" :key="subtopic.id">
                     <li v-if="subtopic.recommended">
-                        <div v-if="subtopic.recommended">{{subtopic.name_sv}} / {{subtopic.name_en}}</div>
+                        <div v-if="subtopic.recommended">{{subtopic.name_en}} / {{subtopic.name_sv}}</div>
                     </li>
                   </div>
                 </ul>
