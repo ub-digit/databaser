@@ -23,7 +23,7 @@ export const actions = {
    //   NProgress.done();
     }
   },
-  async fetchPopularDatabases(payload) {
+  async fetchPopularDatabases(context, payload) {
     try {
       const result = await this.$axios.get('/databases/popular', {params: {payload}});
       return result.data;
