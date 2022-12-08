@@ -103,10 +103,16 @@
         <div class="row pb-4">
           <div class="col">
             <h3>Database urls</h3>
+            <div class="row mb-4">
+              <div class="col">
+                <div class="text-danger" v-if="database.direct_link_is_hidden">Direct link is hidden in search result list</div>
+                <div class="text-success" v-else>Direct link is visible in search result list</div>
+              </div>
+            </div>
             <ul class="list-unstyled" v-if="database.urls">
               <div v-for="(url, index) in database.urls" :key="index">
                 <li>
-                  {{url.title && url.title.length ? url.title : "No title"}} / <a target="_new" :href="url.url">{{url.url}}</a>
+                  {{url.title && url.title.length ? url.title : "Title is missing"}} / <a target="_new" :href="url.url">{{url.url}}</a>
                 </li>
               </div>
             </ul>
