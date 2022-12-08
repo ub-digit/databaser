@@ -10,10 +10,10 @@ export default {
         available_to_the_university_of_gothenburg_available_to_anyone_using_the_libraries_computers: "Available to the University of Gothenburg. Available to anyone using the libraries' computers"
         },
         terms_of_use_code: {
-        print_article_chapter: "Print article chapter",
-        download_article_chapter: "Download article chapter",
-        course_pack_print: "Course packprint",
-        gul_course_pack_electronic: "Gul course pack electronic",
+        print_article_chapter: "Print article or chapter",
+        download_article_chapter: "Download article or chapter",
+        course_pack_print: "Print course pack",
+        gul_course_pack_electronic: "Upload course pack to learning management system",
         scholarly_sharing: "Scholarly sharing",
         interlibrary_loan: "Interlibrary loan"
         }
