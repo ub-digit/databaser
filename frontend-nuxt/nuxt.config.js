@@ -14,6 +14,10 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
+  env: {
+    alertURL: process.env.DB_LIST_ALERT_URL || 'http://localhost:3000'
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['~assets/scss/main.scss'],
 

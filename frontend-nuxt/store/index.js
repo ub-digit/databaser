@@ -1,7 +1,7 @@
 import NProgress from 'nprogress'
 
 export const state = () => ({
-  alertURL: "http://localhost:4000/alert"
+  alertURL: process.env.alertURL
 })
 
 export const getters = {
