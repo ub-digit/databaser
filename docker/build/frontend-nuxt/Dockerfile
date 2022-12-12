@@ -13,7 +13,7 @@ WORKDIR /app/release/frontend-nuxt/
 
 RUN set -ex \ 
  && npm install 
-## && npm run build
+ # && npm run build
 
 # production environment
 FROM node:16-bullseye

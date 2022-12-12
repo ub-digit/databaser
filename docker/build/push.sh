@@ -10,4 +10,4 @@ docker push docker.ub.gu.se/db-list-elasticsearch:${GIT_REVISION} && \
 docker push docker.ub.gu.se/db-list-backend-admin:${GIT_REVISION} && \
 docker push docker.ub.gu.se/db-list-backend:${GIT_REVISION} && \
 docker push docker.ub.gu.se/db-list-frontend-admin:${GIT_REVISION}
-docker push docker.ub.gu.se/db-list-frontend:${GIT_REVISION} 
+docker push docker.ub.gu.se/db-list-frontend-nuxt:${GIT_REVISION} 
