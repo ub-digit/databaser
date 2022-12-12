@@ -224,4 +224,8 @@ defmodule Experiment do
   def a --- b do
     Map.merge(a, b)
   end
+
+  def ttt(m) when Map.has_key?(m, "tjoff") == false do
+    "SSDADSDS"
+  end
 end

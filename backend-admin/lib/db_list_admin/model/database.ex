@@ -19,6 +19,8 @@ defmodule DbListAdmin.Model.Database do
     field :is_trial, :boolean
     field :is_new, :boolean
     field :direct_link_is_hidden, :boolean
+    field :updated_at, :naive_datetime
+    field :inserted_at, :naive_datetime
     has_many :database_publishers, Model.DatabasePublisher
     has_many :publishers, through: [:database_publishers, :publisher]
     has_many :database_topics, Model.DatabaseTopic
@@ -75,7 +77,9 @@ defmodule DbListAdmin.Model.Database do
       published: database.published,
       is_trial: database.is_trial,
       is_new: database.is_new,
-      direct_link_is_hidden: database.direct_link_is_hidden
+      direct_link_is_hidden: database.direct_link_is_hidden,
+      updated_at: database.updated_at,
+      inserted_at: database.inserted_at
     }
     |> sort_topics
   end
@@ -103,7 +107,8 @@ defmodule DbListAdmin.Model.Database do
       published: database.published,
       is_trial: database.is_trial,
       is_new: database.is_new,
-      direct_link_is_hidden: database.direct_link_is_hidden
+      direct_link_is_hidden: database.direct_link_is_hidden,
+      timestamps()
     }
     |> sort_topics
   end
@@ -183,8 +188,7 @@ defmodule DbListAdmin.Model.Database do
       :published,
       :is_trial,
       :is_new,
-      :direct_link_is_hidden
-      ],
+      :direct_link_is_hidden,
       [empty_values: [nil]])
     |> validate_required([:title_en, :title_sv])
     |> unique_constraint(:title_en, name: :databases_title_en_key)

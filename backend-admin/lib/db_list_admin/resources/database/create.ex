@@ -28,6 +28,7 @@ defmodule DbListAdmin.Resource.Database.Create do
   def process_database(data) do
     Multi.new()
     |> Multi.run(:database, fn repo, _ ->
+      IO.inspect(data, label: "DATA")
       Model.Database.changeset(Model.Database.find(data["id"]), data)
       |> repo.insert_or_update()
       |> case do

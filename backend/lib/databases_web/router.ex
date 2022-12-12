@@ -18,6 +18,7 @@ defmodule DatabasesWeb.Router do
     pipe_through :browser
 
     get "/alert", DatabaseController, :alert
+    get "/dublin_core", DublinCoreController, :export
     get "/", DatabaseController, :index
     get "/databases/popular", DatabaseController, :get_popular_databases
     get "/databases", DatabaseController, :index
