@@ -21,11 +21,11 @@
             </div>
             </div>
             <div class="db-row-body">
-            <div class="db-desc mb-2" v-html="database_desc">
+            <div class="db-desc" v-html="database_desc">
             </div>
             </div>
             <div class="db-row-footer">
-            <div class="access-info mb-2">
+            <div class="access-info mb-3">
                 <AccessInformation :database="database" />
             </div>
             <div v-if="!database.direct_link_is_hidden" class="direct-link">
@@ -68,5 +68,14 @@
   };
   </script>
   
-  <style lang="scss" scoped></style>
+<style lang="scss" >
+  .database-link {
+    font-size: 18px;
+  }
+  .db-desc {
+    p {
+      margin-bottom: 5px;
+    }
+  }
+</style>
   

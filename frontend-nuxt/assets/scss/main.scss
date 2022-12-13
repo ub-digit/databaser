@@ -1,2 +1,6 @@
 @import '~bootstrap/scss/bootstrap.scss';
 @import "./fonts.scss";
+
+.container {
+    max-width: 1200px;
+}

@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <div class="page-info">
-      <div class="row justify-content-lg-center">
-        <div class="col-lg-10 col-xl-6">
+      <div class="row justify-content-md-center">
+        <div class="col-md-8 col-lg-6">
           <h1 class="page-title">{{ $t("views.home.title") }}</h1>
           <p class="lead">{{ $t("views.home.desc") }}</p>
         </div>
@@ -17,7 +17,7 @@
     </div>
 
     <div class="row">
-      <div class="col-12 col-lg-4">
+      <div class="col-12 col-md-4">
         <aside v-if="databases && databases._meta" class="facet-filter-area">
           <TopicsFilter
             :topics="databases.filters.topics"
