@@ -33,7 +33,6 @@ CREATE TABLE databases (
     direct_link_is_hidden boolean default false,
     updated_at timestamp default now(),
     inserted_at timestamp default now()
-    
 );
 
 CREATE TABLE database_alternative_titles (

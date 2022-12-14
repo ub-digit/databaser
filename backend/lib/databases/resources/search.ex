@@ -167,7 +167,6 @@ defmodule Databases.Resource.Search do
   end
 
   def remap({databases, aggregations}, payload) do
-    IO.inspect(payload, label: "PAYLOAD IN REMAP")
     %{
       _meta: %{total: get_total_documents(), found: length(databases)},
       data: databases,

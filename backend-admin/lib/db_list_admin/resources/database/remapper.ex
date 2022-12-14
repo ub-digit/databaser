@@ -87,7 +87,6 @@ defmodule DbListAdmin.Resource.Database.Remapper do
     end
   end
 
-
   def deserialize_topics(db) do
     topics = db["topics"]
     |> Enum.filter(fn topic -> topic["selected"] == true end)
