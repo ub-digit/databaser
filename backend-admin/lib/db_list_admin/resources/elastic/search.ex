@@ -11,6 +11,7 @@ defmodule DbListAdmin.Resource.Elastic.Search do
   def remap(hits) do
     hits
     |> Enum.map(fn db -> %{id: db["_source"]["id"], title_en: db["_source"]["title_en"], title_sv: db["_source"]["title_sv"]} end)
+    |> Enum.sort()
   end
 
   def base(term) do
