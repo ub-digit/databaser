@@ -25,7 +25,9 @@ export default {
         },
         database_list_row: {
         recommended: "Recommended",
-        link_prefix: "Directly to"
+        link_prefix: "Directly to",
+        is_new: "new",
+        is_trial: "trial"
         },
         search_bar: {
         placeholder: "Title, subject, supplier...",
