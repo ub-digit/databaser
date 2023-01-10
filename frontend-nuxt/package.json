@@ -26,10 +26,10 @@
     "vue": "^2.7.10",
     "vue-i18n": "^8.27.2",
     "vue-server-renderer": "^2.7.10",
-    "vue-template-compiler": "^2.7.10"
+    "vue-template-compiler": "^2.7.10",
+    "@nuxtjs/router-extras": "^1.1.1"
   },
   "devDependencies": {
-    "@nuxtjs/router-extras": "^1.1.1",
     "@nuxtjs/style-resources": "^1.2.1",
     "eslint-config-prettier": "^8.5.0",
     "fibers": "^5.0.3",
