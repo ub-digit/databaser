@@ -114,7 +114,7 @@ export default {
       popularDatabases: [],
       databases: {},
       sortOrders: [
-        {id:'asc', text: this.$i18n.t('components.sortorders.asc')}, 
+        {id:'asc', text: this.$i18n.t('components.sortorders.asc')},
         {id:'desc', text: this.$i18n.t('components.sortorders.desc')}, 
         {id:'rel', text: this.$i18n.t('components.sortorders.rel') }
       ],
@@ -135,9 +135,11 @@ export default {
         title: this.$i18n.t('seo.application_title')
     }
   },
+  watch: {
+    '$route.query': '$fetch'
+  },
   methods: {
     fetchData: async function() {
-        let that = this;
         this.databases = await this.$store.dispatch('fetchDatabases', {
           topic: this.topic, 
           sub_topics: this.sub_topics,
@@ -148,6 +150,8 @@ export default {
           lang: this.$i18n.locale
       });
     },
+
+
     updateRouterParam: function(obj) {
       if (!obj) {
         obj = {};
@@ -155,7 +159,7 @@ export default {
       const old_query = this.$route.query;
       const query = {...old_query, ...obj};
       this.$router.replace({query})
-      setTimeout(() => {this.fetchData()}, 0);
+     // setTimeout(() => {this.fetchData()}, 0);
     },
     updateSearch: function(search) {
       const settings = {
