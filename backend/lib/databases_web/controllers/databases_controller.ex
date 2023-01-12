@@ -6,9 +6,19 @@ defmodule DatabasesWeb.DatabaseController do
   end
 
   def index(conn, params) do
-
+    topic = get_topic(params)
+    params = Map.put(params, "topic", topic)
     databases = Databases.Resource.Search.search(params)
     json conn, databases
+  end
+
+  def get_topic(params) when not is_map_key(params, "topic"), do: nil
+
+  def get_topic(%{"topic" => nil}), do: nil
+
+  def get_topic(%{"topic" => topic}) do
+    Integer.parse(topic)
+    |> elem(0)
   end
 
   def get_popular_databases(conn, %{"lang" => lang}) do

@@ -58,8 +58,7 @@ defmodule Databases.Resource.Search do
             %{
                 query_string: %{
                   query: term <> "*",
-                  default_operator: "AND",
-                  fields: ["title^15", "alternative_titles.title^8", "media_types.name^3", "description", "topics.name^3", "sub_topics.name^2", "publishers.name^2"]
+                  fields: ["title^15", "alternative_titles^8", "media_types.name^3", "description", "topics.name^3", "sub_topics.name^2", "publishers.name^2"]
               }
             }
           ]
@@ -168,6 +167,7 @@ defmodule Databases.Resource.Search do
   end
 
   def remap({databases, aggregations}, payload) do
+    IO.inspect(payload, label: "PAYLOAD IN REMAP")
     %{
       _meta: %{total: get_total_documents(), found: length(databases)},
       data: databases,
