@@ -14,6 +14,7 @@ defmodule DbListAdminWeb.Router do
       "is_new" => :boolean,
       "is_popular" => :boolean,
     }
+    plug DbListAdminWeb.AuthPlug
   end
 
   pipeline :api do
@@ -43,7 +44,9 @@ defmodule DbListAdminWeb.Router do
     get "/index/reindex_admin", IndexController, :reindex_admin_index
     get "/alert", AlertController, :show
     post "/alert", AlertController, :create_or_update
-
+    get "/auth/user", AuthController, :user
+    get "/auth/refresh", AuthController, :refresh
+    post "/auth/:provider", AuthController, :auth
   end
 
   # Other scopes may use custom stacks.
