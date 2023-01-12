@@ -19,7 +19,7 @@ defmodule Databases.Resource.DublinCore do
   end
 
   defp map_databases() do
-    Databases.Resource.Search.search(%{"lang" => "sv"})
+    Databases.Resource.Search.search(%{"lang" => "sv", "published" => true})
     |> Map.get(:data)
     |> Enum.map(fn db ->
       %{
