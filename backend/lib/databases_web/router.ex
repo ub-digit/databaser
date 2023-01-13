@@ -10,7 +10,7 @@ defmodule DatabasesWeb.Router do
     plug :put_secure_browser_headers
     plug DatabasesWeb.ParamPlug, %{
       "topic" => :integer,
-      "media_types" => :array,
+      "media_types" => :integer,
       "sub_topics" => :integer_array,
       "show_free" => :boolean,
       "is_popular" => :boolean
