@@ -8,6 +8,7 @@ defmodule DatabasesWeb.Router do
     plug :put_root_layout, {DatabasesWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug DatabasesWeb.ParamPlug
   end
 
   pipeline :api do
