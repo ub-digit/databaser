@@ -161,13 +161,13 @@ defmodule Databases.Resource.Search do
         "topics.sub_topics.id"  => payload["sub_topics"] || [],
         "media_types.id"        => payload["mediatype"],
         "public_access"         => payload["show_free"] || nil,
-        "is_popular"            => payload["is_popular"]
+        "is_popular"            => payload["is_popular"],
+        "published"             => payload["published"]
       }
     }
   end
 
   def remap({databases, aggregations}, payload) do
-    IO.inspect(payload, label: "PAYLOAD IN REMAP")
     %{
       _meta: %{total: get_total_documents(), found: length(databases)},
       data: databases,

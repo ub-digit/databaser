@@ -30,8 +30,9 @@ CREATE TABLE databases (
     published boolean default true,
     is_trial boolean default false,
     is_new boolean default false,
-    direct_link_is_hidden boolean default false
-
+    direct_link_is_hidden boolean default false,
+    updated_at timestamp default now(),
+    inserted_at timestamp default now()
 );
 
 CREATE TABLE database_alternative_titles (
