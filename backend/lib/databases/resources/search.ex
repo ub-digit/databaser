@@ -219,7 +219,12 @@ defmodule Databases.Resource.Search do
     {databases, aggregations} = search_index(payload)
     %{"sub_topics" => %{"buckets" => sub_topics_agg}} = aggregations
     topics = sort_topics(databases, topic)
+    |> IO.inspect(label: "topics")
     |> List.first
+    |> case do
+      nil -> %{}
+      tp -> tp
+    end
     st = Map.get(topics, "sub_topics", [])
     |> Enum.map(fn sub -> Map.delete(sub, "recommended") end)
     |> Enum.uniq()
