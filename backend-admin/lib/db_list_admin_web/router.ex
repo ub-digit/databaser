@@ -35,6 +35,9 @@ defmodule DbListAdminWeb.Router do
     post "/databases", DatabasesController, :create
     delete "/databases/:id", DatabasesController, :delete
     get "/index/reindex_admin", IndexController, :reindex_admin_index
+    get "/alert", AlertController, :show
+    post "/alert", AlertController, :create_or_update
+
   end
 
   # Other scopes may use custom stacks.
