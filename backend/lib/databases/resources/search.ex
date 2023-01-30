@@ -47,9 +47,7 @@ defmodule Databases.Resource.Search do
             field: "media_types.id",
             size: 1000
           }
-
         }
-
       },
       size: @query_limit,
       query: %{
@@ -58,14 +56,17 @@ defmodule Databases.Resource.Search do
             %{
                 query_string: %{
                   query: term <> "*",
-                  fields: ["title^15", "alternative_titles^8", "media_types.name^3", "description", "topics.name^3", "sub_topics.name^2", "publishers.name^2"]
+                  default_operator: "AND",
+                  fields: ["title^15", "alternative_titles.title^8", "media_types.name^3", "description", "topics.name^3", "sub_topics.name^2", "publishers.name^2"]
               }
-            }
+             }
           ]
         }
       }
     }
   end
+
+
 
   def get_total_documents() do
     {:ok, %{body: %{"count" => count}}} = Elastix.Search.count(elastic_url(), get_index(@default_language), [], %{})
@@ -78,15 +79,16 @@ defmodule Databases.Resource.Search do
     filter = build_filter(filter)
     q = base(params["search"])
     q = add_filter(filter, q)
-    |> add_sort_order(params["sort_order"])
+    |> add_sort_order(params["sort_order"], params["search"])
     {:ok, %{body: %{"aggregations" => aggregations, "hits" => %{"hits" => hits}}}} = Elastix.Search.search(elastic_url(), get_index(lang), [], q)
     databases = hits
     |> Enum.map(fn item -> Map.get(item, "_source") end)
     {databases, aggregations}
   end
 
-  def add_sort_order(q, ""), do: Map.put(q, :sort, %{"title.sort" => %{order: "asc"}})
-  def add_sort_order(q, _), do: q
+  def add_sort_order(q, "", ""), do: Map.put(q, :sort, %{"title.sort" => "asc"})
+  def add_sort_order(q, "", _term), do: q
+  def add_sort_order(q, order, _term), do: Map.put(q, :sort, %{"title.sort" => order})
 
   def search(payload \\ %{}) do
     payload
@@ -151,7 +153,7 @@ defmodule Databases.Resource.Search do
       params: %{
         "search"                => String.trim(payload["search"] || ""),
         "lang"                  => payload["lang"] || @default_language,
-        "sort_order"            => payload["sort_order"] || "asc",
+        "sort_order"            => payload["sort_order"] || "",
         "topic"                 => payload["topic"] || nil,
         "sub_topics"            => payload["sub_topics"] || []
       },
@@ -161,13 +163,13 @@ defmodule Databases.Resource.Search do
         "topics.sub_topics.id"  => payload["sub_topics"] || [],
         "media_types.id"        => payload["mediatype"],
         "public_access"         => payload["show_free"] || nil,
-        "is_popular"            => payload["is_popular"]
+        "is_popular"            => payload["is_popular"],
+        "published"             => payload["published"]
       }
     }
   end
 
   def remap({databases, aggregations}, payload) do
-    IO.inspect(payload, label: "PAYLOAD IN REMAP")
     %{
       _meta: %{total: get_total_documents(), found: length(databases)},
       data: databases,
@@ -219,7 +221,12 @@ defmodule Databases.Resource.Search do
     {databases, aggregations} = search_index(payload)
     %{"sub_topics" => %{"buckets" => sub_topics_agg}} = aggregations
     topics = sort_topics(databases, topic)
+    |> IO.inspect(label: "topics")
     |> List.first
+    |> case do
+      nil -> %{}
+      tp -> tp
+    end
     st = Map.get(topics, "sub_topics", [])
     |> Enum.map(fn sub -> Map.delete(sub, "recommended") end)
     |> Enum.uniq()
@@ -309,6 +316,4 @@ defmodule Databases.Resource.Search do
   def format_filter_item({k, v}) do
     %{match: %{k => v}}
   end
-
-
 end

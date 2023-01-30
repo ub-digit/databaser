@@ -31,6 +31,7 @@ defmodule DbListAdmin.Model.Database do
     has_many :terms_of_use, through: [:database_terms_of_use, :terms_of_use]
     has_many :database_media_types, Model.DatabaseMediaType
     has_many :media_types, through: [:database_media_types, :media_type]
+    timestamps()
   end
 
 
@@ -75,7 +76,9 @@ defmodule DbListAdmin.Model.Database do
       published: database.published,
       is_trial: database.is_trial,
       is_new: database.is_new,
-      direct_link_is_hidden: database.direct_link_is_hidden
+      direct_link_is_hidden: database.direct_link_is_hidden,
+      updated_at: database.updated_at,
+      inserted_at: database.inserted_at
     }
     |> sort_topics
   end
@@ -103,7 +106,9 @@ defmodule DbListAdmin.Model.Database do
       published: database.published,
       is_trial: database.is_trial,
       is_new: database.is_new,
-      direct_link_is_hidden: database.direct_link_is_hidden
+      direct_link_is_hidden: database.direct_link_is_hidden,
+      inserted_at: database.inserted_at,
+      updated_at:  database.updated_at
     }
     |> sort_topics
   end
@@ -169,7 +174,8 @@ defmodule DbListAdmin.Model.Database do
 
   def changeset(%Model.Database{} = database, attrs) do
     database
-    |> cast(attrs, [
+    |> cast(attrs,
+    [
       :title_en,
       :title_sv,
       :description_en,
@@ -184,8 +190,7 @@ defmodule DbListAdmin.Model.Database do
       :is_trial,
       :is_new,
       :direct_link_is_hidden
-      ],
-      [empty_values: [nil]])
+      ], [empty_values: [nil]])
     |> validate_required([:title_en, :title_sv])
     |> unique_constraint(:title_en, name: :databases_title_en_key)
     |> unique_constraint(:title_sv, name: :databases_title_sv_key)

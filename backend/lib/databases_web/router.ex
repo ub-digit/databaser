@@ -8,6 +8,13 @@ defmodule DatabasesWeb.Router do
     plug :put_root_layout, {DatabasesWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug DatabasesWeb.ParamPlug, %{
+      "topic" => :integer,
+      "media_types" => :integer,
+      "sub_topics" => :integer_array,
+      "show_free" => :boolean,
+      "is_popular" => :boolean
+    }
   end
 
   pipeline :api do
@@ -18,6 +25,7 @@ defmodule DatabasesWeb.Router do
     pipe_through :browser
 
     get "/alert", DatabaseController, :alert
+    get "/dublin_core", DublinCoreController, :export
     get "/", DatabaseController, :index
     get "/databases/popular", DatabaseController, :get_popular_databases
     get "/databases", DatabaseController, :index
