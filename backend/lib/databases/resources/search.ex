@@ -58,8 +58,8 @@ defmodule Databases.Resource.Search do
                   query: term <> "*",
                   default_operator: "AND",
                   fields: ["title^15", "alternative_titles.title^8", "media_types.name^3", "description", "topics.name^3", "sub_topics.name^2", "publishers.name^2"]
-                }
               }
+             }
           ]
         }
       }
@@ -221,7 +221,12 @@ defmodule Databases.Resource.Search do
     {databases, aggregations} = search_index(payload)
     %{"sub_topics" => %{"buckets" => sub_topics_agg}} = aggregations
     topics = sort_topics(databases, topic)
+    |> IO.inspect(label: "topics")
     |> List.first
+    |> case do
+      nil -> %{}
+      tp -> tp
+    end
     st = Map.get(topics, "sub_topics", [])
     |> Enum.map(fn sub -> Map.delete(sub, "recommended") end)
     |> Enum.uniq()
