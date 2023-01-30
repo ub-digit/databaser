@@ -18,7 +18,7 @@ defmodule Experiment do
       }
     }
 
-    m = %{
+    %{
     "properties" => %{
       "title" => %{
         "type" => "text",
@@ -33,7 +33,7 @@ defmodule Experiment do
     }
   }
 
-  {:ok, %{body: %{"hits" => %{"hits" => res}}}} = Elastix.Search.search(elastic_url, "db_en", [], q)
+  {:ok, %{body: %{"hits" => %{"hits" => res}}}} = Elastix.Search.search(elastic_url(), "db_en", [], q)
   res
   |> Enum.map(fn db -> db["_source"]["title"] end)
 
@@ -48,7 +48,7 @@ defmodule Experiment do
     %{
       params: %{
         "search"                => payload["search"] || "",
-        "lang"                  => payload["lang"] || @default_language,
+        "lang"                  => payload["lang"] || "en",
         "sort_order"            => payload["sort_order"] || "asc"
       },
       filter: %{
@@ -125,7 +125,7 @@ defmodule Experiment do
 
 
     end
-    data = [
+      [
       %{"name" => "ccc", "topics" => [
         %{"is_recommended" => true, "id" => 2}
       ]},
