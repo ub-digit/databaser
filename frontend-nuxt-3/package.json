@@ -9,7 +9,8 @@
   },
   "devDependencies": {
     "@nuxtjs/i18n": "^8.0.0-beta.7",
-    "nuxt": "3.0.0"
+    "nuxt": "3.0.0",
+    "vue-gtag-next": "^1.14.0"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
