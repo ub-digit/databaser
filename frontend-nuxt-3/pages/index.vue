@@ -79,7 +79,7 @@ const route = useRoute();
 const router = useRouter();
 const paginated = ref(true);
 const NumberToDisplay = 20;
-const alertURL = ref(config.public.API_BASE_URL + "alert?" + "lang=" + getLocale());
+const alertURL = ref("/api/alert?" + "lang=" + getLocale());
 
 const getSubTopics = () => {
     if (route.query.sub_topics && Array.isArray(route.query.sub_topics)) {
