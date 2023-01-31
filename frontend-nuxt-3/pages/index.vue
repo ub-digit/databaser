@@ -1,4 +1,8 @@
 <template>
+    <Head>
+      <title>{{t('seo.application_title')}}</title>
+      <Meta name="description" :content="t('seo.application_title')" />
+    </Head>
   <div class="container">
     <div class="page-info">
       <div class="row justify-content-md-center">
@@ -23,19 +27,19 @@
       <div class="col-12 col-md-4">
         <aside v-if="databases && databases._meta" class="facet-filter-area">
           <div class="filters">
-            <div class="topics">
+            <div class="topics filter">
               <div>
                 <FilterTopics :filters="filters" :topics="databases.filters.topics" @setTopic="setTopic" @toggleSubTopic="toggleSubTopic" @clearAllTopicsAndSubTopics="clearAllTopicsAndSubTopics"/>
               </div>
             </div>
 
-            <div class="mediatypes">
+            <div class="mediatypes filter">
               <div>
                 <FilterMediatypes @setMediatype="setMediatype" :filters="filters" :mediatypes="mediatypes"/>
               </div>
             </div>
             <div v-if="databases.filters.show_freely_available" class="show-free-only">
-              <div>
+              <div class="filter">
                 <FilterShowFree v-model="filters.show_free"/>
               </div>
             </div>
@@ -45,7 +49,7 @@
       <div class="col">
         <main>
           <div v-if="databases && databases.data && databases.data.length && databases._meta">
-            <div class="meta">  
+            <div class="meta d-flex justify-content-center justify-content-md-start">  
               <SearchCount :meta="databases._meta" />
             </div>
 
@@ -218,7 +222,7 @@ function paramsSerializer(params) {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" >
   .no-result {
     font-size: 1.2em;
     color: #757575;
@@ -240,7 +244,6 @@ function paramsSerializer(params) {
   }
   .facet-filter-area {
     border: 1px solid #eeeeee;
-    border-bottom: none;
     overflow: hidden;
     border-radius: 4px;
     margin-bottom: 20px;
@@ -252,20 +255,17 @@ function paramsSerializer(params) {
         background-color: #025da6;
         color: white;
       }
-      &:last-of-type {
-        /*border-bottom: none;*/
-      }
       cursor: pointer;
       background: #f0f0f0;
       padding: 15px;
       border: none;
       border-bottom: 1px solid #cccccc;
     }
-    .facet-filter {
+    .filter {
       &:last-of-type {
-        // .facet-header {
-        //   border-bottom: none;
-        // }
+        .facet-header {
+          border-bottom: none;
+        }
       }
     }
   }

@@ -1,47 +1,32 @@
 <template>
-    <div>
-
-      <div class="facet-filter" v-if="mediatypes.length > 0">
-        <div class="d-grid gap-2">
-            <button v-if="filters.mediatype" role="button" class="facet-header d-flex justify-content-between" :class="{active: filters.mediatype}" @click="$emit('setMediatype', undefined)" >
-                <span class="facet-header-text">
-                  {{selectedMediatypeFull.name}}
-                </span>
-                <span class="facet-header-action-indicator"
-                    ><font-awesome-icon icon="xmark"
-                /></span>
-            </button>
-            <button v-else role="button" class="facet-header d-flex justify-content-between" @click="toggleMediatypeExpanded()" >
-                <span class="facet-header-text">{{t('components.mediatype_filter.label')}}</span>
-                <span class="facet-header-action-indicator">
-                    <font-awesome-icon v-if="isOpen" icon="chevron-up"/>
-                    <font-awesome-icon v-else icon="chevron-down"/>
-                </span>
-            </button>
-        </div>
-        <ul class="list-unstyled mediatype-list" v-if="isOpen">
-            <li v-for="mediatype in mediatypes" :key="mediatype.id">
-                <a href="javascript:" @click.prevent="$emit('setMediatype', mediatype.id)">
-                    {{ mediatype.name }}
-                </a>({{mediatype.count}})
-            </li>
-        </ul>
+<div>
+    <div class="facet-filter" v-if="mediatypes.length > 0">
+      <div class="d-grid gap-2">
+          <button v-if="filters.mediatype" role="button" class="facet-header d-flex justify-content-between" :class="{active: filters.mediatype}" @click="$emit('setMediatype', undefined)" >
+              <span class="facet-header-text">
+                {{selectedMediatypeFull.name}}
+              </span>
+              <span class="facet-header-action-indicator"
+                  ><font-awesome-icon icon="xmark"
+              /></span>
+          </button>
+          <button v-else role="button" class="facet-header d-flex justify-content-between" @click="toggleMediatypeExpanded()" >
+              <span class="facet-header-text">{{t('components.mediatype_filter.label')}}</span>
+              <span class="facet-header-action-indicator">
+                  <font-awesome-icon v-if="isOpen" icon="chevron-up"/>
+                  <font-awesome-icon v-else icon="chevron-down"/>
+              </span>
+          </button>
+      </div>
+      <ul class="list-unstyled mediatype-list" v-if="isOpen">
+          <li v-for="mediatype in mediatypes" :key="mediatype.id">
+              <a href="javascript:" @click.prevent="$emit('setMediatype', mediatype.id)">
+                  {{ mediatype.name }}
+              </a> ({{mediatype.count}})
+          </li>
+      </ul>
     </div>
-
-
-          <!-- <ul>
-            <li v-for="mediatype in mediatypes" :key="mediatype.id">
-              <input
-                type="checkbox"
-                :id="'mediatype_' + mediatype.id"
-                :checked="mediatype.id === filters.mediatype"
-                @click="$emit('setMediatype', mediatype.id)"
-              /><label :for="'mediatype_' + mediatype.id"
-                >{{ mediatype.name }} ({{ mediatype.count }}) {{ mediatype.id }}</label
-              >
-            </li>
-          </ul> -->
-    </div>
+</div>
 </template>
 
 <script setup>

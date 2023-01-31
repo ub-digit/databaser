@@ -1,4 +1,8 @@
 <template>
+  <Head>
+    <title>{{t('seo.application_title')}} - {{ database.title }}</title>
+    <Meta name="description" :content="database.title" />
+  </Head>
   <div v-if="database" class="container">
     <div class="row justify-content-sm-center">
       <div class="col col-md-8 col-lg-6">

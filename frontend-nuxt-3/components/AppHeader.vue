@@ -71,6 +71,7 @@
           Arial Narrow, Helvetica, Arial, "Lucida Grande", sans-serif;
       }
     }
+
     .logo {
       width: 64px;
       height: 65px;

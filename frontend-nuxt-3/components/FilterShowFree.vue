@@ -15,27 +15,13 @@
 </template>
 
 <script setup>
-const {t} = useI18n();
-const props = defineProps(['modelValue'])
-defineEmits(['update:modelValue'])  
+  const {t} = useI18n();
+  const props = defineProps(['modelValue'])
+  defineEmits(['update:modelValue'])  
 </script>
 
 <style lang="scss" scoped>
     .facet-header {
-      &:focus-visible {
-        border: 1px solid rgb(15, 15, 15);
-      }
-      &.active {
-        background-color: #025da6;
-        color: white;
-      }
-      &:last-of-type {
-        border-bottom: none;
-      }
-      cursor: pointer;
-      background: #f0f0f0;
-      padding: 15px;
-      border: none;
     }
 
 </style>
