@@ -1,12 +1,12 @@
 defmodule DbListAdmin.Model.Alert do
 
   def alert_message_file_path do
-    System.get_env("ALERT_MESSAGE_PATH", "../data/alert.json")
+    System.get_env("ALERT_MESSAGE_FILE_PATH" <> "/alert.json", "../data/alert.json")
   end
   def get() do
     File.read(alert_message_file_path())
     |> case do
-      {:error, _} -> %{sv: "", en: "", show_alert_message: false}
+      {:error, _} -> %{sv: "", en: "", show_alert_message: "error"}
       {:ok, content} -> content |> Jason.decode!()
     end
   end
