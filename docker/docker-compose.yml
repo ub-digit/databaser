@@ -8,7 +8,10 @@ services:
       - "${BACKEND_HOST_PORT}:4000"
     environment:
       ELASTIC_SEARCH_URL: "${ELASTIC_SEARCH_URL}"
+      ALERT_MESSAGE_FILE_PATH: "${ALERT_MESSAGE_FILE_PATH}"
     restart: always
+    volumes:
+      - "${HOST_ALERT_MESSAGE_FILE_PATH}:${ALERT_MESSAGE_FILE_PATH}"
   backend-admin:
     container_name: db-list-backend-admin
     image: docker.ub.gu.se/db-list-backend-admin:${GIT_REVISION}
@@ -16,7 +19,10 @@ services:
       - "${BACKEND_ADMIN_HOST_PORT}:4000"
     environment:
       ELASTIC_SEARCH_URL: "${ELASTIC_SEARCH_URL}"
+      ALERT_MESSAGE_FILE_PATH: "${ALERT_MESSAGE_FILE_PATH}"
     restart: always
+    volumes:
+      - "${HOST_ALERT_MESSAGE_FILE_PATH}:${ALERT_MESSAGE_FILE_PATH}"
   frontend:
     container_name: db-list-frontend
  # frontend-admin: 

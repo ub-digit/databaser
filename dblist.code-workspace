@@ -1,6 +1,9 @@
 {
 "folders": [
 {
+"path": "data"
+},
+{
 "path": "backend"
 },
 {
@@ -27,6 +30,4 @@
 ],
 "settings": {}
 }
-{
-  "path": "backend"
-  }
+

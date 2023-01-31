@@ -13,7 +13,7 @@ defmodule DatabasesWeb.Router do
       "media_types" => :integer,
       "sub_topics" => :integer_array,
       "show_free" => :boolean,
-      "is_popular" => :boolean
+      "is_popular" => :boolean,
     }
   end
 
@@ -24,13 +24,12 @@ defmodule DatabasesWeb.Router do
   scope "/", DatabasesWeb do
     pipe_through :browser
 
-    get "/alert", DatabaseController, :alert
+    get "/alert", AlertController, :show
     get "/dublin_core", DublinCoreController, :export
     get "/", DatabaseController, :index
     get "/databases/popular", DatabaseController, :get_popular_databases
     get "/databases", DatabaseController, :index
     get "/databases/:id", DatabaseController, :show
-
   end
 
   # Other scopes may use custom stacks.
