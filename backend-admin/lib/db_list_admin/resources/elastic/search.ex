@@ -1,11 +1,35 @@
 defmodule DbListAdmin.Resource.Elastic.Search do
   alias DbListAdmin.Resource.Elastic
 
-  def get_databases_admin(term \\ "") do
-    case Elastix.Search.search(Elastic.elastic_url(), Elastic.index_admin(), [], base(term)) do
+  def get_databases_admin(params) do
+    q = base(params)
+    |>  put_in([:query, :bool, :filter], build_filter(params))
+    case Elastix.Search.search(Elastic.elastic_url(), Elastic.index_admin(), [], q) do
       {:ok, %{body: %{"hits" => %{"hits" => hits}}}} -> remap(hits)
       {:ok, _} -> []
     end
+  end
+
+  def build_filter(params) do
+    params
+    |> Map.filter(fn {key, _} -> is_valid_filter_key(key) end)
+    |> Enum.map(fn {key, val} ->
+      %{match: %{}}
+      |> put_in([:match, key], val)
+    end)
+  end
+
+  def is_valid_filter_key(key) do
+    # Fill this list with valid filter keys ("is_new", "is_trial" etc.)
+    Enum.member?(
+      [
+        "published",
+        "is_trial",
+        "is_new",
+        "is_popular"
+      ],
+      key
+      )
   end
 
   def remap(hits) do
@@ -14,7 +38,9 @@ defmodule DbListAdmin.Resource.Elastic.Search do
     |> Enum.sort()
   end
 
-  def base(term) do
+  def base(params) do
+    term = params["term"] || ""
+
     %{
       aggs: %{
         topics: %{
@@ -43,10 +69,12 @@ defmodule DbListAdmin.Resource.Elastic.Search do
             %{
                 query_string: %{
                   query: term <> "*",
+                  default_operator: "AND",
                   fields: ["title_sv^15", "title_en^15"]
               }
             }
-          ]
+          ],
+          filter: []
         }
       }
     }

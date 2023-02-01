@@ -8,6 +8,12 @@ defmodule DbListAdminWeb.Router do
     plug :put_root_layout, {DbListAdminWeb.LayoutView, :root}
     #plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug DbListAdminWeb.ParamPlug, %{
+      "published" => :boolean,
+      "is_trial" => :boolean,
+      "is_new" => :boolean,
+      "is_popular" => :boolean,
+    }
   end
 
   pipeline :api do
