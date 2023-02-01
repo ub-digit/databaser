@@ -3,8 +3,9 @@ defmodule DbListAdminWeb.DatabasesController do
 
   def index(conn, params) do
     #json conn, DbListAdmin.Resource.Database.get_databases()
-    term = Map.get(params, "term", "")
-    json conn, DbListAdmin.Resource.Elastic.Search.get_databases_admin(term)
+
+    #term = Map.get(params, "term", "")
+    json conn, DbListAdmin.Resource.Elastic.Search.get_databases_admin(params)
   end
 
   def show(conn, %{"id" => id}) do

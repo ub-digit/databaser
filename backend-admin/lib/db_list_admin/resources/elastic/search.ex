@@ -1,20 +1,38 @@
 defmodule DbListAdmin.Resource.Elastic.Search do
   alias DbListAdmin.Resource.Elastic
 
-  def get_databases_admin(term \\ "") do
-    case Elastix.Search.search(Elastic.elastic_url(), Elastic.index_admin(), [], base(term)) do
-      {:ok, %{body: %{"hits" => %{"hits" => hits}}}} -> remap(hits)
+  def get_databases_admin(params) do
+    case Elastix.Search.search(Elastic.elastic_url(), Elastic.index_admin(), [], base(params)) do
+      {:ok, %{body: %{"hits" => %{"hits" => hits}}}} -> remap(hits, params)
       {:ok, _} -> []
     end
   end
 
-  def remap(hits) do
-    hits
+  def remap(hits, params) do
+    bool_published(params)
+    |> case do
+      nil -> hits
+      bool -> Enum.filter(hits, fn db ->
+        (db["_source"]["published"] == bool)
+      end)
+    end
     |> Enum.map(fn db -> %{id: db["_source"]["id"], title_en: db["_source"]["title_en"], title_sv: db["_source"]["title_sv"]} end)
     |> Enum.sort()
   end
 
-  def base(term) do
+  def bool_published(params) do
+    case params["published"] do
+      "true" -> true
+      true -> true
+      "false" -> false
+      false -> false
+      _ -> nil
+    end
+  end
+
+
+  def base(params) do
+    term = params["term"] || ""
     %{
       aggs: %{
         topics: %{
