@@ -48,7 +48,7 @@
                             <a href="javascript:" @click.prevent="$emit('toggleSubTopic', topic.id); toggleSubTopicsExpanded()">
                                 <span v-if="filters.sub_topics.includes(topic.id)"><font-awesome-icon icon="minus"/></span
                                 ><span v-else><font-awesome-icon icon="plus"/></span>{{ topic.name }}
-                            </a>({{topic.count}})
+                            </a> ({{topic.count}})
                         </li>
                     </ul>
                 </div>
