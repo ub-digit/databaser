@@ -4,7 +4,6 @@ defmodule DbListAdmin.Resource.Elastic.Search do
   def get_databases_admin(params) do
     q = base(params)
     |>  put_in([:query, :bool, :filter], build_filter(params))
-    |> IO.inspect(label: "FILTER QUERY")
     case Elastix.Search.search(Elastic.elastic_url(), Elastic.index_admin(), [], q) do
       {:ok, %{body: %{"hits" => %{"hits" => hits}}}} -> remap(hits)
       {:ok, _} -> []
