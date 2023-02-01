@@ -2,9 +2,10 @@
 export default defineNuxtConfig({
     ssr: true,
     runtimeConfig: {
-        // Public keys that are exposed to the client   
+        
+        API_BASE_URL: 'http://localhost:4000/',   
         public: {
-            API_BASE_URL: process.env.NUXT_PUBLIC_API_BASE || 'https://databaser-server-staging.ub.gu.se/'
+            
         }
     },
     typescript: {
