@@ -2,37 +2,46 @@ defmodule DbListAdmin.Resource.Elastic.Search do
   alias DbListAdmin.Resource.Elastic
 
   def get_databases_admin(params) do
-    case Elastix.Search.search(Elastic.elastic_url(), Elastic.index_admin(), [], base(params)) do
-      {:ok, %{body: %{"hits" => %{"hits" => hits}}}} -> remap(hits, params)
+    q = base(params)
+    |>  put_in([:query, :bool, :filter], build_filter(params))
+    |> IO.inspect(label: "FILTER QUERY")
+    case Elastix.Search.search(Elastic.elastic_url(), Elastic.index_admin(), [], q) do
+      {:ok, %{body: %{"hits" => %{"hits" => hits}}}} -> remap(hits)
       {:ok, _} -> []
     end
   end
 
-  def remap(hits, params) do
-    bool_published(params)
-    |> case do
-      nil -> hits
-      bool -> Enum.filter(hits, fn db ->
-        (db["_source"]["published"] == bool)
-      end)
-    end
+  def build_filter(params) do
+    params
+    |> Map.filter(fn {key, _} -> is_valid_filter_key(key) end)
+    |> Enum.map(fn {key, val} ->
+      %{match: %{}}
+      |> put_in([:match, key], val)
+    end)
+  end
+
+  def is_valid_filter_key(key) do
+    # Fill this list with valid filter keys ("is_new", "is_trial" etc.)
+    Enum.member?(
+      [
+        "published",
+        "is_trial",
+        "is_new",
+        "is_popular"
+      ],
+      key
+      )
+  end
+
+  def remap(hits) do
+    hits
     |> Enum.map(fn db -> %{id: db["_source"]["id"], title_en: db["_source"]["title_en"], title_sv: db["_source"]["title_sv"]} end)
     |> Enum.sort()
   end
 
-  def bool_published(params) do
-    case params["published"] do
-      "true" -> true
-      true -> true
-      "false" -> false
-      false -> false
-      _ -> nil
-    end
-  end
-
-
   def base(params) do
     term = params["term"] || ""
+
     %{
       aggs: %{
         topics: %{
@@ -61,10 +70,12 @@ defmodule DbListAdmin.Resource.Elastic.Search do
             %{
                 query_string: %{
                   query: term <> "*",
+                  default_operator: "AND",
                   fields: ["title_sv^15", "title_en^15"]
               }
             }
-          ]
+          ],
+          filter: []
         }
       }
     }
