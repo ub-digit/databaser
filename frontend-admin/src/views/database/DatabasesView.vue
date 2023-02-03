@@ -9,7 +9,7 @@
       <div class="row">
         <div class="col-3">
           <FormKit 
-            outer-class="database-filter mb-4"
+            outer-class="database-filter mb-2"
             id="database_filter"
             type="text"
             :classes="{
@@ -28,6 +28,12 @@
               <a href="javascript:void()" class="resetBtn" v-if="isClearVisible" @click="resetSearch"><font-awesome-icon icon="times" /></a>
             </template>
           </FormKit>
+
+          <div class="form-check mb-4">
+            <input class="form-check-input" type="checkbox" id="is-draft" v-model="onlyDrafts">
+            <label class="form-check-label" for="is-draft">Only drafts</label>
+          </div>
+
           <ul v-if="databases && databases.length"  class="left-nav">
             <li v-for="database in databases" :key="database.id">
               <router-link :to="{ name: 'DatabaseShow', params: { id: database.id }}">{{database.title_en}}</router-link>
@@ -58,6 +64,7 @@ import {computed, onMounted, ref, watch } from 'vue'
 import {useRoute} from 'vue-router'
 import _ from 'lodash'
 
+
 export default {
   name: 'databases',
   setup() {
@@ -68,13 +75,18 @@ export default {
     const databases = null;
     const numberOfDatabases = 20;
     const showAll = ref(false);
+    const onlyDrafts = ref(false);
     const fetchData = async () => {
       loading.value = true;
-      const res = await store.fetchDatabases(searchTerm.value);
+      const res = await store.fetchDatabases({term: searchTerm.value, published: !onlyDrafts.value});
       loading.value = false;
     }
     fetchData();
     watch(searchTerm, _.throttle(async() => { 
+        fetchData();
+      }, 500)  
+    )
+    watch(onlyDrafts, _.throttle(async() => { 
         fetchData();
       }, 500)  
     )
@@ -105,6 +117,7 @@ export default {
       searchTerm,
       resetSearch,
       showAll,
+      onlyDrafts,
       store,
       numberOfDatabases,
       isClearVisible: computed(() => {

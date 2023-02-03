@@ -26,9 +26,10 @@ export const useDatabasesStore = defineStore({
     },
     async fetchDatabases(payload) {
       try {
+        console.log(payload)
         nProgress.start();
         this.databases = [];
-        const result = await axios.get(`${this.baseUrl}/databases/`, {params: { term: payload}});
+        const result = await axios.get(`${this.baseUrl}/databases/`, {params: payload});
         this.databases = result.data;
         return result.data;
       } catch (error) {
