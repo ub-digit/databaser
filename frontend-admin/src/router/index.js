@@ -24,6 +24,7 @@ import Database from "../views/database/Database.vue"
 import DatabaseNew from "../views/database/DatabaseNew.vue"
 import DatabaseShow from "../views/database/DatabaseShow.vue"
 import DatabaseEdit from "../views/database/DatabaseEdit.vue"
+import AlertEdit from "../views/alert/AlertEdit.vue"
 import NotFound from "../components/NotFound.vue"
 
 
@@ -34,6 +35,11 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
+    },
+    {
+      path: "/alert",
+      name: "alert",
+      component: AlertEdit,
     },
     {
       path: "/databases",

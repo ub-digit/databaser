@@ -11,6 +11,9 @@
             <router-link :to="{name: 'home'}" class="nav-link">Home</router-link>
           </li>
           <li class="nav-item" >
+            <router-link :to="{name: 'alert'}" class="nav-link">Alert Message</router-link>
+          </li>
+          <li class="nav-item" >
             <router-link :to="{name: 'index'}" class="nav-link">Topics</router-link>
           </li>
           <li class="nav-item" >
