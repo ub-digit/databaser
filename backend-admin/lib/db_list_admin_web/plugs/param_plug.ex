@@ -29,6 +29,8 @@ defmodule DbListAdminWeb.ParamPlug do
 
   def typeset_value(value, :boolean) do
     case value do
+      true -> true
+      false -> false
       "true" -> true
       "false" -> false
       "yes" -> true
