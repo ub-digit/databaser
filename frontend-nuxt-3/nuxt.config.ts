@@ -3,7 +3,7 @@ export default defineNuxtConfig({
     ssr: true,
     runtimeConfig: {
         
-        API_BASE_URL: 'http://localhost:4000/',   
+        API_BASE_URL: 'https://databaser-server-staging.ub.gu.se/',   
         public: {
             
         }
