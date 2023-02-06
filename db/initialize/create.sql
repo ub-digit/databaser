@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS access_tokens;
 DROP TABLE IF EXISTS databases;
 DROP TABLE IF EXISTS database_media_types;
 DROP TABLE IF EXISTS media_types;
@@ -14,6 +15,15 @@ DROP TABLE IF EXISTS media_type_for;
 
 -- Add extention for non case sensitive uniqueness
 CREATE EXTENSION IF NOT EXISTS citext; 
+
+CREATE TABLE access_tokens (
+    id SERIAL NOT NULL PRIMARY KEY,
+    username text,
+    name text,
+    token text,
+    session_key text,
+    last_valid timestamp without time zone
+);
 
 CREATE TABLE databases (
     id serial PRIMARY KEY,
