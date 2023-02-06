@@ -6,24 +6,22 @@
       <div class="koha-login">
         <div class="row justify-content-center">
           <div class="col col-md-8 col-lg-4">
-              <div class="login-header mb-3">{{ $t("login.form.kohaHeader")}}</div>
-              <p class="mb-5"> {{ $t("login.form.kohaDescription")}} </p>
-              <div v-if="state.form.errorKoha" class="alert alert-danger" role="alert">
-                {{$t("login.form.kohaErrorLoginMsg")}}
+              <div class="login-header mb-3">Login</div>
+              <div v-if="state.form.error" class="alert alert-danger" role="alert">
+                Error logging in. Try again. 
               </div>
               <form class="d-grid gap-3" @submit.prevent="sendLogin">
                 <div>
-                  <label class="form-label" for="cardnumber">{{$t('login.form.cardnumber')}}</label>
-                  <input type="text" class="form-control" id="cardnumber" name="cardnumber" v-model="state.form.data.cardnumber" />
+                  <label class="form-label" for="userid">User</label>
+                  <input type="text" class="form-control" id="userid" name="userid" v-model="state.form.data.username" />
                 </div>
                 <div>
-                  <label class="form-label" for="personalnumber">{{$t('login.form.personalnumber')}}</label>
-                  <input type="password" class="form-control" id="personalnumber" name="personalnumber" v-model="state.form.data.personalnumber" />
+                  <label class="form-label" for="password">Password</label>
+                  <input type="password" class="form-control" id="password" name="password" v-model="state.form.data.password" />
                 </div>
                 <div class="d-grid">
-                  <button type="submit" class="btn btn-primary">{{$t('login.form.submit')}}</button>
+                  <button type="submit" class="btn btn-primary">Send</button>
                 </div>
-                <div class="getaccount text-center"><a :href="$t('login.getLibrarycard.url')">{{ $t("login.getLibrarycard.linktext")}}</a></div>
               </form>
           </div>
         </div>
@@ -38,15 +36,11 @@ import { watch } from "vue";
 import { reactive } from "vue";
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
-import { useStore } from "@/pinia/store";
 import { useAuth } from "@websanova/vue-auth/src/v3.js";
-import { useI18n } from 'vue-i18n';
 export default {
   setup() {
     const auth = useAuth();
     const route = useRoute();
-    const store = useStore();
-    const i18n = useI18n();
     const state = reactive({
       validating: false,
       form: {
@@ -86,11 +80,8 @@ export default {
         state.form.data.code = route.query.code;
       }
     }
-    async function oauth2Default(type) {
-      await auth.oauth2(type, state.form);
-    }
     async function sendLogin() {
-      state.form.data.provider = "koha";
+      state.form.data.provider = "databaser";
       try {
         await auth.login({
           data: state.form.data,
@@ -100,40 +91,13 @@ export default {
           redirect: "/",
         });
       } catch (_) {
-        state.form.errorKoha = true;
+        state.form.error = true;
       }
     }
-    function casLoginURL() {
-      const serviceURL = casServiceURL()
-      return store.settings.cas_login_url + "?service=" + encodeURIComponent(serviceURL)
-    }
-    function casServiceURL() {
-      const lang = i18n.locale.value
-      return location.origin + auth.drivers.cas.servicePath + "?lang=" + encodeURIComponent(lang)
-    }
-    async function authCAS() {
-      const url = store.baseURL + auth.drivers.cas.validationPath
-      state.validating = true
-      state.form.errorCAS = false
-      try {
-        await auth.login({
-          url: url,
-          data: {
-            ticket: route.query.ticket,
-            service: casServiceURL(),
-          },
-          redirect: "/"
-        })
-      } catch(_) {
-        state.form.errorCAS = true
-      }
-      state.validating = false
-    }
+
     return {
       state,
-      oauth2Default,
-      sendLogin,
-      casLoginURL,
+      sendLogin
     };
   },
 };

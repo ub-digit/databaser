@@ -25,6 +25,18 @@
           <li class="nav-item" >
             <router-link :to="{name: 'databaseindex'}" class="nav-link">Databases</router-link>
           </li>
+       </ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown" v-if="$auth.$vm.state.authenticated">
+            <a class="nav-link  dropdown-toggle" href="javascript:void(0)" id="navbarLoginMenuLink" aria-label="Username" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <span>Logged in user: {{$auth.$vm.state.data.name}}</span>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarLoginMenuLink">
+              <li class="text-md-center text-sm-start">
+                <a class="dropdown-item" @click="$auth.logout()" href="javascript:void(0)">Logout</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </div>
     </div>

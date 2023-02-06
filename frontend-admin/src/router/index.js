@@ -26,6 +26,7 @@ import DatabaseShow from "../views/database/DatabaseShow.vue"
 import DatabaseEdit from "../views/database/DatabaseEdit.vue"
 import AlertEdit from "../views/alert/AlertEdit.vue"
 import NotFound from "../components/NotFound.vue"
+import Login from "../views/Login.vue"
 
 
 const router = createRouter({
@@ -35,16 +36,19 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
+      meta: { auth: true}, 
     },
     {
       path: "/alert",
       name: "alert",
       component: AlertEdit,
+      meta: { auth: true}, 
     },
     {
       path: "/databases",
       name: "databases",
       component: DatabasesView,
+      meta: { auth: true}, 
       children: [
         {
           path: "",
@@ -80,6 +84,7 @@ const router = createRouter({
       path: "/publishers",
       name: "publishers",
       component: PublishersView,
+      meta: { auth: true}, 
       children: [
         {
           path: "",
@@ -115,6 +120,7 @@ const router = createRouter({
       path: "/mediatypes",
       name: "mediatypes",
       component: MediatypesView,
+      meta: { auth: true}, 
       children: [
         {
           path: '',
@@ -150,6 +156,7 @@ const router = createRouter({
       path: '/topics',
       name: 'topics',
       component: TopicsList,
+      meta: { auth: true}, 
       children: [
         {
           path: '',
@@ -174,8 +181,17 @@ const router = createRouter({
         }
       ]
     },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
+      meta: { auth: false }, 
+    },
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound },
   ],
 });
 
-export default router;
+export default (app) => {
+  app.router = router;
+  app.use(router);
+}

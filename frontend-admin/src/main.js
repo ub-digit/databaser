@@ -9,6 +9,8 @@ import Toast from 'vue-toastification';
 import "@/scss/custom.scss";
 import 'nprogress/nprogress.css';
 import { i18n } from "./locales";
+import auth from '@/plugins/auth.js'
+import http from '@/plugins/http.js'
 
 const local_url = '/cgi-bin/backend.cgi'
 const {FontAwesomeIcon} = useFontawesome();
@@ -26,9 +28,11 @@ axios.get(local_url).then((result) => {
   .provide('baseURL', data.backend_url)
   //.provide('alertURL', data.alert_url)
   .component("font-awesome-icon", FontAwesomeIcon)
+  .use(router)
   .use(createPinia())
   .use(i18n)
-  .use(router)
+  .use(http)
+  .use(auth)
   .use(plugin, defaultConfig)
   .use(Toast, { timeout: 3000, position: 'top-center', transition: 'Vue-Toastification__fade', hideProgressBar: true })
 

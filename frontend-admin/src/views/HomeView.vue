@@ -41,6 +41,16 @@
           </div>
         </div>
       </div>
+
+      <div class="row">
+        <div class="col-6">
+          <div class="card mb-4">
+            <div class="card-body">
+              <router-link class="" :to="{name: 'alert'}">Edit alert message</router-link>
+            </div>
+          </div>
+        </div>
+      </div>
   </main>
 </template>
 
