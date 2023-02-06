@@ -51,7 +51,9 @@ defmodule DbListAdmin.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:elastix, ">= 0.10.0"},
       {:slugy, "~> 4.1.0"},
-      {:cors_plug, "~> 2.0"}
+      {:cors_plug, "~> 2.0"},
+      {:bcrypt_elixir, "~> 3.0"},
+      { :uuid, "~> 1.1" }
     ]
   end
 
