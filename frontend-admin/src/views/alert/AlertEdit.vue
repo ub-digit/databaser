@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1 class="mb-4" >Edit alert message</h1>
+        <h1 class="mb-4" >Edit general alert message</h1>
         <div v-if="alert_msg">
             <div class="row mb-4">
                 <div class="col">

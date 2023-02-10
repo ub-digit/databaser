@@ -46,7 +46,7 @@
         <div class="col-6">
           <div class="card mb-4">
             <div class="card-body">
-              <router-link class="" :to="{name: 'alert'}">Edit alert message</router-link>
+              <router-link class="" :to="{name: 'alert'}">Edit general alert message</router-link>
             </div>
           </div>
         </div>
