@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-auto align-self-top">
                 <div class="feedback-link">
-                  <a class="btn nav-link" :href="t('appfooter.contact_link')" ><font-awesome-icon icon="fa-regular fa-envelope" /> {{ t('appfooter.contact_link_text') }}</a>
+                  <a class="btn nav-link" :href="t('appfooter.contact_link')" ><font-awesome-icon icon="fa-solid fa-comment" /> {{ t('appfooter.contact_link_text') }}</a>
                 </div>
               </div>
         </div>

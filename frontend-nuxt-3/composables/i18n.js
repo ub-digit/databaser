@@ -14,7 +14,7 @@ export const useLocaleStore = defineStore('locale', {
         "appheader.header_level2": "Database Search",
 
         "appfooter.contact_link": "https://www.ub.gu.se/node/189487/",
-        "appfooter.contact_link_text": "Feedback",
+        "appfooter.contact_link_text": "Contact us about databases",
 
         "shared.access_information_code.freely_available": "Freely available",
         "shared.access_information_code.available_to_the_university_of_gothenburg": "Available to the University of Gothenburg",
@@ -74,7 +74,7 @@ export const useLocaleStore = defineStore('locale', {
         "appheader.header_level2": "Databassök",
 
         "appfooter.contact_link": "https://www.ub.gu.se/node/189487/",
-        "appfooter.contact_link_text": "Feedback",
+        "appfooter.contact_link_text": "Kontakta oss om databaser",
 
         "shared.access_information_code.freely_available": "Fritt tillgänglig",
         "shared.access_information_code.available_to_the_university_of_gothenburg": "Tillgänglig för Göteborgs universitet",
