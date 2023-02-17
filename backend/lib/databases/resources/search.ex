@@ -52,21 +52,31 @@ defmodule Databases.Resource.Search do
       size: @query_limit,
       query: %{
         bool: %{
-          must: [
-            %{
-                query_string: %{
-                  query: term <> "*",
-                  default_operator: "AND",
-                  fields: ["title^15", "alternative_titles.title^8", "media_types.name^3", "description", "topics.name^3", "sub_topics.name^2", "publishers.name^2"]
-              }
-             }
-          ]
+          must: get_query_type(term)
         }
       }
     }
   end
 
+  def get_query_type("") do
+    [
+      %{
+        match_all: %{}
+      }
+    ]
+  end
 
+  def get_query_type(term) do
+    %{
+      query_string: %{
+        default_operator: "AND",
+        fields: ["title^15", "alternative_titles.title^8",
+        "media_types.name^3", "description", "topics.name^3",
+        "sub_topics.name^2", "publishers.name^2"],
+        query: term
+      }
+    }
+  end
 
   def get_total_documents() do
     {:ok, %{body: %{"count" => count}}} = Elastix.Search.count(elastic_url(), get_index(@default_language), [], %{})
@@ -79,6 +89,7 @@ defmodule Databases.Resource.Search do
     filter = build_filter(filter)
     q = base(params["search"])
     q = add_filter(filter, q)
+    |> IO.inspect(label: "Q")
     |> add_sort_order(params["sort_order"], params["search"])
     {:ok, %{body: %{"aggregations" => aggregations, "hits" => %{"hits" => hits}}}} = Elastix.Search.search(elastic_url(), get_index(lang), [], q)
     databases = hits
@@ -221,7 +232,6 @@ defmodule Databases.Resource.Search do
     {databases, aggregations} = search_index(payload)
     %{"sub_topics" => %{"buckets" => sub_topics_agg}} = aggregations
     topics = sort_topics(databases, topic)
-    |> IO.inspect(label: "topics")
     |> List.first
     |> case do
       nil -> %{}
@@ -296,6 +306,7 @@ defmodule Databases.Resource.Search do
 
   def build_filter(filter) do
     filter
+    |> IO.inspect(label: "FILTER INPUT BUILD FILTER")
     # clear filter of nil values and empty lists
     |> Enum.filter(fn ({_, v}) -> !is_nil(v) || (is_list(v) &&  Enum.count(v) < 1) end)
     |> Map.new
@@ -316,4 +327,6 @@ defmodule Databases.Resource.Search do
   def format_filter_item({k, v}) do
     %{match: %{k => v}}
   end
+
+
 end

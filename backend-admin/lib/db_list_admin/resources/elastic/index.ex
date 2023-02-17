@@ -12,11 +12,9 @@ defmodule DbListAdmin.Resource.Elastic.Index do
   end
 
   def initialize do
-    with {:ok, _} <- creaate_index(Elastic.index_admin()),
-    {:ok, _} <- creaate_index(Elastic.index_sv()),
-    {:ok, _} <- apply_index_mappings(Elastic.index_sv()),
-    {:ok, _} <- creaate_index(Elastic.index_en()),
-    {:ok, _} <- apply_index_mappings(Elastic.index_en())
+    with {:ok, _} <- create_index(Elastic.index_admin()),
+    {:ok, _} <- create_index(Elastic.index_sv()),
+    {:ok, _} <- create_index(Elastic.index_en())
     do
       index_all()
     else
@@ -25,9 +23,51 @@ defmodule DbListAdmin.Resource.Elastic.Index do
     end
   end
 
-  def creaate_index(name) do
+  def create_index(name) do
+    config =  %{
+      "mappings" => %{
+        "properties" => %{
+          "title" => %{
+            "fields" => %{
+              "sort" => %{
+                "type" => "icu_collation_keyword",
+                "language" => "sv",
+                "country" => "SE"
+              }
+            },
+            "type" => "text",
+            "analyzer" => "edge_ngram_analyzer",
+            "search_analyzer" => "standard"
+          }
+        }
+      },
+      "settings" => %{
+        "analysis" => %{
+          "analyzer" => %{
+            "edge_ngram_analyzer" => %{
+              "tokenizer" => "edge_ngram_tokenizer",
+              "filter" => [
+                "lowercase"
+              ]
+            }
+          },
+          "tokenizer" => %{
+            "edge_ngram_tokenizer" => %{
+              "type" => "edge_ngram",
+              "min_gram" => 2,
+              "max_gram" => 20,
+              "token_chars" => [
+                "letter",
+                "digit"
+              ]
+            }
+          }
+        }
+      }
+    }
+
     Elastix.Index.delete(Elastic.elastic_url(), name)
-    Elastix.Index.create(Elastic.elastic_url(), name, %{})
+    Elastix.Index.create(Elastic.elastic_url(), name, config)
     |> case do
       {:ok, %{body: %{"error" => reason}}} -> {:error, reason}
       {:ok, res} -> {:ok, res}
@@ -60,26 +100,5 @@ defmodule DbListAdmin.Resource.Elastic.Index do
       end
     end)
     data
-  end
-
-  def apply_index_mappings(index) do
-      Elastix.Mapping.put(Elastic.elastic_url(), index, "", %{
-      "properties" => %{
-        "title" => %{
-          "type" => "text",
-          "fields" => %{
-            "sort" => %{
-              "type" => "icu_collation_keyword",
-              "language" => "sv",
-              "country" => "SE"
-            }
-          }
-        }
-      }
-    })
-    |> case do
-      {:ok, %{body: %{"error" => %{"reason" => reason}}}} -> {:error, reason}
-      {:ok, res} -> {:ok, res}
-    end
   end
 end
