@@ -12,7 +12,7 @@ defmodule DbListAdmin.Resource.Elastic.Index do
   end
 
   def initialize do
-    with {:ok, _} <- crea te_index(Elastic.index_admin()),
+    with {:ok, _} <- create_index(Elastic.index_admin()),
     {:ok, _} <- create_index(Elastic.index_sv()),
     {:ok, _} <- create_index(Elastic.index_en())
     do
