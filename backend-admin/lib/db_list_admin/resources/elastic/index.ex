@@ -12,11 +12,9 @@ defmodule DbListAdmin.Resource.Elastic.Index do
   end
 
   def initialize do
-    with {:ok, _} <- creaate_index(Elastic.index_admin()),
-    {:ok, _} <- creaate_index(Elastic.index_sv()),
-    #{:ok, _} <- apply_index_mappings(Elastic.index_sv()),
-    {:ok, _} <- creaate_index(Elastic.index_en())
-   # {:ok, _} <- apply_index_mappings(Elastic.index_en())
+    with {:ok, _} <- crea te_index(Elastic.index_admin()),
+    {:ok, _} <- create_index(Elastic.index_sv()),
+    {:ok, _} <- create_index(Elastic.index_en())
     do
       index_all()
     else
@@ -25,7 +23,7 @@ defmodule DbListAdmin.Resource.Elastic.Index do
     end
   end
 
-  def creaate_index(name) do
+  def create_index(name) do
     config =  %{
       "mappings" => %{
         "properties" => %{
@@ -102,26 +100,5 @@ defmodule DbListAdmin.Resource.Elastic.Index do
       end
     end)
     data
-  end
-
-  def apply_index_mappings(index) do
-      Elastix.Mapping.put(Elastic.elastic_url(), index, "", %{
-      "properties" => %{
-        "title" => %{
-          "type" => "text",
-          "fields" => %{
-            "sort" => %{
-              "type" => "icu_collation_keyword",
-              "language" => "sv",
-              "country" => "SE"
-            }
-          }
-        }
-      }
-    })
-    |> case do
-      {:ok, %{body: %{"error" => %{"reason" => reason}}}} -> {:error, reason}
-      {:ok, res} -> {:ok, res}
-    end
   end
 end
