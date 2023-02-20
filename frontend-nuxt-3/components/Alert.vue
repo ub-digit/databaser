@@ -1,5 +1,5 @@
 <template>
-    <div class="alert alert-warning" v-if="message" >
+    <div class="alert alert-warning" v-if="data.show" >
       <div class="row">
         <div class="col-auto">
           <font-awesome-icon icon="circle-info" />
