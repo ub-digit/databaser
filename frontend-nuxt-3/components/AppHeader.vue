@@ -5,8 +5,9 @@
             <div class="row">
               <div class="col-auto">
                 <a :href="getLogoURL" aria-label="Gothenburg University"><div class="logo" :class="getLocale()"></div></a>
+                <div style="display:none" class="addfont">NNNNNNNNNN</div>
               </div>
-              <div class="col align-self-center">
+              <div class="col">
                 <div class="header">
                   <div class="header-level-1">
                     <a :href="getHeaderURL">
@@ -42,19 +43,34 @@
 
 
 <style lang="scss" scoped>
+.addfont {
+        font-family: NimbusSanNovCon-Bol, "Nimbus Sans Novus Cond Bold",
+          Arial Narrow, Helvetica, Arial, "Lucida Grande", sans-serif;
+        font-size: 1rem;
+        @media (min-width: 768px) {
+          font-size: 1.7rem;  
+        }
+}
   header {
     padding-bottom: 20px;
     border-bottom: 1px solid #ccc;
     margin-bottom: 30px;
+
     .header {
       text-transform: uppercase;
+      padding-top: 16px;
+      @media (min-width: 768px) {
+        padding-top: 32px;
+        padding-left: 10px;
+      }
+
       .header-level-1 {
         font-family: NimbusSanNovCon-Bol, "Nimbus Sans Novus Cond Bold",
           Arial Narrow, Helvetica, Arial, "Lucida Grande", sans-serif;
-        font-size: 1.2rem;
+        font-size: 1rem;
         line-height: 1.2;
         @media (min-width: 768px) {
-          font-size: 2rem;  
+          font-size: 1.7rem;  
         }
   
         a {
@@ -73,11 +89,11 @@
     }
 
     .logo {
-      width: 64px;
-      height: 65px;
+      width: 86px;
+      height: 87px;
       @media (min-width: 768px) {
-        width: 127px;
-        height: 129px;
+        width: 146px;
+        height: 148px;
       }
       background-size: 100%;
       &.en {
