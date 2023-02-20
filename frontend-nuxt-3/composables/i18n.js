@@ -68,7 +68,7 @@ export const useLocaleStore = defineStore('locale', {
       },
       sv:{
         "seo.application_title": 'Databassök - Göteborgs universitetsbibliotek',
-        "appheader.logo_link": "http://gu.se/sv",
+        "appheader.logo_link": "http://gu.se/",
         "appheader.header_level1_link": "http://www.ub.gu.se/sv",
         "appheader.header_level1": "Göteborgs universitetsbibliotek",
         "appheader.header_level2": "Databassök",
