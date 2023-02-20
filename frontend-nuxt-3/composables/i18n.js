@@ -111,7 +111,7 @@ export const useLocaleStore = defineStore('locale', {
 
         "views.database.title": "Databas",
         "views.database.backButton": "Tillbaka till resultatlistan",
-        "views.database.homeButton": "Till databaser",
+        "views.database.homeButton": "Till lista över databaser",
         "views.database.subjects": "Ämne",
         "views.database.mediatypes": "Mediatyp",
         "views.database.vendor": "Leverantör",
