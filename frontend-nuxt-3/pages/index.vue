@@ -13,11 +13,10 @@
       </div>
     </div>
 
-    <ClientOnly>
+
       <div class="alertbox">
         <Alert :url="alertURL"/> 
       </div>
-    </ClientOnly>
     <div class="popular">
       <PopularDBList :key="getLocale()"/>
     </div>
