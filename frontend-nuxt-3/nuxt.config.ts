@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     },
     app: {
       head: {
-        script: [{ children: "var _sid = '2237'; (function() { var se = document.createElement('script'); se.type = 'text/javascript'; se.async = true; se.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'files.imbox.io/app/dist/initWidget.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(se, s); })();"}],
+        script: [{ children: "var _sid = '2237'; var _imboxSettings = { cookieDomain: '.databaser-staging.ub.gu.se'}; (function() { var se = document.createElement('script'); se.type = 'text/javascript'; se.async = true; se.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'files.imbox.io/app/dist/initWidget.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(se, s); })();"}],
       },
     },
 
