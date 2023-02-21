@@ -89,7 +89,7 @@ defmodule Databases.Resource.Search do
     filter = build_filter(filter)
     q = base(params["search"])
     q = add_filter(filter, q)
-    |> IO.inspect(label: "Q")
+    #|> IO.inspect(label: "Q")
     |> add_sort_order(params["sort_order"], params["search"])
     {:ok, %{body: %{"aggregations" => aggregations, "hits" => %{"hits" => hits}}}} = Elastix.Search.search(elastic_url(), get_index(lang), [], q)
     databases = hits
@@ -306,7 +306,7 @@ defmodule Databases.Resource.Search do
 
   def build_filter(filter) do
     filter
-    |> IO.inspect(label: "FILTER INPUT BUILD FILTER")
+    #|> IO.inspect(label: "FILTER INPUT BUILD FILTER")
     # clear filter of nil values and empty lists
     |> Enum.filter(fn ({_, v}) -> !is_nil(v) || (is_list(v) &&  Enum.count(v) < 1) end)
     |> Map.new

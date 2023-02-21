@@ -44,7 +44,7 @@ defmodule Databases.Resource.DublinCore do
       "dc:title" => db["title"],
       "dc:description" => db["description"],
       "dc:publisher" => get_data_in_list(db["publishers"]),
-      "dv:identifier" => db["id"],
+      "dc:identifier" => db["id"],
       "dc:type" => get_data_in_list(db["media_types"]),
       "dc:subject" => get_subjects(db),
       "dc:modified" => db["updated_at"]
