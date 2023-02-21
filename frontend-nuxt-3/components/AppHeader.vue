@@ -14,7 +14,7 @@
                     {{ t("appheader.header_level1") }}
                     </a>
                   </div>
-                  <div class="header-level-2">
+                  <div class="header-level-2 d-none">
                     {{ t("appheader.header_level2") }}
                   </div>
                 </div>
