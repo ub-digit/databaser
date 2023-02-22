@@ -138,12 +138,14 @@
     import { marked } from 'marked';
     const config = useRuntimeConfig();
     const route = useRoute();
-    const router = useRouter();
+    const router = useRouter();    
     const {t, getLocale} = useI18n();
     const payload = reactive({lang: getLocale()})
     const display_back_url = router.options.history.state.back ? true : false;
     const { data: database, pending, error, refresh } = await useFetch(`${'/api/database/'}${route.params.id}`, {params: payload})
-
+    if (route.params.database != database.value.sanitized_title) {
+      router.replace({ path: `/${database.value.sanitized_title}/${route.params.id}`})
+    }    
     const desc_markdown_output = computed (() => {
         return marked(database.value.description)
     })
