@@ -25,7 +25,7 @@
             <AccessInformation :db="db" />
         </div>
         <div v-if="!db.direct_link_is_hidden" class="direct-link">
-            <a v-if="getDatabaseURL" :href="getDatabaseURL.url">{{t("components.database_list_row.link_prefix")}} {{getDatabaseURL.title}} <font-awesome-icon icon="arrow-right"/></a>
+          <a v-if="(db.urls && db.urls.length)" :href="db.urls[0].url">{{t("components.database_list_row.link_prefix")}} {{db.urls[0].title}} <font-awesome-icon icon="arrow-right"/></a>
         </div>
         </div>
     </div>
@@ -43,14 +43,6 @@ const database_desc = computed(() => {
 })
 const malfunction_message_markdown_output = computed(() => {
   return marked(props.db.malfunction_message)
-})
-const getDatabaseURL = computed(() => {
-  if (props.db.urls && props.db.urls.length) {
-    if (props.db.urls.length === 1) {
-      return {url: props.db.urls[0].url, title: props.db.urls[0].title}
-    }
-  }
-  return null;
 })
 
 </script>
