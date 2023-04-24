@@ -10,13 +10,7 @@
   "path": "backend-admin"
 },
 {
-  "path": "frontend-nuxt"
-},
-{
   "path": "frontend-nuxt-3"
-},
-{
-"path": "frontend"
 },
 {
 "path": "frontend-admin"
