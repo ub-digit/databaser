@@ -4,8 +4,8 @@ services:
   db: 
     volumes:
       - ${DB_DATA_PATH}:/var/lib/postgresql/data/pgdata
-  frontend:
-    image: docker.ub.gu.se/db-list-frontend:${GIT_REVISION}
+  frontend-nuxt-3:
+    image: docker.ub.gu.se/db-list-frontend-nuxt-3:${GIT_REVISION}
     environment:
       DB_LIST_BACKEND_URL: "${DB_LIST_BACKEND_URL}"
       DB_LIST_ALERT_URL: "${DB_LIST_ALERT_URL}"
