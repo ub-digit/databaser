@@ -1,34 +1,34 @@
 version: '3.7'
 services:
   frontend-nuxt-3:
-    image: docker.ub.gu.se/db-list-frontend-nuxt-3:${GIT_REVISION}
+    image: docker.ub.gu.se/databaser-frontend-nuxt-3:${GIT_REVISION}
     build:
       context: ./frontend-nuxt-3
       args:
         - GIT_REPO_URL=${GIT_REPO_URL}
         - GIT_REVISION=${GIT_REVISION}
   frontend-admin:
-    image: docker.ub.gu.se/db-list-frontend-admin:${GIT_REVISION}
+    image: docker.ub.gu.se/databaser-frontend-admin:${GIT_REVISION}
     build:
       context: ./frontend-admin
       args:
         - GIT_REPO_URL=${GIT_REPO_URL}
         - GIT_REVISION=${GIT_REVISION}
   backend:
-    image: docker.ub.gu.se/db-list-backend:${GIT_REVISION}
+    image: docker.ub.gu.se/databaser-backend:${GIT_REVISION}
     build:
       context: ./backend
       args:
         - GIT_REPO_URL=${GIT_REPO_URL}
         - GIT_REVISION=${GIT_REVISION}
   backend-admin:
-    image: docker.ub.gu.se/db-list-backend-admin:${GIT_REVISION}
+    image: docker.ub.gu.se/databaser-backend-admin:${GIT_REVISION}
     build:
       context: ./backend-admin
       args:
         - GIT_REPO_URL=${GIT_REPO_URL}
         - GIT_REVISION=${GIT_REVISION}
   elasticsearch:
-    image: docker.ub.gu.se/db-list-elasticsearch:${GIT_REVISION}
+    image: docker.ub.gu.se/databaser-elasticsearch:${GIT_REVISION}
     build:
       context: ./elasticsearch
