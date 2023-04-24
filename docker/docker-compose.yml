@@ -23,10 +23,6 @@ services:
     restart: always
     volumes:
       - "${HOST_ALERT_MESSAGE_FILE_PATH}:${ALERT_MESSAGE_FILE_PATH}"
-  frontend:
-    container_name: db-list-frontend
- # frontend-admin: 
-  #  container_name: db-list-frontend-admin
   db:
     image: postgres:12
     environment:
