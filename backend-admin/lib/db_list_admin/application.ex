@@ -20,7 +20,7 @@ defmodule DbListAdmin.Application do
       # Start the Endpoint (http/https)
       DbListAdminWeb.Endpoint,
       # Start a worker by calling: DbListAdmin.Worker.start_link(arg)
-      DbListAdmin.Resource.Elastic.Index
+      #DbListAdmin.Resource.Elastic.Index
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
