@@ -133,7 +133,7 @@ defmodule DbListAdmin.Resource.Elastic.Index do
     |> index("admin", Elastic.index_admin())
   end_time = System.monotonic_time(:millisecond)
   IO.inspect("Indexing took #{end_time - start_time} ms")
-    %{status: "All data indexed"}
+    %{status: "ok", message: "databases successfully indexed"}
     |> IO.inspect()
   end
 
