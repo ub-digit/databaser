@@ -24,8 +24,10 @@
         <div class="access-info mb-3">
             <AccessInformation :db="db" />
         </div>
-        <div v-if="!db.direct_link_is_hidden" class="direct-link">
-          <a v-if="(db.urls && db.urls.length)" :href="db.urls[0].url">{{t("components.database_list_row.link_prefix")}} {{db.urls[0].title}} <font-awesome-icon icon="arrow-right"/></a>
+        <div v-if="db.urls && db.urls.length === 1">
+          <div v-if="!db.direct_link_is_hidden" class="direct-link">
+            <a v-if="(db.urls && db.urls.length)" :href="db.urls[0].url">{{t("components.database_list_row.link_prefix")}} {{db.urls[0].title}} <font-awesome-icon icon="arrow-right"/></a>
+          </div>
         </div>
         </div>
     </div>
