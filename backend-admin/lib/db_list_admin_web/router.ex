@@ -41,7 +41,7 @@ defmodule DbListAdminWeb.Router do
     get "/databases/:id", DatabasesController, :show
     post "/databases", DatabasesController, :create
     delete "/databases/:id", DatabasesController, :delete
-    get "/index/reindex_admin", IndexController, :reindex_admin_index
+    get "/index", IndexController, :reindex_admin_index
     get "/alert", AlertController, :show
     post "/alert", AlertController, :create_or_update
     get "/auth/user", AuthController, :user
