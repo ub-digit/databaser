@@ -16,6 +16,14 @@ export const useDatabasesStore = defineStore({
   getters: {
   },
   actions: {
+    async reIndexDatabase() {
+      try {
+        const result = await axios.get(`${this.baseUrl}/index/`);
+        return result.data;
+      } catch (err) {
+        console.log(err.message);
+      }
+    },
     async getDatabaseById(id) {
       try {
         const result = await axios.get(`${this.baseUrl}/databases/${id}`);

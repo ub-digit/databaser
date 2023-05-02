@@ -35,6 +35,9 @@
               <li class="text-md-center text-sm-start">
                 <a class="dropdown-item" @click="$auth.logout()" href="javascript:void(0)">Logout</a>
               </li>
+              <li class="text-md-center text-sm-start">
+                <a class="dropdown-item" @click.prevent="updateIndex()" href="javascript:void(0)">Update index</a>
+              </li>
             </ul>
           </li>
         </ul>
@@ -45,13 +48,24 @@
 </template>
 
 <script>
-
+import {useDatabasesStore} from '@/stores/databases'
+import {useMessage} from '@/plugins/message'
 export default {
   components: {
   },
   setup() {
+    const store = useDatabasesStore();
+    const message = useMessage();
 
+    async function updateIndex() {
+      const res = await store.reIndexDatabase();
+      if (res.status === "ok") {
+        message.set("success", "databases successfully indexed")
+      }
+    }
+    return {updateIndex}
   }
+
 }
 </script>
 
