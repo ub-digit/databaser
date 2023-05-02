@@ -8,12 +8,8 @@ defmodule DbListAdminWeb.IndexController do
     |> json(%{error: "Not authorized"})
   end
 
-  def reindex_admin_index(%Plug.Conn{private: %{ current_user: %{ username: _ }}} = conn, params) do
-    reindex = Map.get(params, "reindex", false) == "true"
-    case reindex do
-      false -> json conn, %{error: "no reindexing done, pass '?reindex=true' "}
-      true -> json conn, DbListAdmin.Resource.Elastic.Index.initialize()
-    end
+  def reindex_admin_index(%Plug.Conn{private: %{ current_user: %{ username: _ }}} = conn, _params) do
+    json conn, DbListAdmin.Resource.Elastic.Index.initialize()
   end
 
   def reindex_admin_index(%Plug.Conn{private: %{ authenticated: true }} = conn, _) do
