@@ -6,7 +6,7 @@
       <h4>Indexing databases</h4>
     </template>
     <template #body>
-      <p><span v-if="isIndexing">Indexing please wait...</span><span v-else>Done!</span></p>
+      <p><span v-if="isIndexing">Indexing please wait... (1-2 minutes )</span><span v-else>Done!</span></p>
     </template>
   </modal>
 
