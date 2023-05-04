@@ -102,13 +102,21 @@ defmodule Databases.Resource.Search do
   def add_sort_order(q, order, _term), do: Map.put(q, :sort, %{"title.sort" => order})
 
   def search(payload \\ %{}) do
+    payload = payload |> set_defaults_payload()
     payload
     |> search_index
     |> shift_recommended_databases_to_top(payload)
     |> remap(payload)
   end
 
-
+  def set_defaults_payload(%{} = payload) do
+    payload
+    |> Map.put("search", String.trim(payload["search"] || ""))
+    |> Map.put("lang", payload["lang"] || @default_language)
+    |> Map.put("sort_order", payload["sort_order"] || "")
+    |> Map.put("topic", payload["topic"] || nil)
+    |> Map.put("sub_topics", payload["sub_topics"] || [])
+  end
 
   #No sub topics in filter
   def shift_recommended_databases_to_top({databases, aggregations}, %{"topic" => topic, "sub_topics" => []}) do
