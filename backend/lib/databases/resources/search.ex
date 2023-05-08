@@ -128,9 +128,7 @@ defmodule Databases.Resource.Search do
       end)
       |> Enum.map(fn db -> Map.put(db, "is_recommended", true) end)
 
-      rest = Enum.filter(databases, fn db ->
-        Enum.member?(recommended_databeses, db) != true
-      end)
+      rest = Enum.reject(databases, fn db -> Enum.any?(recommended_databeses, fn r_db -> (r_db["id"] == db["id"]) end) end)
       databases = [recommended_databeses | rest]
       |> List.flatten()
 
