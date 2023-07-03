@@ -8,7 +8,7 @@
       <div class="col col-md-8 col-lg-6">
         <div class="row">
           <div class="col-auto mb-4">
-              <a href="javascript:void(0)" @click.prevent="goBack"><span class="icon"><font-awesome-icon icon="arrow-left"/></span><span v-if="display_back_url">{{t("views.database.backButton")}}</span> <span v-else>{{t("views.database.homeButton")}}</span></a>
+              <a href="javascript:void(0)" @click.prevent="goBack"><span class="icon"><font-awesome-icon class="fa-xs" icon="arrow-left"/></span><span v-if="display_back_url">{{t("views.database.backButton")}}</span> <span v-else>{{t("views.database.homeButton")}}</span></a>
           </div>
         </div>
         <div v-if="database.title" class="row">
@@ -45,7 +45,7 @@
           <div class="col">
               <ul class="list-unstyled" style="margin-bottom:0;">
                 <li v-for="url in database.urls" :key="url.url" >
-                  <a :href="url.url">{{t("views.database.link_prefix")}} {{url.title}} <font-awesome-icon icon="arrow-right"/></a>
+                  <a :href="url.url">{{t("views.database.link_prefix")}} {{url.title}} <font-awesome-icon class="fa-xs" icon="arrow-right"/></a>
                 </li>
               </ul>
           </div>
@@ -170,6 +170,9 @@
 </script>
 
 <style lang="scss" scoped>
+    .fa-arrow-right {
+      font-size: 12px !important;
+    }
     .alert-warning {
       .fa-triangle-exclamation {
         margin-right: 10px;
