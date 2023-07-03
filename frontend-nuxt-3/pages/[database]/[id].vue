@@ -23,7 +23,7 @@
             <div class="alert alert-warning" role="alert"><font-awesome-icon class="text-danger" icon="triangle-exclamation"/> <span class="malfunction-message" v-html="malfunction_message_markdown_output"></span></div>
           </div>
         </div>
-        <div v-if="database.description" class="row">
+        <div v-if="database.description" class="row description">
           <div class="col">
             <div v-html="desc_markdown_output"></div>
           </div>
@@ -169,7 +169,12 @@
 
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+    .description {
+      a {
+        text-decoration: underline !important;
+      }
+    }
     .fa-arrow-right {
       font-size: 12px !important;
     }
