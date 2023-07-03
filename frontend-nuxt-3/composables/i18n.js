@@ -89,14 +89,14 @@ export const useLocaleStore = defineStore('locale', {
 
         "components.popular_db_list.title": "Populära databaser",
       
-        "components.database_list_row.recommended": "Rekomenderad",
+        "components.database_list_row.recommended": "Rekommenderad",
         "components.database_list_row.link_prefix": "Direkt till",
         "components.database_list_row.is_new": "Ny",
         "components.database_list_row.is_trial": "Test",
 
         "components.searchcount.meta": "Hittade {found} av {total} databaser:",
 
-        "components.topics_filter.label_topic": "Ämne",
+        "components.topics_filter.label_topic": "Ämnen",
         "components.topics_filter.label_sub_topics": "Ämnesord", 
         "components.mediatype_filter.label": "Materialtyp",
         "components.freely_accessible_filter.label": "Visa fritt tillgängliga",
@@ -113,7 +113,7 @@ export const useLocaleStore = defineStore('locale', {
         "views.database.backButton": "Tillbaka till resultatlistan",
         "views.database.homeButton": "Till lista över databaser",
         "views.database.subjects": "Ämne",
-        "views.database.mediatypes": "Mediatyp",
+        "views.database.mediatypes": "Materialtyper",
         "views.database.vendor": "Leverantör",
         "views.database.alt_title": "Alternativ titel",
         "views.database.terms_of_use": "Användningsvillkor",
