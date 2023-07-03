@@ -126,6 +126,11 @@ const sub_topics = computed(() => {
 </script>
 
 <style lang="scss" scoped>
+    .facet-filter {
+        button {
+            text-align: left;
+        }
+    }
   .list-inline {
     .list-inline-item:not(:last-child) {
       &:after {
