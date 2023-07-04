@@ -96,7 +96,7 @@ export const useLocaleStore = defineStore('locale', {
 
         "components.searchcount.meta": "Hittade {found} av {total} databaser:",
 
-        "components.topics_filter.label_topic": "Ämnen",
+        "components.topics_filter.label_topic": "Ämne",
         "components.topics_filter.label_sub_topics": "Ämnesord", 
         "components.mediatype_filter.label": "Materialtyp",
         "components.freely_accessible_filter.label": "Visa fritt tillgängliga",
