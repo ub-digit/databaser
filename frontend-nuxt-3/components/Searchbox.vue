@@ -26,7 +26,7 @@ const {t, getLocale} = useI18n()
 const dbs = ref({})
 const props = defineProps(['searchStr'])
 const localSearchStr = ref(props.searchStr);
-const emit = defineEmits(['submitSearch', 'clearSearch'])  
+const emit = defineEmits(['submitSearch', 'clearSearch','updateSearchStr'])  
 
 
 

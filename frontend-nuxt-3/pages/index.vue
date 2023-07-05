@@ -23,7 +23,7 @@
       <PopularDBList :key="getLocale()"/>
     </div>
     <div class="search">
-      <Searchbox :searchStr="searchStr" @clearSearch="clearSearch" @submitSearch="submitSearch" />
+      <Searchbox :searchStr="searchStr" @clearSearch="clearSearch" @submitSearch="submitSearch" @updateSearchStr="updateSearchStr"/>
     </div>
 
     <div class="row">
