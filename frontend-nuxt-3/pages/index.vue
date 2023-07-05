@@ -183,7 +183,7 @@ function resetFilters() {
 }
 
 function updateSearchStr(str) {
-  searchStr.value = str;
+  searchStr.value = str.value;
 }
 
 function clearSearch() {

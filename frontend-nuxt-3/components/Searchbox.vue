@@ -38,10 +38,17 @@ const debouncedFn = useDebounceFn(async () => {
     dbs.value = {};
     return;
   }
-  const { data: databases, pending, error, refresh } = await useFetch("/api/databases", {
-  params: {search: localSearchStr, lang: getLocale() },
-});
-dbs.value = databases.value;
+  try {
+    const { data: databases, pending, error, refresh } = await useFetch("/api/databases", {
+  params: {search: localSearchStr.value, lang: getLocale() },
+  });
+  dbs.value = databases.value;
+  } catch (error) {
+    console.log(error) 
+  }
+
+
+
 }, 500)
 
 
