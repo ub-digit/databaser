@@ -2,13 +2,13 @@
     <div id="searchBar" class="row justify-content-center">
         <div class="col-12 col-sm-12 col-md-8 col-lg-6">
             <form class="input-group">
-            <a v-if="clearIsVisible" href="#" aria-label="Clear search" id="btn-clear-input" @click.prevent="clearSearch"><font-awesome-icon icon="circle-xmark"/></a>
-            <input class="form-control form-control-lg" :placeholder="t('components.search_bar.placeholder')"  v-model="localSearchStr">
-            <input class="btn btn-primary" type="submit" @click.prevent="$emit('submitSearch', localSearchStr)" :value="t('components.search_bar.submit')">
+              <a v-if="clearIsVisible" href="#" aria-label="Clear search" id="btn-clear-input" @click.prevent="clearSearch"><font-awesome-icon icon="circle-xmark"/></a>
+              <input class="form-control form-control-lg" :placeholder="t('components.search_bar.placeholder')"  v-model="localSearchStr">
+              <input class="btn btn-primary" type="submit" @click.prevent="$emit('submitSearch', localSearchStr)" :value="t('components.search_bar.submit')">
             </form>
-            <div style="position: absolute; z-index:100; max-height: 200px; overflow-y: scroll">
+            <div tabindex="-1" style="position: absolute; z-index:100; max-height: 200px; overflow-y: scroll">
               <ul class="list-group">
-                <li class="list-group-item" v-for="db in dbs.data" :key="db.id">
+                <li  class="list-group-item" v-for="db in dbs.data" :key="db.id">
                   <LangLink class="database-link" :to="`/${db.sanitized_title}/${db.id}`">{{ db.title }} <font-awesome-icon class="fa-xs" icon="arrow-right"/></LangLink>&nbsp;
                 </li>
               </ul>
