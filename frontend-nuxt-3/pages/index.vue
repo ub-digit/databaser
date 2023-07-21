@@ -1,4 +1,5 @@
 <template>
+  <div>
     <Head>
       <title>{{t('seo.application_title')}}</title>
       <Meta name="description" :content="t('seo.application_title')" />
@@ -22,7 +23,7 @@
       <PopularDBList :key="getLocale()"/>
     </div>
     <div class="search">
-      <Searchbox v-model="searchStr" @clearSearch="clearSearch" @submitSearch="submitSearch" />
+      <Searchbox :searchStr="searchStr" @clearSearch="clearSearch" @submitSearch="submitSearch" @updateSearchStr="updateSearchStr"/>
     </div>
 
     <div class="row">
@@ -70,6 +71,8 @@
         </main>
       </div>
     </div>
+</div>
+
 </div>
 </template>
 
@@ -179,9 +182,13 @@ function resetFilters() {
   filters.search = undefined;
 }
 
+function updateSearchStr(str) {
+  searchStr.value = str.value;
+}
+
 function clearSearch() {
   searchStr.value = undefined;
-  submitSearch();
+  submitSearch("");
 }
 
 function clearAllTopicsAndSubTopics() {
@@ -205,9 +212,9 @@ function setMediatype(id) {
     filters.mediatype = id;
   }
 }
-function submitSearch() {
+function submitSearch(val) {
   resetFilters();
-  filters.search = searchStr.value;
+  filters.search = val;
 }
 
 function paramsSerializer(params) {
