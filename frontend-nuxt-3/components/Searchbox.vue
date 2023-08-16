@@ -4,7 +4,7 @@
             <form class="input-group">
               <a v-if="clearIsVisible" href="#" aria-label="Clear search" id="btn-clear-input" @click.prevent="clearSearch"><font-awesome-icon icon="circle-xmark"/></a>
               <input class="form-control form-control-lg" :placeholder="t('components.search_bar.placeholder')"  v-model="localSearchStr">
-              <input class="btn btn-primary" type="submit" @click.prevent="$emit('submitSearch', localSearchStr)" :value="t('components.search_bar.submit')">
+              <input class="btn btn-primary" type="submit" @click.prevent="submitSearch(localSearchStr)" :value="t('components.search_bar.submit')">
             </form>
             <div tabindex="-1" style="position: absolute; z-index:100; max-height: 200px; overflow-y: scroll">
               <ul class="list-group">
@@ -68,6 +68,11 @@ const clearIsVisible = computed(() => {
     }
     return false;
 })
+
+function submitSearch(searchStr) {
+  dbs.value = {};
+  emit("submitSearch", searchStr);
+}
 
 function clearSearch() {
   localSearchStr.value = "";
