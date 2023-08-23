@@ -47,6 +47,6 @@ defmodule DbListAdmin.Resource.Database.DatabaseSubTopic do
     |> Enum.map(fn topic ->
       topic["sub_topics"]
     end)
-    |> List.first()
+    |> List.flatten()
   end
 end
