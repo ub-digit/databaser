@@ -52,7 +52,7 @@ export const useLocaleStore = defineStore("locale", {
 
         "views.home.title": "Database search",
         "views.home.desc":
-          "Find resources that give you access to journal articles, e-books, company facts, methodologies, statistics, notes, videos and much more on your subject.",
+          "Find resources that give you access to journal articles, e-books, company facts, methodologies, statistics, scores, videos and much more on your subject.",
         "views.home.no_result":
           "No database was found. Change your search and try again.",
         "views.home.show_all": "Show all",
