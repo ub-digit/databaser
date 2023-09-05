@@ -17,7 +17,7 @@ RUN set -ex \
  && npm run build
 
 # production environment
-FROM httpd:2.4
+FROM httpd:2.4-bullseye
 ENV TZ=Europe/Stockholm
 RUN sed -i 's/#\(LoadModule cgid_module modules\/mod_cgid.so\)/\1/' /usr/local/apache2/conf/httpd.conf
 RUN echo 'FallbackResource /' >> /usr/local/apache2/conf/httpd.conf
