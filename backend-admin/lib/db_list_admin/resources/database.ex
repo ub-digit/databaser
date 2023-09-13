@@ -34,7 +34,7 @@ defmodule DbListAdmin.Resource.Database do
 
   def load_databases() do
     database_base()
-    |> Repo.all()
+    |> Repo.all(timeout: :infinity)
   end
 
   def get_databases_raw do
