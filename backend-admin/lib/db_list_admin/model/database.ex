@@ -81,6 +81,31 @@ defmodule DbListAdmin.Model.Database do
       inserted_at: database.inserted_at
     }
     |> sort_topics
+    |> create_recommended_list()
+  end
+
+  def create_recommended_list(database) do
+    sub_topics = database
+    |> Map.get(:topics)
+    |> Enum.map(fn topic ->
+      topic |> Map.get(:sub_topics)
+    end)
+    |> List.flatten()
+
+
+
+   recommended = database
+   |> Map.get(:topics)
+   |> Enum.map(fn topic ->
+      [{topic.recommended, topic.name}, Enum.map(topic.sub_topics, fn sub_topic -> {sub_topic.recommended, sub_topic.name} end)]
+   end)
+   |> List.flatten()
+   |> Enum.filter(fn {x, _} -> x == true end)
+   |> Enum.map(fn {_, name} -> name end)
+
+   Map.put(database, :recommended, recommended)
+   Map.put(database, :sub_topics, sub_topics)
+
   end
 
   def remap(%{} = database) do

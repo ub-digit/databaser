@@ -66,6 +66,79 @@ defmodule DbListAdmin.Resource.Elastic.Index do
             "analyzer" => "autocomplete",
             "search_analyzer" => "standard"
           },
+          "alternative_titles.title" => %{
+            "fields" => %{
+              "sort" => %{
+                "type" => "icu_collation_keyword",
+                "language" => "sv",
+                "country" => "SE"
+              }
+            },
+            "type" => "text",
+            "analyzer" => "autocomplete",
+            "search_analyzer" => "standard"
+          },
+          "topics.name" => %{
+            "fields" => %{
+              "sort" => %{
+                "type" => "icu_collation_keyword",
+                "language" => "sv",
+                "country" => "SE"
+              }
+            },
+            "type" => "text",
+            "analyzer" => "autocomplete",
+            "search_analyzer" => "standard"
+          },
+          "sub_topics.name" => %{
+            "fields" => %{
+              "sort" => %{
+                "type" => "icu_collation_keyword",
+                "language" => "sv",
+                "country" => "SE"
+              }
+            },
+            "type" => "text",
+            "analyzer" => "autocomplete",
+            "search_analyzer" => "standard"
+          },
+          "recommended" => %{
+            "fields" => %{
+              "sort" => %{
+                "type" => "icu_collation_keyword",
+                "language" => "sv",
+                "country" => "SE"
+              }
+            },
+            "type" => "text",
+            "analyzer" => "autocomplete",
+            "search_analyzer" => "standard"
+          },
+          "publishers.name" => %{
+            "fields" => %{
+              "sort" => %{
+                "type" => "icu_collation_keyword",
+                "language" => "sv",
+                "country" => "SE"
+              }
+            },
+            "type" => "text",
+            "analyzer" => "autocomplete",
+            "search_analyzer" => "standard"
+          },
+          "media_types.name" => %{
+            "fields" => %{
+              "sort" => %{
+                "type" => "icu_collation_keyword",
+                "language" => "sv",
+                "country" => "SE"
+              }
+            },
+            "type" => "text",
+            "analyzer" => "autocomplete",
+            "search_analyzer" => "standard"
+          },
+
           "id" => %{
             "type" => "keyword"
           }
