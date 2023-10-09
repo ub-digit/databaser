@@ -72,7 +72,7 @@ defmodule Databases.Resource.Search do
         default_operator: "AND",
         fields: ["title^15", "alternative_titles.title^8",
         "media_types.name^3", "description", "topics.name^3",
-        "sub_topics.name^2", "publishers.name^2"],
+        "sub_topics.name^2", "publishers.name^2", "recommended^50"],
         query: term
       }
     }
