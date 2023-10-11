@@ -97,7 +97,11 @@ defmodule Databases.Resource.Search do
     |> add_sort_order(params["sort_order"], params["search"])
     {:ok, %{body: %{"aggregations" => aggregations, "hits" => %{"hits" => hits}}}} = Elastix.Search.search(elastic_url(), get_index(lang), [], q)
     databases = hits
-    |> Enum.map(fn item -> Map.get(item, "_source") end)
+
+    |> Enum.map(fn item ->
+      db = Map.get(item, "_source")
+      |> Map.put("score" , Map.get(item, "_score"))
+    end)
     {databases, aggregations}
   end
 
