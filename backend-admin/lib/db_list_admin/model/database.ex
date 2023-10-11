@@ -91,9 +91,6 @@ defmodule DbListAdmin.Model.Database do
       topic |> Map.get(:sub_topics)
     end)
     |> List.flatten()
-
-
-
    recommended = database
    |> Map.get(:topics)
    |> Enum.map(fn topic ->
@@ -104,8 +101,7 @@ defmodule DbListAdmin.Model.Database do
    |> Enum.map(fn {_, name} -> name end)
 
    Map.put(database, :recommended, recommended)
-   Map.put(database, :sub_topics, sub_topics)
-
+   |> Map.put(:sub_topics, sub_topics)
   end
 
   def remap(%{} = database) do
