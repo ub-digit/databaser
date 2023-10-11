@@ -70,12 +70,16 @@ defmodule Databases.Resource.Search do
     %{
       query_string: %{
         default_operator: "AND",
-        fields: ["title^15", "alternative_titles.title^8",
-        "media_types.name^3", "description", "topics.name^3",
-        "sub_topics.name^2", "publishers.name^2", "recommended^50"],
+        fields: get_search_fields(),
         query: term
       }
     }
+  end
+
+  def get_search_fields() do
+    System.get_env("DEFAULT_SEARCH_FIELDS", "title^15;alternative_titles.title^8;media_types.name^3;description;topics.name^3;sub_topics.name^2;publishers.name^2;recommended^50")
+    |> String.split(";")
+    |> IO.inspect(label: "USING FOR SEARCH")
   end
 
   def get_total_documents() do
