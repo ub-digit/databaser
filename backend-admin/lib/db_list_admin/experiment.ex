@@ -2,6 +2,8 @@ defmodule Experiment do
   alias DbListAdmin.Model
   alias DbListAdmin.Repo
   import Ecto.Query
+  @bulk_index "bulkindex"
+  @url "http://localhost:9200"
 
   def test() do
     delete_data = %{
@@ -224,5 +226,175 @@ defmodule Experiment do
   def a --- b do
     Map.merge(a, b)
   end
+
+  def performance(f, tag \\ "Performance time") do
+    start_time = System.monotonic_time(:millisecond)
+    res = f.()
+    end_time = System.monotonic_time(:millisecond)
+    IO.inspect("#{tag} #{(end_time - start_time)} ms")
+    res
+  end
+
+  def base_query do
+    from (db in Model.Database)
+  end
+
+  def load_databases() do
+
+    preload_database_topics_query = from(database_topic in Model.DatabaseTopic)
+    preload_topics_query = from(topic in Model.Topic)
+    preload_database_sub_topics_query = from(database_sub_topic in Model.DatabaseSubTopic)
+    preload_sub_topics_query = from(sub_topic in Model.SubTopic)
+    preload_database_pulishers_query = from(database_publisher in Model.DatabasePublisher)
+    preload_publisher_query = from(publisher in Model.Publisher)
+    preload_database_alternative_titles_query = from(database_alternative_title in Model.DatabaseAlternativeTitle)
+    preload_database_urls_query = from(database_url in Model.DatabaseUrl)
+    preload_terms_of_use_query = from(database_terms_of_use in Model.DatabaseTermsOfUse)
+    preload_database_media_types_query = from(database_media_type in Model.DatabaseMediaType)
+    preload_media_types_query = from(media_type in Model.MediaType)
+
+    q = base_query()
+    from(db in q,
+      preload:
+      [
+        database_topics: ^preload_database_topics_query,
+        topics: ^preload_topics_query,
+        database_publishers: ^preload_database_pulishers_query,
+        publishers: ^preload_publisher_query,
+        database_sub_topics: ^preload_database_sub_topics_query,
+        sub_topics: ^preload_sub_topics_query,
+        database_alternative_titles: ^preload_database_alternative_titles_query,
+        database_urls: ^preload_database_urls_query,
+        database_terms_of_use: ^preload_terms_of_use_query,
+        database_media_types: ^preload_database_media_types_query,
+        media_types: ^preload_media_types_query
+        ])
+    |> Repo.all()
+  end
+
+  def ttt do
+    performance(&load_databases/0, "Loading database")
+  end
+
+  def database_base() do
+    (from db in Model.Database,
+    left_join: db_topics in Model.DatabaseTopic,
+    on: db_topics.database_id == db.id,
+    left_join: topic in Model.Topic,
+    on: topic.id == db_topics.topic_id,
+    left_join: st_for in Model.DatabaseSubTopic,
+    on: st_for.database_id == db.id,
+    left_join: st in Model.SubTopic,
+    on: st.id == st_for.sub_topic_id,
+    left_join: db_pb in Model.DatabasePublisher,
+    on: db_pb.database_id == db.id,
+    left_join: pb in Model.Publisher,
+    on: pb.id == db_pb.publisher_id,
+    left_join: db_publisher in assoc(pb, :database_publishers),
+    left_join: database_alternative_titles in Model.DatabaseAlternativeTitle,
+    on: database_alternative_titles.database_id == db.id,
+    left_join: database_urls in Model.DatabaseUrl,
+    on: database_urls.database_id == db.id,
+    left_join: database_terms_of_use in Model.DatabaseTermsOfUse,
+    on: database_terms_of_use.database_id == db.id,
+    left_join: mt_db in Model.DatabaseMediaType,
+    on: mt_db.database_id == db.id,
+    left_join: mt in Model.MediaType,
+    on: mt.id == mt_db.media_type_id,
+    preload: [database_topics: db_topics, topics: topic, database_sub_topics: st_for, sub_topics: st, database_alternative_titles: database_alternative_titles, database_terms_of_use: database_terms_of_use, database_urls: database_urls, database_media_types: mt_db, media_types: mt, database_publishers: db_pb, publishers: {pb, :database_publishers}])
+  end
+
+
+  def bulk_index() do
+    # index = "test_bulk"
+    # data = load_databases()
+    # case Elastix.Index.exists?("http://localahost:9200", index) do
+    #   {:ok, true} -> Elastix.Index.delete("http://localhost:9200", index)
+    #   _ -> Elastix.Index.create("http://localhost:9200", index, %{})
+    # end
+    # data = data
+    # |> Enum.take(5)
+
+    # # |> Enum.map(fn db -> Model.Database.remap(db, "sv") end)
+    # # |> Enum.map(fn db -> [%{index: %{_id: db.id}}, db] end)
+    # # |> List.flatten()
+    # # Elastix.Bulk.post("http://localhost:9200", data, index: "test_bulk", type: "_doc")
+    # # |> Jason.encode!()
+    # |> remap_for_index()
+    # |> IO.inspect()
+
+    # IO.inspect(label: "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssRemap")
+    # Elastix.Bulk.post("http://localhost:9200", data, index: index, type: "_doc")
+
+    Elastix.Index.delete(@url, @bulk_index)
+    Elastix.Index.create(@url, @bulk_index, DbListAdmin.Resource.Elastic.Index.config)
+    data = Experiment.load_databases()
+    #|> Enum.take(2) # remove later
+    |> Enum.map(fn db -> Model.Database.remap(db, "sv") end)
+    # |> Enum.map(fn db ->
+    #   %{
+    #     id: db.id,
+    #     title: db.title,
+    #     alternative_titles: db.alternative_titles
+
+    #   }
+    # end)
+    |> Enum.map(&remap_one_database_for_index/1)
+    |> List.flatten()
+    |> IO.inspect(label: "Remapped")
+
+    Elastix.Bulk.post(@url, data)
+
+
+
+  end
+
+  def remap_one_database_for_index(db) do
+
+    [
+      %{"index" =>  %{"_index" => @bulk_index, "_id" => db.id}},
+      db
+    ]
+    |> List.flatten()
+    |> IO.inspect(label: "Remapped one database")
+
+  end
+
+  def bbulk do
+    Elastix.Index.delete(@url, @bulk_index)
+    Elastix.Index.create(@url, @bulk_index, %{})
+    Elastix.Bulk.post(@url,
+    # [
+    #   %{"index" => %{"_id" => "99991", "_index" => "bulkindex"}},
+    #   %{"id" => "99991"},
+    #   %{"index" => %{"_id" => "99991", "_index" => "bulkindex"}},
+    #   %{"title" => "21st Century Sociology (sv)"},
+    #   %{"index" => %{"_id" => "99992", "_index" => "bulkindex"}},
+    #   %{"id" => "99992"},
+    #   %{"index" => %{"_id" => "99992", "_index" => "bulkindex"}},
+    #   %{"title" => "AATA online (sv)"}
+    # ]
+    [
+      %{"index" =>  %{"_index" => @bulk_index, "_id" => "1001"}},
+      %{"user" => "bob", "stek" => "fjong"},
+      %{"index" =>  %{"_index" => @bulk_index, "_id" => "1002"}},
+      %{"user" => "bob", "stek" => "fjong"}
+    ]
+    )
+
+  end
+
+  def ggg(yes) do
+
+    case yes do
+      true ->
+          IO.inspect("Hello yes is true")
+      false ->
+
+          IO.inspect("Hello yes is false")
+    end
+
+  end
+
 
 end
