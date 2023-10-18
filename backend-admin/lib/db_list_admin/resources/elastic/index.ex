@@ -2,7 +2,7 @@ defmodule DbListAdmin.Resource.Elastic.Index do
   alias DbListAdmin.Resource.Elastic
 
   def initialize do
-     start_time = System.monotonic_time(:millisecond)
+
     data = DbListAdmin.Resource.Database.get_databases_raw()
     with {:ok, _} <- create_index(Elastic.index_admin()),
          {:ok, _} <- create_index(Elastic.index_sv()),
@@ -13,21 +13,6 @@ defmodule DbListAdmin.Resource.Elastic.Index do
       _ -> IO.inspect("Error creating index")
     end
   end
-
-
-  def old_initialize do
-    data = DbListAdmin.Resource.Database.old_get_databases_raw()
-    with {:ok, _} <- create_index(Elastic.index_admin()),
-         {:ok, _} <- create_index(Elastic.index_sv()),
-         {:ok, _} <- create_index(Elastic.index_en()) do
-      old_index_all(data)
-    else
-      {:error, reason} -> IO.inspect(reason, label: "Error creating index")
-      _ -> IO.inspect("Error creating index")
-    end
-  end
-
-
 
   def config do
     %{
@@ -174,10 +159,9 @@ defmodule DbListAdmin.Resource.Elastic.Index do
   def index_all(data) do
      start_time = System.monotonic_time(:millisecond)
      data
-     |> Enum.take(2)
      |> index("sv", Elastic.index_sv())
-     |> index("en", Elastic.index_sv())
-     |> index("admin", Elastic.index_sv())
+     |> index("en", Elastic.index_en())
+     |> index("admin", Elastic.index_admin())
 
 
       end_time = System.monotonic_time(:millisecond)
@@ -205,48 +189,10 @@ defmodule DbListAdmin.Resource.Elastic.Index do
     end)
     |> Enum.map(fn db -> remap_one_database_for_index(db, index) end)
     |> List.flatten()
+    #|> length()
+    #|> IO.inspect(label: index <> " length")
     Elastix.Bulk.post(Elastic.elastic_url(), index_data)
     data
   end
 
-
-  def old_index_all(data) do
-    start_time = System.monotonic_time(:millisecond)
-
-    data
-    |> old_index("sv", Elastic.index_sv())
-    |> old_index("en", Elastic.index_en())
-    |> old_index("admin", Elastic.index_admin())
-
-    end_time = System.monotonic_time(:millisecond)
-    IO.inspect("Indexing took #{end_time - start_time} ms")
-
-    %{status: "ok", message: "databases successfully indexed"}
-    |> IO.inspect()
-  end
-
-  def old_index(data, lang, index) do
-    data
-    |> Enum.map(fn db ->
-      case lang do
-        "admin" -> DbListAdmin.Model.Database.remap(db)
-        _ -> DbListAdmin.Model.Database.remap(db, lang)
-      end
-    end)
-    |> Enum.map(fn db ->
-      {lang, db.published}
-      |> case do
-        {"admin", _} ->
-          Elastix.Document.index(Elastic.elastic_url(), index, "_doc", db.id, db, [])
-
-        {_, true} ->
-          Elastix.Document.index(Elastic.elastic_url(), index, "_doc", db.id, db, [])
-
-        {_, false} ->
-          IO.inspect("Omit index for item")
-      end
-    end)
-
-    data
-  end
 end

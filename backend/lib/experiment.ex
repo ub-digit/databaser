@@ -153,5 +153,4 @@ defmodule Experiment do
   #|> Enum.sort_by(&{!&1["is_recommended"], &1["name"]})
 
   end
-
 end
