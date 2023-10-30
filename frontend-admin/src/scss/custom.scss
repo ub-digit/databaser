@@ -1,23 +1,23 @@
-
 // scss-docs-start import-stack
 // Configuration
 @import "../../node_modules/bootstrap/scss/functions";
 
-@import "fonts.scss";  // load gu-fonts
-
+@import "fonts.scss"; // load gu-fonts
 
 // Variable overrides must come after our functions are imported, but before the rest of the imports.
 
-$font-family-sans-serif: "Open Sans", sans-serif, "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-family-sans-serif: "Open Sans", sans-serif, "Helvetica Neue", Helvetica,
+  Arial, sans-serif;
 $blue: #004b89;
 $white: #fff;
-$headings-font-family: "NimbusSanNovCon-SemBol", "Arial Narrow", Helvetica, Arial, "Lucida Grande", sans-serif;
+$headings-font-family: "NimbusSanNovCon-SemBol", "Arial Narrow", Helvetica,
+  Arial, "Lucida Grande", sans-serif;
 
 $navbar-nav-link-padding-x: 1rem;
-$navbar-brand-margin-end:   2rem;
-$navbar-dark-color:   $white;
-$navbar-dark-hover-color:   rgba($white, .75);
-$navbar-brand-font-size:    1.5rem;
+$navbar-brand-margin-end: 2rem;
+$navbar-dark-color: $white;
+$navbar-dark-hover-color: rgba($white, 0.75);
+$navbar-brand-font-size: 1.5rem;
 $dropdown-bg: $blue;
 $dropdown-color: $white;
 $dropdown-link-color: $white;
@@ -25,14 +25,15 @@ $dropdown-link-color: $white;
 //$form-label-font-weight: bold;
 
 html {
-    overflow-y:scroll;
+  overflow-y: scroll;
 }
-
 
 @import "../../node_modules/vue-multiselect/dist/vue-multiselect.css";
 
 @import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/variables-dark";
 @import "../../node_modules/bootstrap/scss/mixins";
+@import "../../node_modules/bootstrap/scss/maps";
 @import "../../node_modules/bootstrap/scss/utilities";
 
 // Layout & components
@@ -73,7 +74,6 @@ html {
 // Utilities
 @import "../../node_modules/bootstrap/scss/utilities/api";
 // scss-docs-end import-stack
-
 
 // Vue-toastification
 // (Use bootstrap 5 alerts color scheme)
