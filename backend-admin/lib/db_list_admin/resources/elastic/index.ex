@@ -2,12 +2,11 @@ defmodule DbListAdmin.Resource.Elastic.Index do
   alias DbListAdmin.Resource.Elastic
 
   def initialize do
-    data = DbListAdmin.Resource.Database.get_databases_raw()
 
+    data = DbListAdmin.Resource.Database.get_databases_raw()
     with {:ok, _} <- create_index(Elastic.index_admin()),
-    {:ok, _} <- create_index(Elastic.index_sv()),
-    {:ok, _} <- create_index(Elastic.index_en())
-    do
+         {:ok, _} <- create_index(Elastic.index_sv()),
+         {:ok, _} <- create_index(Elastic.index_en()) do
       index_all(data)
     else
       {:error, reason} -> IO.inspect(reason, label: "Error creating index")
@@ -22,8 +21,8 @@ defmodule DbListAdmin.Resource.Elastic.Index do
           "filter" => %{
             "autocomplete_filter" => %{
               "type" => "edge_ngram",
-              "min_gram" => 1,
-              "max_gram" => 20,
+              "min_gram" => 2,
+              "max_gram" => 10,
               "token_chars" => [
                 "letter",
                 "digit",
@@ -138,7 +137,6 @@ defmodule DbListAdmin.Resource.Elastic.Index do
             "analyzer" => "autocomplete",
             "search_analyzer" => "standard"
           },
-
           "id" => %{
             "type" => "keyword"
           }
@@ -148,48 +146,6 @@ defmodule DbListAdmin.Resource.Elastic.Index do
   end
 
   def create_index(name) do
-    # config =  %{
-    #   "mappings" => %{
-    #     "properties" => %{
-    #       "title" => %{
-    #         "fields" => %{
-    #           "sort" => %{
-    #             "type" => "icu_collation_keyword",
-    #             "language" => "sv",
-    #             "country" => "SE"
-    #           }
-    #         },
-    #         "type" => "text",
-    #         "analyzer" => "edge_ngram_analyzer",
-    #         "search_analyzer" => "standard"
-    #       }
-    #     }
-    #   },
-    #   "settings" => %{
-    #     "analysis" => %{
-    #       "analyzer" => %{
-    #         "edge_ngram_analyzer" => %{
-    #           "tokenizer" => "edge_ngram_tokenizer",
-    #           "filter" => [
-    #             "lowercase"
-    #           ]
-    #         }
-    #       },
-    #       "tokenizer" => %{
-    #         "edge_ngram_tokenizer" => %{
-    #           "type" => "edge_ngram",
-    #           "min_gram" => 2,
-    #           "max_gram" => 20,
-    #           "token_chars" => [
-    #             "letter",
-    #             "digit"
-    #           ]
-    #         }
-    #       }
-    #     }
-    #   }
-    # }
-
     Elastix.Index.delete(Elastic.elastic_url(), name)
     Elastix.Index.create(Elastic.elastic_url(), name, config())
     |> case do
@@ -198,34 +154,45 @@ defmodule DbListAdmin.Resource.Elastic.Index do
     end
   end
 
+
+
   def index_all(data) do
-    start_time = System.monotonic_time(:millisecond)
-    data
-    |> index("sv", Elastic.index_sv())
-    |> index("en", Elastic.index_en())
-    |> index("admin", Elastic.index_admin())
-  end_time = System.monotonic_time(:millisecond)
-  IO.inspect("Indexing took #{end_time - start_time} ms")
-    %{status: "ok", message: "databases successfully indexed"}
-    |> IO.inspect()
+     start_time = System.monotonic_time(:millisecond)
+     data
+     |> index("sv", Elastic.index_sv())
+     |> index("en", Elastic.index_en())
+     |> index("admin", Elastic.index_admin())
+
+
+      end_time = System.monotonic_time(:millisecond)
+      IO.inspect("Indexing took #{end_time - start_time} ms")
+      %{status: "ok", message: "databases successfully indexed"}
+      |> IO.inspect()
+  end
+
+
+  def remap_one_database_for_index(db, index) do
+    [
+      %{"index" =>  %{"_index" => index, "_id" => db.id}},
+      db
+    ]
+    |> List.flatten()
   end
 
   def index(data, lang, index) do
-    data
+    index_data = data
     |> Enum.map(fn db ->
-        case lang do
-          "admin" -> DbListAdmin.Model.Database.remap(db)
-          _ -> DbListAdmin.Model.Database.remap(db, lang)
-        end
-      end)
-    |> Enum.map(fn db ->
-      {lang, db.published}
-      |> case do
-        {"admin", _} -> Elastix.Document.index(Elastic.elastic_url(), index, "_doc", db.id, db, [])
-        {_, true} -> Elastix.Document.index(Elastic.elastic_url(), index, "_doc", db.id, db, [])
-        {_, false} -> IO.inspect("Omit index for item")
+      case lang do
+        "admin" -> DbListAdmin.Model.Database.remap(db)
+        _ -> DbListAdmin.Model.Database.remap(db, lang)
       end
     end)
+    |> Enum.map(fn db -> remap_one_database_for_index(db, index) end)
+    |> List.flatten()
+    #|> length()
+    #|> IO.inspect(label: index <> " length")
+    Elastix.Bulk.post(Elastic.elastic_url(), index_data)
     data
   end
+
 end
