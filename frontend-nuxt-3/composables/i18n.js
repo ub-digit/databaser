@@ -54,9 +54,8 @@ export const useLocaleStore = defineStore("locale", {
         "views.home.desc":
           "Find resources that give you access to journal articles, e-books, company facts, methodologies, statistics, scores, videos and much more on your subject.",
         "views.home.no_result":
-          "No database was found. Change your search and try again.",
+          "No database was found. Try one of the following: <ul><li>Check the spelling </li><li>Use fewer or more general search terms</li><li>Empty the search field and use the subject navigation to find a database</li></ul>",
         "views.home.show_all": "Show all",
-
         "views.database.title": "Database",
         "views.database.backButton": "Back to search result",
         "views.database.homeButton": "To list of databases",
@@ -123,7 +122,7 @@ export const useLocaleStore = defineStore("locale", {
         "views.home.desc":
           "Hitta resurser som ger dig tillgång till tidskriftsartiklar, e-böcker, bolagsfakta, metodbeskrivningar, statistik, noter, video och mycket annat inom ditt ämne.",
         "views.home.no_result":
-          "Ingen databas hittades. Ändra din sökning och försök igen.",
+          "Ingen databas hittades. Försök med något av följande: <ul><li>Kontrollera stavningen </li><li>Använd färre eller mer allmänna söktermer</li><li>Töm sökrutan och använd ämnesnavigeringen för att hitta en databas</li></ul>",
         "views.home.show_all": "Visa alla",
 
         "views.database.title": "Databas",

@@ -106,7 +106,9 @@
               </div>
             </div>
             <div v-else>
-              {{ t("views.home.no_result") }}
+              <ClientOnly>
+                <p v-html="no_result"></p>
+              </ClientOnly>
             </div>
           </main>
         </div>
@@ -124,6 +126,10 @@ const router = useRouter();
 const paginated = ref(true);
 const NumberToDisplay = 20;
 const alertURL = ref("/api/alert?" + "lang=" + getLocale());
+
+const no_result = computed(() => {
+  return t("views.home.no_result");
+});
 
 const getSubTopics = () => {
   if (route.query.sub_topics && Array.isArray(route.query.sub_topics)) {
