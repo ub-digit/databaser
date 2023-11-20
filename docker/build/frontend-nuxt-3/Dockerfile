@@ -15,7 +15,7 @@ RUN set -ex \
  && yarn install && yarn run build
 
 # production environment
-FROM node:16-bullseye
+FROM node:18-bullseye
 ENV TZ=Europe/Stockholm
 WORKDIR /app/
 COPY --from=build /app/release/frontend-nuxt-3/. .
