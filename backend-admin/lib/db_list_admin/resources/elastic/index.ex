@@ -42,7 +42,7 @@ defmodule DbListAdmin.Resource.Elastic.Index do
           "analyzer" => %{
             "autocomplete" => %{
               "type" => "custom",
-              "tokenizer" => "standard",
+              "tokenizer" => "edge_ngram",
               "filter" => [
                 "lowercase",
                 "autocomplete_filter"
