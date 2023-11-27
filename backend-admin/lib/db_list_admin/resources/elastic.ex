@@ -13,7 +13,15 @@ defmodule DbListAdmin.Resource.Elastic do
   end
 
   def delete_from_index(id) do
-    [@index_admin, @index_en, @index_sv]
+    delete_from_index(id, [@index_admin, @index_en, @index_sv])
+  end
+
+  def delete_from_index(id, :public) do
+    delete_from_index(id, [@index_en, @index_sv])
+  end
+
+  def delete_from_index(id, indexes) do
+    indexes
     |> Enum.map(fn index ->
       Elastix.Document.delete(elastic_url(), index, "_doc", id)
       Elastix.Index.refresh(elastic_url(), index)
@@ -21,6 +29,7 @@ defmodule DbListAdmin.Resource.Elastic do
   end
 
   def add_to_index(id) do
+    IO.inspect(id, label: "Adding to index")
     DbListAdmin.Resource.Database.get_one(id)
     |> update_index(@index_admin)
     |> update_index(@index_sv, "sv")

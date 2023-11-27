@@ -54,8 +54,16 @@ defmodule DbListAdmin.Resource.Database.Create do
     data = DbListAdmin.Resource.Database.get_one(id)
     data
     |> DbListAdmin.Model.Database.remap()
-    DbListAdmin.Resource.Elastic.add_to_index(id)
+    |> add_or_remove_from_index()
+
     data
     |> DbListAdmin.Resource.Database.Remapper.remap_one_database()
+  end
+
+  def add_or_remove_from_index(data) do
+    case data.published do
+      true -> DbListAdmin.Resource.Elastic.add_to_index(data.id)
+      false -> DbListAdmin.Resource.Elastic.delete_from_index(data.id, :public)
+    end
   end
 end
