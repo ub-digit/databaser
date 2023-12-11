@@ -31,7 +31,7 @@
           overflow-y: scroll;
         "
       >
-        <ul v-if="dbs.data" class="list-group">
+        <ul v-if="dbs?.data" class="list-group">
           <li class="list-group-item" v-for="db in dbs.data" :key="db.id">
             <LangLink
               class="database-link"
