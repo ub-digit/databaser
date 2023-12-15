@@ -79,7 +79,6 @@ defmodule Databases.Resource.Search do
   def get_search_fields() do
     System.get_env("DEFAULT_SEARCH_FIELDS", "title^15;alternative_titles.title^8;media_types.name^3;description;topics.name^3;sub_topics.name^2;publishers.name^2;recommended^50")
     |> String.split(";")
-    |> IO.inspect(label: "USING FOR SEARCH")
   end
 
   def get_total_documents() do
@@ -99,7 +98,7 @@ defmodule Databases.Resource.Search do
     databases = hits
 
     |> Enum.map(fn item ->
-      db = Map.get(item, "_source")
+      Map.get(item, "_source")
       |> Map.put("score" , Map.get(item, "_score"))
     end)
     {databases, aggregations}
@@ -109,13 +108,41 @@ defmodule Databases.Resource.Search do
   def add_sort_order(q, "", _term), do: q
   def add_sort_order(q, order, _term), do: Map.put(q, :sort, %{"title.sort" => order})
 
-  def search(payload \\ %{}) do
+  def search(payload) do
+
+    has_faulty_characters(payload)
+    |> case do
+      true -> %{
+        data: [],
+        _meta: %{
+          total: 0,
+          found: 0
+        },
+        filters: %{
+          show_freely_available: false,
+          mediatypes: [],
+          topics: []
+        }
+      }
+      false -> search(payload, :proceed)
+    end
+  end
+
+  def search(payload, :empty) do
+    Map.put(payload, "search", "")
+    search(payload, :proceed)
+    |> Map.put("data", [])
+  end
+
+  def search(payload, :proceed) do
     payload = payload |> set_defaults_payload()
     payload
     |> search_index
     |> shift_recommended_databases_to_top(payload)
     |> remap(payload)
   end
+
+
 
   def set_defaults_payload(%{} = payload) do
     payload
@@ -124,6 +151,11 @@ defmodule Databases.Resource.Search do
     |> Map.put("sort_order", payload["sort_order"] || "")
     |> Map.put("topic", payload["topic"] || nil)
     |> Map.put("sub_topics", payload["sub_topics"] || [])
+  end
+
+  def has_faulty_characters(payload) do
+    cahrs = ["]", "[", "{", "}", "(", ")", "*", "?", "+", "^", "$", "|", "\\", "/", "!", "?"]
+    Enum.any?(cahrs, fn char -> String.contains?(payload["search"], char) end)
   end
 
   #No sub topics in filter
@@ -320,7 +352,6 @@ defmodule Databases.Resource.Search do
 
   def build_filter(filter) do
     filter
-    #|> IO.inspect(label: "FILTER INPUT BUILD FILTER")
     # clear filter of nil values and empty lists
     |> Enum.filter(fn ({_, v}) -> !is_nil(v) || (is_list(v) &&  Enum.count(v) < 1) end)
     |> Map.new
