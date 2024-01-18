@@ -180,7 +180,9 @@ defmodule DbListAdmin.Resource.Elastic.Index do
   end
 
   def index(data, lang, index) do
+
     index_data = data
+    |> filter_published(lang)
     |> Enum.map(fn db ->
       case lang do
         "admin" -> DbListAdmin.Model.Database.remap(db)
@@ -189,10 +191,13 @@ defmodule DbListAdmin.Resource.Elastic.Index do
     end)
     |> Enum.map(fn db -> remap_one_database_for_index(db, index) end)
     |> List.flatten()
-    #|> length()
-    #|> IO.inspect(label: index <> " length")
     Elastix.Bulk.post(Elastic.elastic_url(), index_data)
     data
+  end
+
+  def filter_published(data, "admin"), do: data
+  def filter_published(data, _) do
+    Enum.filter(data, fn db -> db.published end)
   end
 
 end
