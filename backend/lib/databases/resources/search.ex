@@ -154,8 +154,9 @@ defmodule Databases.Resource.Search do
   end
 
   def has_faulty_characters(payload) do
+    str = Map.get(payload, "search", "")
     cahrs = ["]", "[", "{", "}", "(", ")", "*", "?", "+", "^", "$", "|", "\\", "/", "!", "?"]
-    Enum.any?(cahrs, fn char -> String.contains?(payload["search"], char) end)
+    Enum.any?(cahrs, fn char -> String.contains?(str, char) end)
   end
 
   #No sub topics in filter
