@@ -1,6 +1,6 @@
 defmodule DbListAdmin.Resource.Elastic.Index do
   alias DbListAdmin.Resource.Elastic
-
+  @max_gram 20
   def initialize do
 
     data = DbListAdmin.Resource.Database.get_databases_raw()
@@ -22,7 +22,7 @@ defmodule DbListAdmin.Resource.Elastic.Index do
             "autocomplete_filter" => %{
               "type" => "edge_ngram",
               "min_gram" => 2,
-              "max_gram" => 10,
+              "max_gram" => @max_gram,
               "token_chars" => [
                 "letter",
                 "digit",
@@ -37,6 +37,10 @@ defmodule DbListAdmin.Resource.Elastic.Index do
                 "Ö",
                 "-"
               ]
+            },
+            "truncate_filter" => %{
+              "type" => "truncate",
+              "length" => @max_gram
             }
           },
           "analyzer" => %{
@@ -46,6 +50,14 @@ defmodule DbListAdmin.Resource.Elastic.Index do
               "filter" => [
                 "lowercase",
                 "autocomplete_filter"
+              ]
+            },
+            "standard_truncate" => %{
+              "type" => "custom",
+              "tokenizer" => "standard",
+              "filter" => [
+                "lowercase",
+                "truncate_filter"
               ]
             }
           }
@@ -63,7 +75,7 @@ defmodule DbListAdmin.Resource.Elastic.Index do
             },
             "type" => "text",
             "analyzer" => "autocomplete",
-            "search_analyzer" => "standard"
+            "search_analyzer" => "standard_truncate"
           },
           "alternative_titles.title" => %{
             "fields" => %{
@@ -75,7 +87,7 @@ defmodule DbListAdmin.Resource.Elastic.Index do
             },
             "type" => "text",
             "analyzer" => "autocomplete",
-            "search_analyzer" => "standard"
+            "search_analyzer" => "standard_truncate"
           },
           "topics.name" => %{
             "fields" => %{
@@ -87,7 +99,7 @@ defmodule DbListAdmin.Resource.Elastic.Index do
             },
             "type" => "text",
             "analyzer" => "autocomplete",
-            "search_analyzer" => "standard"
+            "search_analyzer" => "standard_truncate"
           },
           "sub_topics.name" => %{
             "fields" => %{
@@ -99,7 +111,7 @@ defmodule DbListAdmin.Resource.Elastic.Index do
             },
             "type" => "text",
             "analyzer" => "autocomplete",
-            "search_analyzer" => "standard"
+            "search_analyzer" => "standard_truncate"
           },
           "recommended" => %{
             "fields" => %{
@@ -111,7 +123,7 @@ defmodule DbListAdmin.Resource.Elastic.Index do
             },
             "type" => "text",
             "analyzer" => "autocomplete",
-            "search_analyzer" => "standard"
+            "search_analyzer" => "standard_truncate"
           },
           "publishers.name" => %{
             "fields" => %{
@@ -123,7 +135,7 @@ defmodule DbListAdmin.Resource.Elastic.Index do
             },
             "type" => "text",
             "analyzer" => "autocomplete",
-            "search_analyzer" => "standard"
+            "search_analyzer" => "standard_truncate"
           },
           "media_types.name" => %{
             "fields" => %{
@@ -135,7 +147,7 @@ defmodule DbListAdmin.Resource.Elastic.Index do
             },
             "type" => "text",
             "analyzer" => "autocomplete",
-            "search_analyzer" => "standard"
+            "search_analyzer" => "standard_truncate"
           },
           "id" => %{
             "type" => "keyword"
