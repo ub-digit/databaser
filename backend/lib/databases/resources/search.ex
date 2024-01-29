@@ -92,7 +92,7 @@ defmodule Databases.Resource.Search do
     filter = build_filter(filter)
     q = base(params["search"])
     q = add_filter(filter, q)
-    #|> IO.inspect(label: "Q")
+    # |> IO.inspect(label: "Q")
     |> add_sort_order(params["sort_order"], params["search"])
     {:ok, %{body: %{"aggregations" => aggregations, "hits" => %{"hits" => hits}}}} = Elastix.Search.search(elastic_url(), get_index(lang), [], q)
     databases = hits
@@ -153,6 +153,7 @@ defmodule Databases.Resource.Search do
     |> Map.put("sub_topics", payload["sub_topics"] || [])
   end
 
+
   def has_faulty_characters(payload) do
     str = Map.get(payload, "search", "")
     cahrs = ["]", "[", "{", "}", "(", ")", "*", "?", "+", "^", "$", "|", "\\", "/", "!", "?"]
@@ -177,6 +178,7 @@ defmodule Databases.Resource.Search do
     end
 
     def shift_recommended_databases_to_top({databases, aggregations}, %{"topic" => _, "sub_topics" => sub_topics}) when length(sub_topics) > 0 do
+      IO.inspect(sub_topics, label: "Sub topics in filter")
       recommended_databases  =
       Enum.filter(databases, fn db ->
         topics = db["topics"]
@@ -186,7 +188,7 @@ defmodule Databases.Resource.Search do
             Enum.member?(sub_topics, db_sub_topic["id"]) && db_sub_topic["recommended"]
           end)
         end)
-         |> List.first()
+         |> List.flatten()
          |> Enum.member?(true)
       end)
       |> Enum.map(fn db -> Map.put(db, "is_recommended", true) end)
