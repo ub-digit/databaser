@@ -27,7 +27,7 @@
         style="
           position: absolute;
           z-index: 100;
-          max-height: 200px;
+          max-height: 228px;
           overflow-y: scroll;
         "
       >
@@ -107,6 +107,18 @@ function clearSearch() {
 </script>
 
 <style lang="scss" scoped>
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background-color: lightgray;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+}
 #searchBar {
   margin-bottom: 40px;
   #btn-clear-input {
