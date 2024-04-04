@@ -7,6 +7,8 @@ defmodule DbListAdmin.Model.Topic do
   schema "topics" do
     field :name_en, :string
     field :name_sv, :string
+    field :alternative_names_en, :string
+    field :alternative_names_sv, :string
     timestamps()
     has_many :database_topics, Model.DatabaseTopic
     has_many :sub_topics, Model.SubTopic
@@ -75,7 +77,7 @@ defmodule DbListAdmin.Model.Topic do
   @doc false
   def changeset(%Model.Topic{} = topic, attrs) do
     topic
-    |> cast(attrs, [:name_en, :name_sv])
+    |> cast(attrs, [:name_en, :name_sv, :alternative_names_en, :alternative_names_sv])
     |> foreign_key_constraint(:sub_topics, name: :sub_topics_fk_topics )
     |> validate_required([:name_en, :name_sv])
     |> unique_constraint(:name_en, name: :topics_name_en_key)

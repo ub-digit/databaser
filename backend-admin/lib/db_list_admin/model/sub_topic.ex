@@ -8,6 +8,8 @@ defmodule DbListAdmin.Model.SubTopic do
     field :name_en, :string
     field :name_sv, :string
     field :topic_id, :integer
+    field :alternative_names_en, :string
+    field :alternative_names_sv, :string
     has_many :database_sub_topics, Model.DatabaseSubTopic
   end
 
@@ -76,7 +78,7 @@ defmodule DbListAdmin.Model.SubTopic do
   @doc false
   def changeset(%Model.SubTopic{} = sub_topic, attrs) do
     sub_topic
-    |> cast(attrs, [:name_en, :name_sv, :topic_id])
+    |> cast(attrs, [:name_en, :name_sv, :topic_id, :alternative_names_en, :alternative_names_sv])
     |> validate_required([:name_en, :name_sv])
     |> validate_required([:topic_id])
     |> unique_constraint(:name_en, name: :sub_topic_name_en)

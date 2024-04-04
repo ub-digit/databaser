@@ -75,6 +75,8 @@ CREATE TABLE topics (
     id serial PRIMARY KEY,
     name_en citext UNIQUE NOT NULL,
     name_sv citext UNIQUE NOT NULL,
+    alternative_name_sv citext,
+    alternative_name_en citext,
     updated_at timestamp default now(),
     inserted_at timestamp default now()
 );
@@ -83,6 +85,8 @@ CREATE TABLE sub_topics (
     id serial PRIMARY KEY,
     name_en citext NOT NULL,
     name_sv citext NOT NULL,
+    alternative_name_sv citext,
+    alternative_name_en citext,
     topic_id int
 );
 
@@ -125,7 +129,9 @@ CREATE TABLE database_publishers (
 CREATE TABLE media_types (
     id serial PRIMARY KEY,
     name_en text UNIQUE NOT NULL,
-    name_sv text UNIQUE NOT NULL
+    name_sv text UNIQUE NOT NULL,
+    alternative_name_sv citext,
+    alternative_name_en citext
 );
 
 CREATE TABLE media_type_for (
@@ -139,3 +145,15 @@ CREATE TABLE database_media_types (
     database_id int,
     media_type_id int
 );
+
+CREATE TABLE public.schema_migrations (
+    version bigint NOT NULL,
+    inserted_at timestamp(0) without time zone
+);
+
+ALTER TABLE public.schema_migrations OWNER TO postgres;
+ALTER TABLE ONLY public.schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version)
+
+
+
