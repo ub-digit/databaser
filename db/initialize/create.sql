@@ -75,8 +75,8 @@ CREATE TABLE topics (
     id serial PRIMARY KEY,
     name_en citext UNIQUE NOT NULL,
     name_sv citext UNIQUE NOT NULL,
-    alternative_name_sv citext,
-    alternative_name_en citext,
+    alternative_names_sv citext,
+    alternative_names_en citext,
     updated_at timestamp default now(),
     inserted_at timestamp default now()
 );
@@ -85,8 +85,8 @@ CREATE TABLE sub_topics (
     id serial PRIMARY KEY,
     name_en citext NOT NULL,
     name_sv citext NOT NULL,
-    alternative_name_sv citext,
-    alternative_name_en citext,
+    alternative_names_sv citext,
+    alternative_names_en citext,
     topic_id int
 );
 
@@ -130,8 +130,8 @@ CREATE TABLE media_types (
     id serial PRIMARY KEY,
     name_en text UNIQUE NOT NULL,
     name_sv text UNIQUE NOT NULL,
-    alternative_name_sv citext,
-    alternative_name_en citext
+    alternative_names_sv citext,
+    alternative_names_en citext
 );
 
 CREATE TABLE media_type_for (

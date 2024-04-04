@@ -55,6 +55,7 @@ defmodule DbListAdmin.Model.Database do
     |> remap("sv")
   end
 
+  # This remap is what is used in the indexing of the databases
   def remap(%{description: _, title: _} = database, lang) do
     %{
       id: database.id,

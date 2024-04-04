@@ -15,6 +15,9 @@ defmodule DbListAdmin.Model.SubTopic do
 
   def remap(%Model.SubTopic{name_sv: name} = sub_topic, "sv") do
     Map.put(sub_topic, :name, name)
+    |> Map.put(:alternative_names, sub_topic.alternative_names_sv)
+    |> Map.delete(:alternative_names_sv)
+    |> Map.delete(:alternative_names_en)
     |> Map.delete(:name_sv)
     |> Map.delete(:name_en)
     |> remap
@@ -22,6 +25,9 @@ defmodule DbListAdmin.Model.SubTopic do
 
   def remap(%Model.SubTopic{name_en: name} = sub_topic, "en") do
     Map.put(sub_topic, :name, name)
+    |> Map.put(:alternative_names, sub_topic.alternative_names_en)
+    |> Map.delete(:alternative_names_sv)
+    |> Map.delete(:alternative_names_en)
     |> Map.delete(:name_sv)
     |> Map.delete(:name_en)
     |> remap
@@ -31,7 +37,8 @@ defmodule DbListAdmin.Model.SubTopic do
     %{
       id: sub_topic.id,
       topic_id: sub_topic.topic_id,
-      name: sub_topic.name
+      name: sub_topic.name,
+      alternative_names: get_alternative_names_list(sub_topic.alternative_names)
     }
   end
 
@@ -40,8 +47,16 @@ defmodule DbListAdmin.Model.SubTopic do
       id: sub_topic.id,
       topic_id: sub_topic.topic_id,
       name_en: sub_topic.name_en,
-      name_sv: sub_topic.name_sv
+      name_sv: sub_topic.name_sv,
+      alternative_names_en: sub_topic.alternative_names_en,
+      alternative_names_sv: sub_topic.alternative_names_sv,
     }
+  end
+
+  def get_alternative_names_list(nil), do: []
+  def get_alternative_names_list(alternative_names) do
+    String.split(alternative_names, ",")
+    |> Enum.map(fn str -> String.trim(str) end)
   end
 
   def remap_all(sub_topics) when is_list(sub_topics) do
