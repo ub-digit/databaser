@@ -229,7 +229,7 @@ function setTopic(id) {
 }
 
 function resetFilters() {
-  //filters.lang = getLocale(); // TODO: connect to locale
+  filters.lang = getLocale(); // TODO: connect to locale
   filters.topic = undefined;
   filters.sub_topics = [];
   filters.mediatype = undefined;
