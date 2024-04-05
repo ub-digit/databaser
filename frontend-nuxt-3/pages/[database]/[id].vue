@@ -84,7 +84,7 @@
                   :to="{ path: '/', query: { topic: topic.id } }"
                   >{{ topic.name }}</LangLink
                 >
-                <ul v-if="topic.sub_topics">
+                <ul v-if="topic.sub_topics && topic.sub_topics.length">
                   <li v-for="sub_topic in topic.sub_topics" :key="sub_topic.id">
                     <LangLink
                       class="underlined"
