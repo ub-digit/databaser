@@ -184,4 +184,12 @@ defmodule DbListAdmin.Resource.Database.Remapper do
   def deserialize_publishers(db) do
     Map.put(db, "publishers", Enum.filter(db["publishers"], fn publisher -> publisher["selected"] == true end))
   end
+
+  def set_public_access(%{"access_information_code" => "freely_available"} = db) do
+    Map.put(db, "public_access", true)
+  end
+
+  def set_public_access(db) do
+    Map.put(db, "public_access", false)
+  end
 end
