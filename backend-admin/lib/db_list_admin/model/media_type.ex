@@ -92,8 +92,8 @@ defmodule DbListAdmin.Model.MediaType do
   @doc false
   def changeset(%Model.MediaType{} = media_type, attrs) do
     media_type
-    |> cast(attrs, [:name_en, :name_sv])
-    |> validate_required([:name_en, :name_sv, :alternative_names_en, :alternative_names_sv])
+    |> cast(attrs, [:name_en, :name_sv, :alternative_names_en, :alternative_names_sv])
+    |> validate_required([:name_en, :name_sv])
     |> unique_constraint(:name_en, name: :media_types_name_en_key)
     |> unique_constraint(:name_sv, name: :media_types_name_sv_key)
     |> foreign_key_constraint(:database_media_types, name: :database_media_types_fk_media_types)
