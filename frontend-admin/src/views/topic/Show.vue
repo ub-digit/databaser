@@ -3,7 +3,9 @@
     <div class="row">
       <div class="col">
         <h1>{{ topic.name_en }} / {{ topic.name_sv }}</h1>
+
         <p v-if="topic.alternative_names_en || topic.alternative_names_sv">
+          <strong>Alternative names:</strong>
           {{ topic.alternative_names_en }} / {{ topic.alternative_names_sv }}
         </p>
       </div>
@@ -26,8 +28,8 @@
               v-if="
                 sub_topic.alternative_names_en || sub_topic.alternative_names_sv
               "
-              >({{ sup_topic.alternative_names_en }} /
-              {{ sup__topic.alternative_names_sv }})</span
+              >({{ sub_topic.alternative_names_en }} /
+              {{ sub_topic.alternative_names_sv }})</span
             >
           </li>
         </ul>
