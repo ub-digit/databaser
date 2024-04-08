@@ -22,6 +22,7 @@ defmodule DbListAdmin.Resource.Topic do
   end
 
   def show(%{topic: %{id: id}}) do
+    DbListAdmin.Resource.Elastic.Index.initialize()
     show(id)
   end
 
