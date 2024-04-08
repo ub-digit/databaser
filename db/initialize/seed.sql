@@ -7367,3 +7367,9 @@ SELECT pg_catalog.setval('public.sub_topics_id_seq', 1000, true);
 SELECT pg_catalog.setval('public.media_types_id_seq', 1050, true);
 SELECT pg_catalog.setval('public.publishers_id_seq', 1050, true);
 SELECT pg_catalog.setval('public.databases_id_seq', 189295, true);
+
+-- Add schema migrations for topics, sub_topics and media_types
+COPY public.schema_migrations (version, inserted_at) FROM stdin;
+20240404113953	2024-04-04 12:22:29
+\.
+

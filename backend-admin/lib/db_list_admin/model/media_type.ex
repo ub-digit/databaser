@@ -7,11 +7,16 @@ defmodule DbListAdmin.Model.MediaType do
   schema "media_types" do
     field :name_en, :string
     field :name_sv, :string
+    field :alternative_names_en, :string
+    field :alternative_names_sv, :string
     has_many :database_media_types, Model.DatabaseMediaType
   end
 
   def remap(%Model.MediaType{} = media_type, "sv") do
     Map.put(media_type, :name, media_type.name_sv)
+    |> Map.put(:alternative_names, media_type.alternative_names_sv)
+    |> Map.delete(:alternative_names_sv)
+    |> Map.delete(:alternative_names_en)
     |> Map.delete(:name_sv)
     |> Map.delete(:name_en)
     |> remap
@@ -19,6 +24,9 @@ defmodule DbListAdmin.Model.MediaType do
 
   def remap(%Model.MediaType{} = media_type, "en") do
     Map.put(media_type, :name, media_type.name_en)
+    |> Map.put(:alternative_names, media_type.alternative_names_en)
+    |> Map.delete(:alternative_names_sv)
+    |> Map.delete(:alternative_names_en)
     |> Map.delete(:name_sv)
     |> Map.delete(:name_en)
     |> remap
@@ -27,7 +35,8 @@ defmodule DbListAdmin.Model.MediaType do
   def remap(%{name: _} = media_type) do
     %{
       id: media_type.id,
-      name: media_type.name
+      name: media_type.name,
+      alternative_names: get_alternative_names_list(media_type.alternative_names)
     }
   end
 
@@ -36,9 +45,16 @@ defmodule DbListAdmin.Model.MediaType do
       id: media_type.id,
       name_en: media_type.name_en,
       name_sv: media_type.name_sv,
-      #updated_at: media_type.updated_at,
+      alternative_names_en: media_type.alternative_names_en,
+      alternative_names_sv: media_type.alternative_names_sv,
       can_be_deleted: can_be_deleted(media_type)
     }
+  end
+
+  def get_alternative_names_list(nil), do: []
+  def get_alternative_names_list(alternative_names) do
+    String.split(alternative_names, ",")
+    |> Enum.map(fn str -> String.trim(str) end)
   end
 
   def remap_for_database(media_type) do
@@ -76,7 +92,7 @@ defmodule DbListAdmin.Model.MediaType do
   @doc false
   def changeset(%Model.MediaType{} = media_type, attrs) do
     media_type
-    |> cast(attrs, [:name_en, :name_sv])
+    |> cast(attrs, [:name_en, :name_sv, :alternative_names_en, :alternative_names_sv])
     |> validate_required([:name_en, :name_sv])
     |> unique_constraint(:name_en, name: :media_types_name_en_key)
     |> unique_constraint(:name_sv, name: :media_types_name_sv_key)

@@ -77,7 +77,7 @@ defmodule Databases.Resource.Search do
   end
 
   def get_search_fields() do
-    System.get_env("DEFAULT_SEARCH_FIELDS", "title^15;alternative_titles.title^8;media_types.name^3;description;topics.name^3;sub_topics.name^2;publishers.name^2;recommended^50")
+    System.get_env("DEFAULT_SEARCH_FIELDS", "title^15;alternative_titles.title^8;media_types.name^3;media_types.alternative_name^3;description;topics.name^3;topics.alternative_names^3;sub_topics.name^2;sub_topics.alternative_names^2;publishers.name^2;recommended^50")
     |> String.split(";")
   end
 

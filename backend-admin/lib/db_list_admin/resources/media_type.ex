@@ -43,6 +43,7 @@ defmodule DbListAdmin.Resource.MediaType do
   end
 
   def return_insert_or_update({:ok, %{media_type: media_type}}) do
+    DbListAdmin.Resource.Elastic.Index.initialize()
     media_type
   end
 
