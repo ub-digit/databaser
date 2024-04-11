@@ -27,11 +27,13 @@ defmodule DbListAdmin.Resource.Topic do
   end
 
   def show(id) do
-    (from t in topics_base(),
+    tp = (from t in topics_base(),
     where: t.id == ^id)
     |> Repo.all()
     |> Enum.map(fn item -> Model.Topic.remap(item) end)
     |> List.first()
+    # sort sub_topics by name_en
+    Map.put(tp, :sub_topics, Enum.sort_by(Map.get(tp, :sub_topics), &(&1.name_en)))
   end
 
   def save(data) do
