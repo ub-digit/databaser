@@ -40,6 +40,7 @@ defmodule DbListAdmin.Resource.Publisher do
   end
 
   def return_insert_or_update({:ok, %{publisher: publisher}}) do
+    DbListAdmin.Resource.Elastic.Index.initialize()
     publisher
   end
 
