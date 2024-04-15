@@ -94,7 +94,7 @@
                 input: 'form-control',
               }"
               label="Topic alternative names (sv)"
-              name="topic_initial_state.alternative_names_en"
+              name="topic_initial_state.alternative_names_sv"
               v-model="topic_initial_state.alternative_names_sv"
               placeholder="Alternative names (comma separated list)"
             />
