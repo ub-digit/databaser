@@ -24,18 +24,19 @@ defmodule DbListAdmin.Resource.Elastic.Index do
               "min_gram" => 2,
               "max_gram" => @max_gram,
               "token_chars" => [
+                "custom",
                 "letter",
                 "digit",
-                "custom"
               ],
               "custom_token_chars" => [
-                "å",
-                "ä",
-                "ö",
-                "Å",
-                "Ä",
-                "Ö",
                 "-"
+                # "\u00E5", # å
+                # "\u00E4", # ästandard
+                # "\u00F6", # ä
+                # "\u00C5", # Å
+                # "\u00C4", # Ä
+                # "\u00D6", # Ä
+                # "\u002D", # -
               ]
             },
             "truncate_filter" => %{
@@ -43,18 +44,39 @@ defmodule DbListAdmin.Resource.Elastic.Index do
               "length" => @max_gram
             }
           },
+          "tokenizer" => %{
+            "autocomplete_tokenizer" => %{
+              "type" => "edge_ngram",
+              "min_gram" => 2,
+              "max_gram" => @max_gram,
+              "token_chars" => [
+                "custom",
+                "letter",
+                "digit",
+              ],
+              "custom_token_chars" => [
+                "-"
+                # "\u00E5", # å
+                # "\u00E4", # ä
+                # "\u00F6", # ä
+                # "\u00C5", # Å
+                # "\u00C4", # Ä
+                # "\u00D6", # Ä
+                # "\u002D", # -
+              ]
+            }
+          },
           "analyzer" => %{
             "autocomplete" => %{
               "type" => "custom",
-              "tokenizer" => "standard",
+              "tokenizer" => "autocomplete_tokenizer",
               "filter" => [
                 "lowercase",
-                "autocomplete_filter"
               ]
             },
             "standard_truncate" => %{
               "type" => "custom",
-              "tokenizer" => "standard",
+              "tokenizer" => "autocomplete_tokenizer",
               "filter" => [
                 "lowercase",
                 "truncate_filter"
