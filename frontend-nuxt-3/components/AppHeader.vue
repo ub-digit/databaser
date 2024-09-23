@@ -76,7 +76,7 @@ header {
 
       a {
         text-decoration: none;
-        color: #515151;
+        color: #000;
         &:hover {
           text-decoration: underline;
         }
