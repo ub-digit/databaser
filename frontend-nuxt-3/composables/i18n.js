@@ -42,9 +42,9 @@ export const useLocaleStore = defineStore("locale", {
 
         "components.searchcount.meta": "Found {found} of {total} databases:",
 
-        "components.topics_filter.label_topic": "Subject",
-        "components.topics_filter.label_sub_topics": "Subject terms",
-        "components.mediatype_filter.label": "Media type",
+        "components.topics_filter.label_topic": "Subject area",
+        "components.topics_filter.label_sub_topics": "Subject",
+        "components.mediatype_filter.label": "Media types and collections",
         "components.freely_accessible_filter.label": "Show freely accessible",
 
         "components.search_bar.placeholder": "Title, subject, supplier...",
@@ -109,9 +109,9 @@ export const useLocaleStore = defineStore("locale", {
 
         "components.searchcount.meta": "Hittade {found} av {total} databaser:",
 
-        "components.topics_filter.label_topic": "Ämne",
-        "components.topics_filter.label_sub_topics": "Ämnesord",
-        "components.mediatype_filter.label": "Materialtyp",
+        "components.topics_filter.label_topic": "Ämnesområde",
+        "components.topics_filter.label_sub_topics": "Ämne",
+        "components.mediatype_filter.label": "Materialtyper och samlingar",
         "components.freely_accessible_filter.label": "Visa fritt tillgängliga",
 
         "components.search_bar.placeholder":

@@ -9,8 +9,10 @@ $blue: #025da6;
 $h1-font-size: 3rem;
 $headings-margin-bottom: 34px;
 $headings-margin-top: 24px;
-$headings-font-family: "NimbusSanNovCon-SemBol", "Arial Narrow", Helvetica,
-  Arial, "Lucida Grande", sans-serif;
+$headings-font-family: tex_gyre_heros_cnregular, "Arial Narrow", Helvetica,
+  Arial, sans-serif;
+$headings-color: #333333;
+$body-color: #333333;
 $warning: #fcf8e3;
 $alert-bg-scale: 0%;
 $link-decoration: none;
@@ -71,8 +73,4 @@ html {
 .container {
   max-width: 1170px;
   margin-bottom: 40px;
-}
-
-body {
-  color: #333333;
 }
