@@ -300,7 +300,7 @@ function paramsSerializer(params) {
     }
   }
   .lead {
-    font-weight: bold;
+    font-weight: 500;
   }
 }
 .popular {
