@@ -1,0 +1,30 @@
+@import "bootstrap/dist/css/bootstrap.css";
+@import url("https://assets.ub.gu.se/fonts/tex_gyre_heros/fonts.css");
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,700");
+
+html {
+  overflow-y: scroll;
+}
+body {
+  font-family: "Open Sans", sans-serif, "Helvetica Neue", Helvetica;
+  a {
+    color: rgb(0, 75, 137);
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.btn-primary {
+  background-color: #004b89;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "TeX Gyre Heros", sans-serif, "Helvetica Neue", Helvetica;
+}
