@@ -1,9 +1,6 @@
 version: '3.7'
 
 services:
-  db: 
-    volumes:
-      - ${DB_DATA_PATH}:/var/lib/postgresql/data/pgdata
   frontend-nuxt-3:
     image: docker.ub.gu.se/databaser-frontend-nuxt-3:${GIT_REVISION}
     environment:
@@ -15,6 +12,13 @@ services:
     image: docker.ub.gu.se/databaser-frontend-admin:${GIT_REVISION}
     environment:
       DATABASER_BACKEND_ADMIN_URL: "${DATABASER_BACKEND_ADMIN_URL}"
-      #DB_LIST_ALERT_URL: "${DB_LIST_ALERT_URL}"
     ports:
       - ${FRONTEND_ADMIN_HOST_PORT}:80
+  backend-admin:
+    image: docker.ub.gu.se/databaser-backend-admin:${GIT_REVISION}
+    ports:
+      - "${BACKEND_ADMIN_HOST_PORT}:4000"
+  backend:
+    image: docker.ub.gu.se/databaser-backend:${GIT_REVISION}
+    ports:
+      - "${BACKEND_HOST_PORT}:4000"
