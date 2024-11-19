@@ -1,34 +1,52 @@
 <template>
-<div class="login-wrapper">
-  <div class="container">
-    <div v-if="state.form.code || state.validating" class="spinner">Loading login...</div>
-    <div v-else>
-      <div class="koha-login">
-        <div class="row justify-content-center">
-          <div class="col col-md-8 col-lg-4">
+  <div class="login-wrapper">
+    <div class="container">
+      <div v-if="state.form.code || state.validating" class="spinner">
+        Loading login...
+      </div>
+      <div v-else>
+        <div class="koha-login">
+          <div class="row justify-content-center">
+            <div class="col col-md-8 col-lg-4">
               <div class="login-header mb-3">Login</div>
-              <div v-if="state.form.error" class="alert alert-danger" role="alert">
-                Error logging in. Try again. 
+              <div
+                v-if="state.form.error"
+                class="alert alert-danger"
+                role="alert"
+              >
+                Error logging in. Try again.
               </div>
               <form class="d-grid gap-3" @submit.prevent="sendLogin">
                 <div>
                   <label class="form-label" for="userid">User</label>
-                  <input type="text" class="form-control" id="userid" name="userid" v-model="state.form.data.username" />
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="userid"
+                    name="userid"
+                    v-model="state.form.data.username"
+                  />
                 </div>
                 <div>
                   <label class="form-label" for="password">Password</label>
-                  <input type="password" class="form-control" id="password" name="password" v-model="state.form.data.password" />
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    v-model="state.form.data.password"
+                  />
                 </div>
                 <div class="d-grid">
                   <button type="submit" class="btn btn-primary">Send</button>
                 </div>
               </form>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -63,7 +81,7 @@ export default {
     onMounted(() => {
       reset();
       if (route.params.type == "cas") {
-        authCAS()
+        authCAS();
       } else if (state.form.code) {
         oauth2Default(route.params.type);
       }
@@ -97,7 +115,7 @@ export default {
 
     return {
       state,
-      sendLogin
+      sendLogin,
     };
   },
 };
@@ -119,7 +137,6 @@ export default {
         text-decoration: underline;
       }
       .card {
-  
         text-decoration: none;
         .login-header {
           text-decoration: none;

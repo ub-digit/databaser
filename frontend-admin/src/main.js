@@ -5,7 +5,8 @@ import axios from "axios";
 import { plugin, defaultConfig } from "@formkit/vue";
 import { useFontawesome } from "@/plugins/fontawesome.js";
 import Toast from "vue-toastification";
-import "@/scss/custom.scss";
+import "vue-toastification/dist/index.css";
+import "./assets/main.css";
 import "nprogress/nprogress.css";
 import { i18n } from "./locales";
 import auth from "@/plugins/auth.js";
@@ -23,16 +24,18 @@ axios
     },
     () => {
       return {
-        backend_url:
-          /* process.env["VUE_APP_API_BASE_URL"] ||*/ "http://127.0.0.1:4010",
+        backend_url: "http://localhost:4010/",
       };
     }
   )
   .then((data) => {
+    if (process.env.NODE_ENV === "development") {
+      data = { backend_url: "http://localhost:4010/" };
+    }
     let app = createApp(App);
     app.baseURL = data.backend_url;
     app
-      .provide("baseURL", data.backend_url)
+      .provide("baseURL", app.baseURL)
       //.provide('alertURL', data.alert_url)
       .component("font-awesome-icon", FontAwesomeIcon)
       .use(router)
