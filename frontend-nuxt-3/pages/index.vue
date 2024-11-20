@@ -127,8 +127,21 @@ const paginated = ref(true);
 const NumberToDisplay = 20;
 const alertURL = ref("/api/alert?" + "lang=" + getLocale());
 
+function getLangcodeForPrimo() {
+  return getLocale() === "en" ? "en_US" : "sv_SE";
+}
+
 const no_result = computed(() => {
-  return t("views.home.no_result");
+  return (
+    t("views.home.no_result") +
+    "<a href='" +
+    `https://gu-se-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,${
+      route.query.search
+    }&vid=46GUB_VU1&search_scope=default_scope&sortby=rank&lang=${getLangcodeForPrimo()}` +
+    "'>" +
+    t("views.home.primo_link_text") +
+    "</a>"
+  );
 });
 
 const getSubTopics = () => {
