@@ -7,7 +7,8 @@ export const useLocaleStore = defineStore("locale", {
       localeURLname: "lang",
       isWatched: false,
       en: {
-        "seo.application_title": "Databases - Gothenburg university library",
+        "seo.application_title":
+          "Database search - Gothenburg university library",
         "appheader.logo_link": "http://gu.se/en",
         "appheader.header_level1_link": "http://www.ub.gu.se/en",
         "appheader.header_level1": "Gothenburg University Library",
