@@ -1,24 +1,23 @@
-version: '3.7'
+version: "3.7"
 
 services:
   frontend-nuxt-3:
-    image: docker.ub.gu.se/databaser-frontend-nuxt-3:${GIT_REVISION}
-    environment:
-      DB_LIST_BACKEND_URL: "${DATABASER_BACKEND_URL}"
-      DATABASER_ALERT_URL: "${DATABASER_ALERT_URL}"
     ports:
-      - ${FRONTEND_HOST_PORT}:80
+      - ${FRONTEND_HOST_PORT}:3000
   frontend-admin:
-    image: docker.ub.gu.se/databaser-frontend-admin:${GIT_REVISION}
     environment:
       DATABASER_BACKEND_ADMIN_URL: "${DATABASER_BACKEND_ADMIN_URL}"
     ports:
       - ${FRONTEND_ADMIN_HOST_PORT}:80
   backend-admin:
-    image: docker.ub.gu.se/databaser-backend-admin:${GIT_REVISION}
+    environment:
+      DB_PORT: "${DB_PORT}"
+      DB_HOST: "${DB_HOST}"
     ports:
       - "${BACKEND_ADMIN_HOST_PORT}:4000"
   backend:
-    image: docker.ub.gu.se/databaser-backend:${GIT_REVISION}
+    environment:
+      DB_PORT: "${DB_PORT}"
+      DB_HOST: "${DB_HOST}"
     ports:
       - "${BACKEND_HOST_PORT}:4000"

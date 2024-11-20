@@ -9,7 +9,6 @@ services:
     image: docker.ub.gu.se/databaser-frontend-nuxt-3:${GIT_REVISION}${PLATFORM}
     environment:
       NUXT_API_BASE_URL: "${DATABASER_BACKEND_URL}"
-      DATABASER_ALERT_URL: "${DATABASER_ALERT_URL}"
   backend:
     image: docker.ub.gu.se/databaser-backend:${GIT_REVISION}${PLATFORM}
     environment:
