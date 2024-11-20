@@ -52,7 +52,7 @@ defmodule Databases.MixProject do
       {:cors_plug, "~> 2.0"},
       {:elastix, ">= 0.10.0"},
       {:cowlib, "2.8.0"},
-      {:cowboy, "2.7.0"},
+      {:cowboy, "2.9.0"},
       {:slugy, "~> 4.1.0"},
       {:elixir_map_to_xml, "~> 0.1.0"}
     ]
