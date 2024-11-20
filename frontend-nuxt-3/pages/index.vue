@@ -1,9 +1,5 @@
 <template>
   <div>
-    <Head>
-      <title>{{ t("seo.application_title") }}</title>
-      <Meta name="description" :content="t('seo.application_title')" />
-    </Head>
     <div class="container">
       <div class="page-info">
         <div class="row justify-content-md-center">
