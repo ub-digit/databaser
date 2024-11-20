@@ -1,16 +1,18 @@
 <template>
+  <Title>{{ t("seo.application_title") }}</Title>
   <div>
     <AppHeader />
     <NuxtPage />
-    <AppFooter/>
+    <AppFooter />
   </div>
 </template>
 
 <script setup>
-  useHead({
-    htmlAttrs: {
-      lang: 'en'
-    }
-  })
-  const { t } = useI18n()
+const { t, getLocale } = useI18n();
+useHead({
+  htmlAttrs: {
+    lang: getLocale(),
+    title: t("seo.application_title"),
+  },
+});
 </script>
