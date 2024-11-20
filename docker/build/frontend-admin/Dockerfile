@@ -21,7 +21,7 @@ FROM httpd:2.4-bullseye
 ENV TZ=Europe/Stockholm
 RUN sed -i 's/#\(LoadModule cgid_module modules\/mod_cgid.so\)/\1/' /usr/local/apache2/conf/httpd.conf
 RUN echo 'FallbackResource /' >> /usr/local/apache2/conf/httpd.conf
-RUN echo 'PassEnv DB_LIST_BACKEND_ADMIN_URL' >> /usr/local/apache2/conf/httpd.conf
+RUN echo 'PassEnv DATABASER_BACKEND_ADMIN_URL' >> /usr/local/apache2/conf/httpd.conf
 #RUN echo 'PassEnv DB_LIST_ALERT_URL' >> /usr/local/apache2/conf/httpd.conf
 COPY backend.cgi /usr/local/apache2/cgi-bin/backend.cgi
 COPY --from=build /build/release/frontend-admin/dist/. /usr/local/apache2/htdocs/
