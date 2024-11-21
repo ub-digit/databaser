@@ -1,10 +1,16 @@
 version: "3.7"
 
 services:
+  frontend-admin:
+    image: docker.ub.gu.se/databaser-frontend-admin:${GIT_REVISION}${PLATFORM}
+    environment:
+      DATABASER_BACKEND_ADMIN_URL: "${DATABASER_BACKEND_ADMIN_URL}"
+  frontend-nuxt-3:
+    image: docker.ub.gu.se/databaser-frontend-nuxt-3:${GIT_REVISION}${PLATFORM}
+    environment:
+      NUXT_API_BASE_URL: "${DATABASER_BACKEND_URL}"
   backend:
     image: docker.ub.gu.se/databaser-backend:${GIT_REVISION}${PLATFORM}
-    ports:
-      - "${BACKEND_HOST_PORT}:4000"
     environment:
       ELASTIC_SEARCH_URL: "${ELASTIC_SEARCH_URL}"
       ALERT_MESSAGE_FILE_PATH: "${ALERT_MESSAGE_FILE_PATH}"
@@ -13,8 +19,6 @@ services:
       - "${HOST_ALERT_MESSAGE_FILE_PATH}:${ALERT_MESSAGE_FILE_PATH}"
   backend-admin:
     image: docker.ub.gu.se/databaser-backend-admin:${GIT_REVISION}${PLATFORM}
-    ports:
-      - "${BACKEND_ADMIN_HOST_PORT}:4000"
     environment:
       ELASTIC_SEARCH_URL: "${ELASTIC_SEARCH_URL}"
       ALERT_MESSAGE_FILE_PATH: "${ALERT_MESSAGE_FILE_PATH}"

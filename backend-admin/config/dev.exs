@@ -5,8 +5,8 @@ config :db_list_admin, DbListAdmin.Repo,
   username: "postgres",
   password: "postgres",
   database: "databases",
-  hostname: "localhost",
-  port: "5433",
+  hostname: System.get_env("DB_HOST", "localhost"),
+  port: String.to_integer(System.get_env("DB_PORT", "5433")),
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -19,7 +19,7 @@ config :db_list_admin, DbListAdmin.Repo,
 config :db_list_admin, DbListAdminWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: 4010],
+  http: [ip: {0, 0, 0, 0}, port: 4010],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,

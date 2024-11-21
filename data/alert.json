@@ -1,1 +1,5 @@
-{"en":"english message","show_alert_message":false,"sv":"svenskt meddelande"}
+{
+  "en": "english message",
+  "show_alert_message": false,
+  "sv": "svenskt meddelande"
+}

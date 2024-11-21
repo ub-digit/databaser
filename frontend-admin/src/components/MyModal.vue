@@ -1,38 +1,41 @@
 <template>
-    <div>
+  <div>
     <Transition name="modal">
-        <div v-if="show" class="modal-mask">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="modal-title">
-                        <slot name="header">default header</slot>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <slot name="body">default body</slot>
-                    </div>
-
-                    <div class="modal-footer">
-                    <slot name="footer">
-                        <button :disabled="isIndexing" @click="$emit('success')" class="btn btn-primary">
-                            Ok
-                        </button>
-                    </slot>
-                    </div>
-                </div>
+      <div v-if="show" class="modal-mask">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <div class="modal-title">
+                <slot name="header">default header</slot>
+              </div>
             </div>
+            <div class="modal-body">
+              <slot name="body">default body</slot>
+            </div>
+
+            <div class="modal-footer">
+              <slot name="footer">
+                <button
+                  :disabled="isIndexing"
+                  @click="$emit('success')"
+                  class="btn btn-primary"
+                >
+                  Ok
+                </button>
+              </slot>
+            </div>
+          </div>
         </div>
-  </Transition>
-    </div>
+      </div>
+    </Transition>
+  </div>
 </template>
 
 <script setup>
 const props = defineProps({
   show: Boolean,
-  isIndexing: Boolean
-})
-
+  isIndexing: Boolean,
+});
 </script>
 
 <style>
