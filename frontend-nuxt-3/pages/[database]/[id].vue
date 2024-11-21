@@ -145,10 +145,7 @@
           </div>
         </div>
         <div
-          v-if="
-            database.alternative_titles &&
-            database.alternative_titles.length > 0
-          "
+          v-if="alternative_titles && alternative_titles.length > 0"
           class="row"
         >
           <div class="col">
@@ -157,9 +154,7 @@
               <ul class="list-inline">
                 <li
                   class="list-inline-item"
-                  v-for="(
-                    alternative_title, index
-                  ) in database.alternative_titles"
+                  v-for="(alternative_title, index) in alternative_titles"
                   :key="index"
                 >
                   {{ alternative_title.title
@@ -236,6 +231,10 @@ if (route.params.database != database.value.sanitized_title) {
     path: `/${database.value.sanitized_title}/${route.params.id}`,
   });
 }
+
+const alternative_titles = computed(() => {
+  return database.value.alternative_titles.filter((title) => !title.is_hidden);
+});
 const desc_markdown_output = computed(() => {
   return marked(database.value.description);
 });
