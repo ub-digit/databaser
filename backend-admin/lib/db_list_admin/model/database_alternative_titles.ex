@@ -6,21 +6,29 @@ defmodule DbListAdmin.Model.DatabaseAlternativeTitle do
   schema "database_alternative_titles" do
     field :title_en, :string
     field :title_sv, :string
+    field :is_hidden, :boolean, default: false
     belongs_to :database, Model.Database
   end
 
-  def remap(%Model.DatabaseAlternativeTitle{title_en: title}, "en") do
-    %{title: title}
+  def remap(%Model.DatabaseAlternativeTitle{title_en: title, is_hidden: is_hidden}, "en") do
+    %{
+      title: title,
+      is_hidden: is_hidden
+    }
   end
 
-  def remap(%Model.DatabaseAlternativeTitle{title_sv: title}, "sv") do
-    %{title: title}
+  def remap(%Model.DatabaseAlternativeTitle{title_sv: title, is_hidden: is_hidden}, "sv") do
+    %{
+      title: title,
+      is_hidden: is_hidden
+    }
   end
 
   def remap(%Model.DatabaseAlternativeTitle{} = alt_title) do
     %{
       title_en: alt_title.title_en,
-      title_sv: alt_title.title_sv
+      title_sv: alt_title.title_sv,
+      is_hidden: alt_title.is_hidden
     }
   end
 
@@ -41,6 +49,6 @@ defmodule DbListAdmin.Model.DatabaseAlternativeTitle do
 
   def changeset(database_publisher, attrs) do
       database_publisher
-    |> cast(attrs, [:database_id, :title_en, :title_sv], [empty_values: [nil]])
+    |> cast(attrs, [:database_id, :title_en, :title_sv, :is_hidden], [empty_values: [nil]])
   end
 end
