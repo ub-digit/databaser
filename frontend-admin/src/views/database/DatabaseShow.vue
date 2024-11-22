@@ -58,7 +58,7 @@
               {{ alt_title.title_en }} <strong>/</strong>
               {{ alt_title.title_sv }}
               <span
-                v-if="!alt_title.is_hidden"
+                v-if="alt_title.is_hidden"
                 class="badge rounded-pill text-bg-danger"
                 >Hidden</span
               >
