@@ -49,7 +49,8 @@ CREATE TABLE database_alternative_titles (
     id serial PRIMARY KEY,
     database_id int,
     title_en text,
-    title_sv text
+    title_sv text.
+    is_hidden boolean default false
 );
 
 
@@ -81,7 +82,28 @@ CREATE TABLE topics (
     inserted_at timestamp default now()
 );
 
-CREATE TABLE sub_topics (
+CREATE TABLE sub_topics (#!/bin/bash
+# check what host we are running on
+host=$(hostname)
+#if host differs from docker-gu-lab, abort
+if [ "$host" != "docker-gu-lab" ]; then
+  echo "This script must be run on docker-gu-lab"
+  exit 1
+fi
+
+# ask for confirmation
+read -p "Are you sure you want to delete all persons from the database? (y/n) " -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+  echo "Aborted."
+  exit 1
+fi
+
+# delete all persons from the database
+echo "Deleting all persons from the database..."
+docker compose exec -it index-manager-db psql -U postgres -d gup_index_manager_dev -c 'TRUNCATE persons;'
+
     id serial PRIMARY KEY,
     name_en citext NOT NULL,
     name_sv citext NOT NULL,
