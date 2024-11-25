@@ -49,7 +49,8 @@ CREATE TABLE database_alternative_titles (
     id serial PRIMARY KEY,
     database_id int,
     title_en text,
-    title_sv text
+    title_sv text,
+    is_hidden boolean default false
 );
 
 
@@ -82,6 +83,7 @@ CREATE TABLE topics (
 );
 
 CREATE TABLE sub_topics (
+
     id serial PRIMARY KEY,
     name_en citext NOT NULL,
     name_sv citext NOT NULL,

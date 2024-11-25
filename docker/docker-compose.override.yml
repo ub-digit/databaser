@@ -44,6 +44,7 @@ services:
       DB_HOST: "${DB_HOST}"
     volumes:
       - ../backend:/release/backend
+      - ../data:${ALERT_MESSAGE_FILE_PATH}
     command:
       [
         "sh",

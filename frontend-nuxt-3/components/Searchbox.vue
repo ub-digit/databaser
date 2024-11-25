@@ -12,14 +12,17 @@
         /></a>
         <input
           class="form-control form-control-lg"
+          style="border: 1px solid #000"
           :placeholder="t('components.search_bar.placeholder')"
           v-model="localSearchStr"
+          :aria-label="t('components.search_bar.input_aria_label')"
         />
         <input
           class="btn btn-primary"
           type="submit"
           @click.prevent="submitSearch(localSearchStr)"
           :value="t('components.search_bar.submit')"
+          :aria-label="t('components.search_bar.submit')"
         />
       </form>
       <div

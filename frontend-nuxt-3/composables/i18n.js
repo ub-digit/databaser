@@ -49,6 +49,8 @@ export const useLocaleStore = defineStore("locale", {
         "components.freely_accessible_filter.label": "Show freely accessible",
 
         "components.search_bar.placeholder": "Title, subject, supplier...",
+        "components.search_bar.input_aria_label":
+          "submit database title, subject or database supplier",
         "components.search_bar.submit": "Search",
 
         "views.home.title": "Database search",
@@ -118,6 +120,8 @@ export const useLocaleStore = defineStore("locale", {
 
         "components.search_bar.placeholder":
           "Databastitel, ämne, leverantör...",
+        "components.search_bar.input_aria_label":
+          "ange databastitel, ämne eller databasleverantör",
         "components.search_bar.submit": "Sök",
 
         "views.home.title": "Databassök",
