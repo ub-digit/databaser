@@ -12,7 +12,7 @@ export const useLocaleStore = defineStore("locale", {
         "appheader.logo_link": "http://gu.se/en",
         "appheader.header_level1_link": "http://www.ub.gu.se/en",
         "appheader.header_level1": "Gothenburg University Library",
-        "appheader.header_level2": "Database Search",
+        "appheader.header_level2": "Databases and e-resources",
 
         "appfooter.contact_link": "https://www.ub.gu.se/node/189487/",
         "appfooter.contact_link_text": "Contact us about databases",
@@ -53,9 +53,9 @@ export const useLocaleStore = defineStore("locale", {
           "submit database title, subject or database supplier",
         "components.search_bar.submit": "Search",
 
-        "views.home.title": "Database search",
+        "views.home.title": "Databases and e-resources",
         "views.home.desc":
-          "The databases contain references to articles, doctoral theses, statistics and business facts. You will also find encyclopaedias, audio recordings, sheet music, videos and other materials related to your subject.",
+          "Find databases to which the library subscribes and freely available resources selected by librarians. These resources will lead you to articles, statistics, business information, audio recordings, sheet music, video and more in your subject area.",
         "views.home.primo_link_text": "Try searching in Supersearch instead",
         "views.home.no_result":
           "No database was found. Try one of the following: <ul><li>Check the spelling </li><li>Use fewer or more general search terms</li><li>Empty the search field and use the subject navigation to find a database</li></ul>",
@@ -124,9 +124,9 @@ export const useLocaleStore = defineStore("locale", {
           "ange databastitel, ämne eller databasleverantör",
         "components.search_bar.submit": "Sök",
 
-        "views.home.title": "Databassök",
+        "views.home.title": "Databaser och e-resurser",
         "views.home.desc":
-          "Databaserna innehåller referenser (hänvisningar) till artiklar, avhandlingar, statistik och företagsfakta. Här hittar du också uppslagsverk, ljudupptagningar, noter, video och andra typer av material inom ditt ämne.",
+          "Hitta databaser som biblioteket prenumererar på och fritt tillgängliga resurser utvalda av bibliotekarier. Resurserna leder dig till artiklar, statistik, företagsinformation, ljudupptagningar, noter, video och annat inom ditt ämnesområde.",
         "views.home.primo_link_text": "Prova att söka i Supersök istället",
         "views.home.no_result":
           "Ingen databas hittades. Försök med något av följande: <ul><li>Kontrollera stavningen </li><li>Använd färre eller mer allmänna söktermer</li><li>Töm sökrutan och använd ämnesnavigeringen för att hitta en databas</li></ul>",
