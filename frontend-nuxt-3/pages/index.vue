@@ -103,7 +103,7 @@
             </div>
             <div v-else>
               <ClientOnly>
-                <p v-html="no_result"></p>
+                <p class="no-result" v-html="no_result"></p>
               </ClientOnly>
             </div>
           </main>
@@ -297,8 +297,9 @@ function paramsSerializer(params) {
 
 <style lang="scss">
 .no-result {
-  font-size: 1.2em;
-  color: #757575;
+  a {
+    text-decoration: underline;
+  }
 }
 
 .page-info {
