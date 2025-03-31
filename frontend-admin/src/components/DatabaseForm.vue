@@ -343,7 +343,7 @@
             :multiple="true"
             label="name"
             :options="database_initial_state.publishers"
-          ></VueMultiselect>
+          />
           <!--<ul style="max-height: 400px; overflow-y:scroll" class="list-unstyled" v-if="database_initial_state.publishers && database_initial_state.publishers.length">
               <li v-for="publisher in database_initial_state.publishers" :key="publisher.id">
                 <div class="form-check">
@@ -764,6 +764,8 @@ export default {
   },
 };
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
