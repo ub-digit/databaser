@@ -609,6 +609,7 @@ export default {
     const values = ref([]);
     const database = props.database;
     const database_initial_state = ref(_.cloneDeep(database));
+
     const desc_en_markdown_output = computed(() =>
       database_initial_state.value.description_en
         ? marked(database_initial_state.value.description_en)
@@ -737,6 +738,10 @@ export default {
       }
       term_of_use.description_en = val;
     };
+
+    if (!database_initial_state.value.urls?.length) {
+      addDatabaseUrl();
+    }
 
     return {
       updateAccessInformationCode,
