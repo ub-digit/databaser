@@ -9,6 +9,7 @@ defmodule DbListAdmin.Model.DatabaseTermsOfUse do
     field :description_en, :string
     field :description_sv, :string
     field :permitted, :boolean
+    field :has_options, :boolean, default: true
   end
 
   def remap(%Model.DatabaseTermsOfUse{description_en: description} = database_terms_of_use, "en") do
@@ -28,7 +29,8 @@ defmodule DbListAdmin.Model.DatabaseTermsOfUse do
       permitted: database_terms_of_use.permitted,
       description: database_terms_of_use.description,
       code: database_terms_of_use.code,
-      id: database_terms_of_use.id
+      id: database_terms_of_use.id,
+      has_options: database_terms_of_use.has_options
     }
   end
 
@@ -38,7 +40,8 @@ defmodule DbListAdmin.Model.DatabaseTermsOfUse do
       description_en: database_terms_of_use.description_en,
       description_sv: database_terms_of_use.description_sv,
       code: database_terms_of_use.code,
-      id: database_terms_of_use.id
+      id: database_terms_of_use.id,
+      has_options: database_terms_of_use.has_options
     }
   end
 
@@ -61,7 +64,7 @@ defmodule DbListAdmin.Model.DatabaseTermsOfUse do
 
   def changeset(database_terms_of_use, attrs) do
     database_terms_of_use
-    |> cast(attrs, [:database_id, :code, :description_en, :description_sv, :permitted], [empty_values: [nil]])
+    |> cast(attrs, [:database_id, :code, :description_en, :description_sv, :permitted, :has_options], [empty_values: [nil]])
     |> validate_required([:code])
     |> validate_required([:permitted])
   end

@@ -10,7 +10,7 @@
     <div class="row">
       <div class="col">
         
-        <div class="select mb-2">
+        <div v-if='term_of_use.has_options' class="select mb-2">
           <label class="formkit-label" :for="'select_terms_of_use' + term_of_use.id">Select</label>
           <select class="form-select" name="select_terms_of_use" id="'term_of_use_' + term_of_use.id" :value="props.term_of_use.permitted" 
             @change="$emit('updateTermOfUse', $event.target.value, term_of_use.code)">
@@ -19,6 +19,7 @@
             <option value="no">prohibited</option>
           </select>
         </div>
+        <div v-else>N/A</div>
       </div>
       <div class="col-5">
         <div class="desc mb-2">

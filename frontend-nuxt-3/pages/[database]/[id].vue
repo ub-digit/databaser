@@ -170,7 +170,7 @@
           v-if="database.terms_of_use && database.terms_of_use.length > 0"
           class="row"
         >
-          <div class="col">
+          <div class="col">HEj
             <div>
               <strong>{{ t("views.database.terms_of_use") }}</strong>
               <ul class="terms-of-use-list list-unstyled">

@@ -33,6 +33,7 @@ export const useLocaleStore = defineStore("locale", {
           "Upload course pack to learning management system",
         "shared.terms_of_use_code.scholarly_sharing": "Scholarly sharing",
         "shared.terms_of_use_code.interlibrary_loan": "Interlibrary loan",
+        "shared.terms_of_use_code.ai_rules": "AI",
 
         "components.popular_db_list.title": "Popular databases",
 
@@ -105,6 +106,7 @@ export const useLocaleStore = defineStore("locale", {
           "Ladda upp kurskompendium på lärplattform",
         "shared.terms_of_use_code.scholarly_sharing": "Scholarly sharing",
         "shared.terms_of_use_code.interlibrary_loan": "Fjärrlån",
+        "shared.terms_of_use_code.ai_rules": "AI",
 
         "components.popular_db_list.title": "Populära databaser",
 
