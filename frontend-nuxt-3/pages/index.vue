@@ -130,7 +130,8 @@ function getLangcodeForPrimo() {
 const no_result = computed(() => {
   return (
     t("views.home.no_result") +
-    "<a href='" +
+    t("views.home.pre_primo_link_text") +
+    " <a href='" +
     `https://gu-se-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,${
       route.query.search
     }&vid=46GUB_VU1&search_scope=default_scope&sortby=rank&lang=${getLangcodeForPrimo()}` +
