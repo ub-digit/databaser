@@ -59,6 +59,8 @@ export const useLocaleStore = defineStore("locale", {
         "views.home.primo_link_text": "Try searching in Supersearch instead",
         "views.home.no_result":
           "No database was found. Try one of the following: <ul><li>Check the spelling </li><li>Use fewer or more general search terms</li><li>Empty the search field and use the subject navigation to find a database</li></ul>",
+        "views.home.pre_primo_link_text":
+          "You cannot search for book or article titles.",
         "views.home.show_all": "Show all",
         "views.database.title": "Database",
         "views.database.backButton": "Back to search result",
@@ -130,6 +132,8 @@ export const useLocaleStore = defineStore("locale", {
         "views.home.primo_link_text": "Prova att söka i Supersök istället",
         "views.home.no_result":
           "Ingen databas hittades. Försök med något av följande: <ul><li>Kontrollera stavningen </li><li>Använd färre eller mer allmänna söktermer</li><li>Töm sökrutan och använd ämnesnavigeringen för att hitta en databas</li></ul>",
+        "views.home.pre_primo_link_text":
+          "Det går inte att söka efter bok- eller artikeltitlar.",
         "views.home.show_all": "Visa alla",
 
         "views.database.title": "Databas",

@@ -1,5 +1,5 @@
 version: "3.7"
-
+name: "databaser"
 services:
   frontend-admin:
     image: docker.ub.gu.se/databaser-frontend-admin:${GIT_REVISION}${PLATFORM}
