@@ -54,7 +54,7 @@
         <div class="col">
           <h3>Alternative titles</h3>
           <ul>
-            <li v-for="alt_title in database.alternative_titles">
+            <li v-for="alt_title in database.alternative_titles" :key="alt_title.id">
               {{ alt_title.title_en }} <strong>/</strong>
               {{ alt_title.title_sv }}
               <span
@@ -180,11 +180,12 @@
         <div class="col">
           <h3>Terms of use</h3>
           <ul class="list-unstyled" v-if="database.terms_of_use">
-            <li v-for="term_of_use in database.terms_of_use">
+            <li v-for="term_of_use in database.terms_of_use" :key="term_of_use.id">
               {{ term_of_use.code }}
-              <span class="badge bg-secondary"
+              <span class="badge bg-secondary" v-if="term_of_use.has_options"
                 ><strong>Permitted: </strong>{{ term_of_use.permitted }}</span
               >
+              <span class="badge bg-secondary" v-else></span>
               <ul>
                 <li
                   v-if="
