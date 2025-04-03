@@ -170,19 +170,19 @@
           v-if="database.terms_of_use && database.terms_of_use.length > 0"
           class="row"
         >
-          <div class="col">HEj
+          <div class="col">
             <div>
               <strong>{{ t("views.database.terms_of_use") }}</strong>
               <ul class="terms-of-use-list list-unstyled">
                 <li
-                  v-for="terms_of_use in database.terms_of_use"
+                  v-for="terms_of_use in terms_of_use_to_show"
                   :key="terms_of_use.code"
                 >
                   <div class="row">
                     <div class="col-9">
                       {{ getTermsOfUseString(terms_of_use.code) }}
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto" v-if="terms_of_use.has_options">
                       <strong>
                         <span v-if="terms_of_use.permitted">{{
                           t("views.database.permitted")
@@ -192,6 +192,7 @@
                         }}</span>
                       </strong>
                     </div>
+                    <div class="col-auto" v-else></div>
                   </div>
                   <div v-if="terms_of_use.description" class="row">
                     <div class="col">
@@ -240,6 +241,17 @@ const desc_markdown_output = computed(() => {
 });
 const malfunction_message_markdown_output = computed(() => {
   return marked(database.value.malfunction_message);
+});
+
+const terms_of_use_to_show = computed(() => {
+  let tou =  database.value.terms_of_use.filter((term) => term.has_options);
+  let tou_without_options = database.value.terms_of_use.filter(
+    (term) => !term.has_options && term.description.length > 0
+  );
+  if (tou_without_options.length > 0) {
+    tou = tou.concat(tou_without_options);
+  }
+  return tou;
 });
 
 watch(

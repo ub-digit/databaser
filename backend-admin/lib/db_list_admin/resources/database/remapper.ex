@@ -110,12 +110,15 @@ defmodule DbListAdmin.Resource.Database.Remapper do
 
   def deserialize_terms_of_use(db) do
     tou = db["terms_of_use"]
-    |> Enum.filter(fn t -> Map.get(t, "permitted") != "N/A" end)
-    |> Enum.map(fn t ->
-      case Map.get(t, "permitted") do
-         "yes"  -> Map.put(t, "permitted", true)
-         "no"   -> Map.put(t, "permitted", false)
+    |> Enum.filter(fn item -> item["permitted"] != "N/A" end)
+    |> Enum.map(fn item ->
+      case item["permitted"] do
+        "yes" -> Map.put(item, "permitted", true)
+        "no" -> Map.put(item, "permitted", false)
+        nil -> Map.put(item, "permitted", nil)
+        _ -> item
       end
+
     end)
     Map.put(db, "terms_of_use", tou)
   end
@@ -140,6 +143,7 @@ defmodule DbListAdmin.Resource.Database.Remapper do
     convert = fn
       true -> "yes"
       false -> "no"
+      nil -> nil
     end
     convert.(val2)
   end
