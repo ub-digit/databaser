@@ -13,7 +13,8 @@ export const en = {
         course_pack_print: "Print course pack",
         gul_course_pack_electronic: "Upload course pack to learning management system",
         scholarly_sharing: "Scholarly sharing",
-        interlibrary_loan: "Interlibrary loan"
+        interlibrary_loan: "Interlibrary loan",
+        ai_rules: "AI"
     },
     topic: {
         error_codes: {

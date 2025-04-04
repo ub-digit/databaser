@@ -182,7 +182,7 @@
                     <div class="col-9">
                       {{ getTermsOfUseString(terms_of_use.code) }}
                     </div>
-                    <div class="col-auto">
+                    <div class="col-auto" v-if="terms_of_use.has_options">
                       <strong>
                         <span v-if="terms_of_use.permitted">{{
                           t("views.database.permitted")
@@ -192,6 +192,7 @@
                         }}</span>
                       </strong>
                     </div>
+                    <div class="col-auto" v-else></div>
                   </div>
                   <div v-if="terms_of_use.description" class="row">
                     <div class="col">
