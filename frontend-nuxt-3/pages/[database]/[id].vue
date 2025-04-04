@@ -175,7 +175,7 @@
               <strong>{{ t("views.database.terms_of_use") }}</strong>
               <ul class="terms-of-use-list list-unstyled">
                 <li
-                  v-for="terms_of_use in terms_of_use_to_show"
+                  v-for="terms_of_use in database.terms_of_use"
                   :key="terms_of_use.code"
                 >
                   <div class="row">
@@ -241,17 +241,6 @@ const desc_markdown_output = computed(() => {
 });
 const malfunction_message_markdown_output = computed(() => {
   return marked(database.value.malfunction_message);
-});
-
-const terms_of_use_to_show = computed(() => {
-  let tou =  database.value.terms_of_use.filter((term) => term.has_options);
-  let tou_without_options = database.value.terms_of_use.filter(
-    (term) => !term.has_options && term.description.length > 0
-  );
-  if (tou_without_options.length > 0) {
-    tou = tou.concat(tou_without_options);
-  }
-  return tou;
 });
 
 watch(
