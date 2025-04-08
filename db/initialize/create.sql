@@ -61,7 +61,8 @@ CREATE TABLE database_terms_of_use (
     description_en text,
     permitted boolean,
     database_id int,
-    code text NOT NULL
+    code text NOT NULL,
+    has_options boolean default true
 );
 
 CREATE TABLE database_urls (

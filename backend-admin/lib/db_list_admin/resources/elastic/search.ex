@@ -35,7 +35,7 @@ defmodule DbListAdmin.Resource.Elastic.Search do
 
   def remap(hits) do
     hits
-    |> Enum.map(fn db -> %{id: db["_source"]["id"], title_en: db["_source"]["title_en"], title_sv: db["_source"]["title_sv"]} end)
+    |> Enum.map(fn db -> %{id: db["_source"]["id"], title_en: db["_source"]["title_en"], published: db["_source"]["published"] ,title_sv: db["_source"]["title_sv"]} end)
     |> Enum.sort()
   end
 
@@ -71,7 +71,7 @@ defmodule DbListAdmin.Resource.Elastic.Search do
                 query_string: %{
                   query: term <> "*",
                   default_operator: "AND",
-                  fields: ["title_sv^15", "title_en^15"]
+                  fields: ["title_sv^15", "title_en^15", "alternative_titles.title_sv^15" , "alternative_titles.title_en^15"]
               }
             }
           ],

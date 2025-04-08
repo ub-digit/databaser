@@ -33,6 +33,7 @@ export const useLocaleStore = defineStore("locale", {
           "Upload course pack to learning management system",
         "shared.terms_of_use_code.scholarly_sharing": "Scholarly sharing",
         "shared.terms_of_use_code.interlibrary_loan": "Interlibrary loan",
+        "shared.terms_of_use_code.ai_rules": "AI",
 
         "components.popular_db_list.title": "Popular databases",
 
@@ -59,12 +60,14 @@ export const useLocaleStore = defineStore("locale", {
         "views.home.primo_link_text": "Try searching in Supersearch instead",
         "views.home.no_result":
           "No database was found. Try one of the following: <ul><li>Check the spelling </li><li>Use fewer or more general search terms</li><li>Empty the search field and use the subject navigation to find a database</li></ul>",
+        "views.home.pre_primo_link_text":
+          "You cannot search for book or article titles.",
         "views.home.show_all": "Show all",
         "views.database.title": "Database",
         "views.database.backButton": "Back to search result",
         "views.database.homeButton": "To list of databases",
         "views.database.subjects": "Subjects",
-        "views.database.mediatypes": "Media types",
+        "views.database.mediatypes": "Media types and collections",
         "views.database.vendor": "Vendor",
         "views.database.alt_title": "Alternative title",
         "views.database.terms_of_use": "Terms of use",
@@ -103,6 +106,7 @@ export const useLocaleStore = defineStore("locale", {
           "Ladda upp kurskompendium på lärplattform",
         "shared.terms_of_use_code.scholarly_sharing": "Scholarly sharing",
         "shared.terms_of_use_code.interlibrary_loan": "Fjärrlån",
+        "shared.terms_of_use_code.ai_rules": "AI",
 
         "components.popular_db_list.title": "Populära databaser",
 
@@ -130,13 +134,15 @@ export const useLocaleStore = defineStore("locale", {
         "views.home.primo_link_text": "Prova att söka i Supersök istället",
         "views.home.no_result":
           "Ingen databas hittades. Försök med något av följande: <ul><li>Kontrollera stavningen </li><li>Använd färre eller mer allmänna söktermer</li><li>Töm sökrutan och använd ämnesnavigeringen för att hitta en databas</li></ul>",
+        "views.home.pre_primo_link_text":
+          "Det går inte att söka efter bok- eller artikeltitlar.",
         "views.home.show_all": "Visa alla",
 
         "views.database.title": "Databas",
         "views.database.backButton": "Tillbaka till resultatlistan",
         "views.database.homeButton": "Till lista över databaser",
         "views.database.subjects": "Ämnen",
-        "views.database.mediatypes": "Materialtyper",
+        "views.database.mediatypes": "Materialtyper och samlingar",
         "views.database.vendor": "Leverantör",
         "views.database.alt_title": "Alternativ titel",
         "views.database.terms_of_use": "Användningsvillkor",

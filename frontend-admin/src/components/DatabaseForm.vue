@@ -343,7 +343,7 @@
             :multiple="true"
             label="name"
             :options="database_initial_state.publishers"
-          ></VueMultiselect>
+          />
           <!--<ul style="max-height: 400px; overflow-y:scroll" class="list-unstyled" v-if="database_initial_state.publishers && database_initial_state.publishers.length">
               <li v-for="publisher in database_initial_state.publishers" :key="publisher.id">
                 <div class="form-check">
@@ -609,6 +609,7 @@ export default {
     const values = ref([]);
     const database = props.database;
     const database_initial_state = ref(_.cloneDeep(database));
+
     const desc_en_markdown_output = computed(() =>
       database_initial_state.value.description_en
         ? marked(database_initial_state.value.description_en)
@@ -738,6 +739,10 @@ export default {
       term_of_use.description_en = val;
     };
 
+    if (!database_initial_state.value.urls?.length) {
+      addDatabaseUrl();
+    }
+
     return {
       updateAccessInformationCode,
       updateTermOfUse,
@@ -764,6 +769,8 @@ export default {
   },
 };
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
