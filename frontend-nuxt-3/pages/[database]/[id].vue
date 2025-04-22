@@ -65,7 +65,7 @@
           <div class="col">
             <ul class="list-unstyled" style="margin-bottom: 0">
               <li v-for="url in database.urls" :key="url.url">
-                <a :href="url.url"
+                <a class="direct-link-db" :href="url.url"
                   >{{ t("views.database.link_prefix") }} {{ url.title }}
                   <font-awesome-icon class="fa-xs" icon="arrow-right"
                 /></a>
