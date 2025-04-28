@@ -61,7 +61,6 @@ defmodule Databases.Resource.DublinCore do
   defp get_terms_of_use([]), do: nil
   defp get_terms_of_use(terms_of_use) do
     terms_of_use
-
     |> Enum.map(fn item ->
       case item["has_options"] do
         true -> compose_terms_of_use_string(item["code"], item["permitted"])
@@ -71,8 +70,6 @@ defmodule Databases.Resource.DublinCore do
     |> Enum.reject(&is_nil/1)
   end
 
-
-
   defp get_data_in_list(property) do
     Enum.map(property, fn item -> item["name"] end)
   end
@@ -81,6 +78,20 @@ defmodule Databases.Resource.DublinCore do
     db["topics"]
     |> Enum.map(fn sub -> [sub["name"] | Enum.map(sub["sub_topics"], fn st -> st["name"] end)] end)
     |> List.flatten()
+  end
+
+  defp compose_terms_of_use_string(code, permitted) do
+    Databases.Resource.DublinCore.Translations.dictionary()[code] <> " - " <>
+    case permitted do
+      true ->
+        Databases.Resource.DublinCore.Translations.dictionary()["permitted"]
+      false ->
+        Databases.Resource.DublinCore.Translations.dictionary()["not_permitted"]
+    end
+  end
+
+  defp get_ai(item) do
+    "AI - " <> item["description"]
   end
 
   defp compose_terms_of_use_string(code, permitted) do
