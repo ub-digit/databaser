@@ -16,6 +16,28 @@ defmodule Databases.Resource.Search do
     {databases, _} = search_index(payload)
     databases
     |> List.first
+    |> sort_terms_of_use()
+  end
+
+  def sort_terms_of_use(db) do
+    default_terms_of_use = [
+      %{code: "print_article_chapter", permitted: "N/A", description_en: "", description_sv: "", has_options: true, order: 1},
+      %{code: "download_article_chapter", permitted: "N/A", description_en: "", description_sv: "", has_options: true, order: 2},
+      %{code: "course_pack_print", permitted: "N/A", description_en: "", description_sv: "", has_options: true, order: 3},
+      %{code: "gul_course_pack_electronic", permitted: "N/A", description_en: "", description_sv: "", has_options: true, order: 4},
+      %{code: "scholarly_sharing", permitted: "N/A", description_en: "", description_sv: "", has_options: true, order: 5},
+      %{code: "interlibrary_loan", permitted: "N/A", description_en: "", description_sv: "", has_options: true, order: 6},
+      %{code: "ai_rules", permitted: nil, description_en: "", description_sv: "", has_options: false, order: 7}
+    ]
+    terms_of_use = db["terms_of_use"]
+    |> Enum.map(fn item ->
+      db_terms_of_use = Enum.find(default_terms_of_use, fn default_item ->
+        default_item.code == item["code"]
+      end)
+      Map.put(item, :order, db_terms_of_use.order)
+    end)
+    ordered = Enum.sort_by(terms_of_use, fn item -> Map.get(item, :order) end)
+    Map.put(db, "terms_of_use", ordered)
   end
 
   def popular_databases(lang \\ @default_language) do
