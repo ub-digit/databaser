@@ -16,6 +16,20 @@ defmodule Databases.Resource.Search do
     {databases, _} = search_index(payload)
     databases
     |> List.first
+    |> sort_terms_of_use()
+  end
+
+  def sort_terms_of_use(db) do
+    default_terms_of_use = Databases.Model.TermsOfUse.get_default_terms_of_use()
+    terms_of_use = db["terms_of_use"]
+    |> Enum.map(fn item ->
+      db_terms_of_use = Enum.find(default_terms_of_use, fn default_item ->
+        default_item.code == item["code"]
+      end)
+      Map.put(item, :order, db_terms_of_use.order)
+    end)
+    ordered = Enum.sort_by(terms_of_use, fn item -> Map.get(item, :order) end)
+    Map.put(db, "terms_of_use", ordered)
   end
 
   def popular_databases(lang \\ @default_language) do

@@ -21,7 +21,10 @@ defmodule Databases.Resource.DublinCore do
   defp map_databases() do
     Databases.Resource.Search.search(%{"lang" => "sv", "published" => true})
     |> Map.get(:data)
+    |> Enum.take(1)
     |> Enum.map(fn db ->
+      IO.inspect(db)
+      db = Databases.Resource.Search.sort_terms_of_use(db)
       %{
         "header" => %{
           "identifier" => "oai:ubnext/databases/#{db["id"]}",
@@ -60,6 +63,7 @@ defmodule Databases.Resource.DublinCore do
   defp get_terms_of_use([]), do: nil
   defp get_terms_of_use(terms_of_use) do
     terms_of_use
+
     |> Enum.map(fn item ->
       case item["has_options"] do
         true -> compose_terms_of_use_string(item["code"], item["permitted"])
@@ -68,6 +72,8 @@ defmodule Databases.Resource.DublinCore do
     end)
     |> Enum.reject(&is_nil/1)
   end
+
+
 
   defp get_data_in_list(property) do
     Enum.map(property, fn item -> item["name"] end)
