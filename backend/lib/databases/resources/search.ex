@@ -20,15 +20,7 @@ defmodule Databases.Resource.Search do
   end
 
   def sort_terms_of_use(db) do
-    default_terms_of_use = [
-      %{code: "print_article_chapter", permitted: "N/A", description_en: "", description_sv: "", has_options: true, order: 1},
-      %{code: "download_article_chapter", permitted: "N/A", description_en: "", description_sv: "", has_options: true, order: 2},
-      %{code: "course_pack_print", permitted: "N/A", description_en: "", description_sv: "", has_options: true, order: 3},
-      %{code: "gul_course_pack_electronic", permitted: "N/A", description_en: "", description_sv: "", has_options: true, order: 4},
-      %{code: "scholarly_sharing", permitted: "N/A", description_en: "", description_sv: "", has_options: true, order: 5},
-      %{code: "interlibrary_loan", permitted: "N/A", description_en: "", description_sv: "", has_options: true, order: 6},
-      %{code: "ai_rules", permitted: nil, description_en: "", description_sv: "", has_options: false, order: 7}
-    ]
+    default_terms_of_use = Databases.Model.TermsOfUse.get_default_terms_of_use()
     terms_of_use = db["terms_of_use"]
     |> Enum.map(fn item ->
       db_terms_of_use = Enum.find(default_terms_of_use, fn default_item ->
