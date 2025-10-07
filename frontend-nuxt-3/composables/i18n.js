@@ -19,11 +19,11 @@ export const useLocaleStore = defineStore("locale", {
 
         "shared.access_information_code.freely_available": "Freely available",
         "shared.access_information_code.available_to_the_university_of_gothenburg":
-          "Available to the University of Gothenburg",
+          "Accessible to students and employees of the University of Gothenburg.",
         "shared.access_information_code.available_to_the_university_of_gothenburg_on_campus_only_available_to_anyone":
-          "Available to the University of Gothenburg, on campus only. Available to anyone using the libraries' computers",
+          "Accessible to students and employees at the University of Gothenburg on campus and to employees via a secure connection (VPN) Accessible to anyone using the libraries’ computers.",
         "shared.access_information_code.available_to_the_university_of_gothenburg_available_to_anyone_using_the_libraries_computers":
-          "Available to the University of Gothenburg. Available to anyone using the libraries' computers",
+          "Accessible to students and employees at the University of Gothenburg. Accessible to anyone using the libraries’ computers.",
         "shared.terms_of_use_code.print_article_chapter":
           "Print article or chapter",
         "shared.terms_of_use_code.download_article_chapter":
@@ -92,11 +92,11 @@ export const useLocaleStore = defineStore("locale", {
 
         "shared.access_information_code.freely_available": "Fritt tillgänglig",
         "shared.access_information_code.available_to_the_university_of_gothenburg":
-          "Tillgänglig för Göteborgs universitet",
+          "Tillgänglig för studenter och anställda vid Göteborgs universitet.",
         "shared.access_information_code.available_to_the_university_of_gothenburg_on_campus_only_available_to_anyone":
-          "Tillgänglig för Göteborgs universitet, endast på campus. Tillgänglig för alla från bibliotekens datorer",
+          "Tillgänglig för studenter och anställda vid Göteborgs universitet på campus, och för anställda via säker förbindelse (VPN). Tillgänglig för alla från bibliotekets datorer.",
         "shared.access_information_code.available_to_the_university_of_gothenburg_available_to_anyone_using_the_libraries_computers":
-          "Tillgänglig för Göteborgs universitet. Tillgänglig för alla från bibliotekens datorer",
+          "Tillgänglig för studenter och anställda vid Göteborgs universitet. Tillgänglig för alla från bibliotekets datorer.",
         "shared.terms_of_use_code.print_article_chapter":
           "Skriva ut artikel eller kapitel",
         "shared.terms_of_use_code.download_article_chapter":
