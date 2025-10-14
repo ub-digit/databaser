@@ -17,7 +17,7 @@ export const useLocaleStore = defineStore("locale", {
         "appfooter.contact_link": "https://www.ub.gu.se/node/189487/",
         "appfooter.contact_link_text": "Contact us about databases",
 
-        "shared.access_information_code.freely_available": "Freely available",
+        "shared.access_information_code.freely_available": "Freely accessible",
         "shared.access_information_code.available_to_the_university_of_gothenburg":
           "Accessible to students and employees of the University of Gothenburg.",
         "shared.access_information_code.available_to_the_university_of_gothenburg_on_campus_only_available_to_anyone":
