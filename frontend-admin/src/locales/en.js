@@ -3,9 +3,9 @@ export const en = {
   access_information_codes: {
     available_to_the_university_of_gothenburg:
       "Accessible to students and employees of the University of Gothenburg.",
-    freely_available: "Freely available",
+    freely_available: "Freely accessible",
     available_to_the_university_of_gothenburg_on_campus_only_available_to_anyone:
-      "Accessible to students and employees at the University of Gothenburg on campus and to employees via a secure connection (VPN) Accessible to anyone using the libraries’ computers.",
+      "Accessible to students and employees at the University of Gothenburg on campus and to employees via a secure connection (VPN) Accessible to anyone using the libraries.’ computers.",
     available_to_the_university_of_gothenburg_available_to_anyone_using_the_libraries_computers:
       "Accessible to students and employees at the University of Gothenburg. Accessible to anyone using the libraries’ computers.",
   },
