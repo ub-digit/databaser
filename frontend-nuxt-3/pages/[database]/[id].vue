@@ -233,6 +233,11 @@ if (route.params.database != database.value.sanitized_title) {
   });
 }
 
+useHead({
+  title: "" + t("seo.application_title") + " - " + database.value.title,
+  meta: [{ name: "description", content: database.value.title }],
+});
+
 const alternative_titles = computed(() => {
   return database.value.alternative_titles.filter((title) => !title.is_hidden);
 });
