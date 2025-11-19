@@ -234,7 +234,7 @@ if (route.params.database != database.value.sanitized_title) {
 }
 
 useHead({
-  title: "" + t("seo.application_title") + " - " + database.value.title,
+  title: "" + t("seo.database_title") + " - " + database.value.title,
   meta: [{ name: "description", content: database.value.title }],
 });
 
