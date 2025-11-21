@@ -96,4 +96,18 @@ defmodule Databases.Resource.DublinCore do
   defp get_ai(item) do
     "AI - " <> item["description"]
   end
+
+  defp compose_terms_of_use_string(code, permitted) do
+    Databases.Resource.DublinCore.Translations.dictionary()[code] <> " - " <>
+    case permitted do
+      true ->
+        Databases.Resource.DublinCore.Translations.dictionary()["permitted"]
+      false ->
+        Databases.Resource.DublinCore.Translations.dictionary()["not_permitted"]
+    end
+  end
+
+  defp get_ai(item) do
+    "AI - " <> item["description"]
+  end
 end

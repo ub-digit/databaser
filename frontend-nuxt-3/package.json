@@ -9,7 +9,9 @@
   },
   "devDependencies": {
     "@nuxtjs/i18n": "^8.0.0-beta.7",
-    "nuxt": "^3.8.1"
+    "nuxt": "^4.2.1",
+    "@pinia/nuxt": "^0.11.3",
+    "pinia": "^2.0.35"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
@@ -17,13 +19,12 @@
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/vue-fontawesome": "^3.0.2",
     "@gtm-support/vue-gtm": "^2.0.0",
-    "@pinia/nuxt": "^0.4.6",
     "@vueuse/nuxt": "^9.11.0",
     "bootstrap": "^5.3.1",
     "lodash": "^4.17.21",
     "marked": "^4.2.12",
-    "pinia": "^2.0.29",
-    "sass": "^1.57.1",
+    "sass": "^1.94.1",
     "sass-loader": "^13.2.0"
-  }
+  },
+  "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }
