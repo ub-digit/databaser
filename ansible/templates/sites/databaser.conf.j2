@@ -1,15 +1,15 @@
 <VirtualHost *:80>
-    ServerName {{ databaser_frontend_hostname }}
-    Redirect permanent / https://{{ databaser_frontend_hostname }}/
+    ServerName {{ frontend_hostname }}
+    Redirect permanent / https://{{ frontend_hostname }}/
 </VirtualHost>
 
 <VirtualHost *:443>
-    ServerName {{ databaser_frontend_hostname }}
+    ServerName {{ frontend_hostname }}
     FallbackResource /index.html
 
     ProxyPreserveHost Off
-    ProxyPass        / http://localhost:{{ databaser_nuxt_frontend_host_port }}/
-    ProxyPassReverse / http://localhost:{{ databaser_nuxt_frontend_host_port }}/
+    ProxyPass        / http://localhost:{{ frontend_host_port }}/
+    ProxyPassReverse / http://localhost:{{ frontend_host_port }}/
 
     SSLEngine on
     SSLCertificateFile /etc/ssl/apache2/certs/ub-gu-se.pem
