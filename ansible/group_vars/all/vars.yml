@@ -1,0 +1,9 @@
+---
+docker_git_repo_url: https://github.com/ub-digit/databaser.git
+docker_directory: './docker' # Default is './docker'
+app_name: databaser
+
+data_dir: /data/databaser
+postgres_data_dir: /data/databaser/postgres-data
+elasticsearch_data_dir: /data/databaser/elasticsearch-data
+host_alert_message_dir: /data/databaser/alert_msg_data
