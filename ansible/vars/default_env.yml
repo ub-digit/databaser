@@ -6,6 +6,6 @@ BACKEND_HOST_PORT: '127.0.0.1:{{ backend_host_port }}'
 
 GIT_REVISION: '{{ git_revision }}'
 PLATFORM: amd64
-DATABASER_ALERT_URL: 'https://{{ backend_hostname }}/alert'
 DB_DATA_PATH: '{{ postgres_data_dir }}'
 HOST_ALERT_MESSAGE_FILE_PATH: '{{ host_alert_message_dir }}'
+DATABASER_BACKEND_ADMIN_URL: http://backend-admin:4010

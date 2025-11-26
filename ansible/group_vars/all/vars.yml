@@ -6,4 +6,4 @@ app_name: databaser
 data_dir: /data/databaser
 postgres_data_dir: /data/databaser/postgres-data
 elasticsearch_data_dir: /data/databaser/elasticsearch-data
-host_alert_message_dir: /data/databaser/alert_msg_data
+host_alert_message_dir: /data/databaser/alert-msg-data
