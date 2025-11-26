@@ -4,9 +4,10 @@ services:
     restart: always
   backend-admin:
     restart: always
+    env_file:
+      - secrets.env
     environment:
       ADMIN_USERNAME: "${ADMIN_USERNAME}"
-      ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
   db:
     restart: always
     volumes:
