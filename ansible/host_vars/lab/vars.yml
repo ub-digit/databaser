@@ -1,5 +1,5 @@
 ---
-docker_git_revision: master
+docker_git_revision: ansible-deploy
 git_revision: deploy-test
 
 frontend_admin_host_port: 30380
