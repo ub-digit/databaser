@@ -1,0 +1,29 @@
+---
+- name: Deploy
+  hosts: all
+  tasks:
+
+  - name: Ensure data directory
+    become: yes
+    ansible.builtin.file:
+      path: '{{ data_dir }}'
+      state: directory
+      owner: '{{ ansible_user }}'
+      group: '{{ ansible_user }}'
+      mode: '755'
+
+#  - name: Ensure data sub-directies
+#    become: yes
+#    ansible.builtin.file:
+#      path: '{{ item }}'
+#      state: directory
+#      owner: '{{ ansible_user }}'
+#      group: '{{ ansible_user }}'
+#      mode: '755'
+#    loop:
+#      - '{{ postgres_data_dir }}'
+#      - '{{ elasticsearch_data_dir }}'
+
+  - name: Deploy app
+    include_role:
+      name: ub-ansible-deploy
