@@ -1,23 +1,21 @@
-version: "3.7"
-
+version: '3.7'
 services:
-  frontend-nuxt-3:
-    ports:
-      - ${FRONTEND_HOST_PORT}:3000
-  frontend-admin:
-    environment:
-      DATABASER_BACKEND_ADMIN_URL: "${DATABASER_BACKEND_ADMIN_URL}"
-    ports:
-      - ${FRONTEND_ADMIN_HOST_PORT}:80
-  backend-admin:
-    environment:
-      DB_PORT: "${DB_PORT}"
-      DB_HOST: "${DB_HOST}"
-    ports:
-      - "${BACKEND_ADMIN_HOST_PORT}:4000"
   backend:
+    restart: always
+  backend-admin:
+    restart: always
     environment:
-      DB_PORT: "${DB_PORT}"
-      DB_HOST: "${DB_HOST}"
-    ports:
-      - "${BACKEND_HOST_PORT}:4000"
+      ADMIN_USERNAME: "${ADMIN_USERNAME}"
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
+  db:
+    restart: always
+    volumes:
+      - ${DB_DATA_PATH}:/var/lib/postgresql/data/pgdata
+  frontend-nuxt:
+    restart: always
+  frontend-admin:
+    restart: always
+  elasticsearch:
+    restart: always
+    volumes:
+      - ${ELASTICSEARCH_DATA_PATH}:/usr/share/elasticsearch/data
