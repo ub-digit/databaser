@@ -1,15 +1,15 @@
 <VirtualHost *:80>
-    ServerName {{ databaser_admin_server_hostname }}
-    Redirect permanent / https://{{ databaser_admin_server_hostname }}/
+    ServerName {{ backend_admin_hostname }}
+    Redirect permanent / https://{{ backend_admin_hostname }}/
 </VirtualHost>
 
 <VirtualHost *:443>
-    ServerName {{ databaser_admin_server_hostname }}
+    ServerName {{ backend_admin_hostname }}
     FallbackResource /index.html
 
     ProxyPreserveHost Off
-    ProxyPass        / http://localhost:{{ databaser_admin_server_host_port }}/
-    ProxyPassReverse / http://localhost:{{ databaser_admin_server_host_port }}/
+    ProxyPass        / http://localhost:{{ backend_admin_host_port }}/
+    ProxyPassReverse / http://localhost:{{ backend_admin_host_port }}/
 
     SSLEngine on
     SSLCertificateFile /etc/ssl/apache2/certs/ub-gu-se.pem
