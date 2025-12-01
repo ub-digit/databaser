@@ -2,6 +2,7 @@
   <Title>{{ t("seo.application_title") }}</Title>
   <div>
     <AppHeader />
+    <h1>Ansible deploy</h1>
     <NuxtPage />
     <AppFooter />
   </div>
