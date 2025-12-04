@@ -4,6 +4,17 @@ docker_directory: './docker' # Default is './docker'
 app_name: databaser
 
 data_dir: /data/databaser
-postgres_data_dir: /data/databaser/postgres-data
-elasticsearch_data_dir: /data/databaser/elasticsearch-data
-host_alert_message_dir: /data/databaser/alert-msg-data
+
+data_dirs:
+  postgres:
+    path: /data/databaser/postgres-data
+    pull: false
+    push: false
+  elasticsearch:
+    path: /data/databaser/elasticsearch-data
+    pull: true
+    push: true
+  host_alert_message:
+    path: /data/databaser/alert-msg-data
+    pull: true
+    push: true

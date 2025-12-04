@@ -5,3 +5,7 @@
   version: master
 - src: https://github.com/ub-digit/ub-ansible-import-db.git
   version: master
+- src: https://github.com/ub-digit/ub-ansible-pull-data.git
+  version: master
+- src: https://github.com/ub-digit/ub-ansible-push-data.git
+  version: master
