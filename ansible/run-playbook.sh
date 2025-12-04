@@ -6,7 +6,7 @@ if [[ -z "$2" ]]; then
     exit 0;
 fi
 
-targets="staging lab production"
+targets="staging lab production dev"
 target=$1
 playbook=$2
 
@@ -16,7 +16,7 @@ if [[ ! -e "./$playbook.yml" ]]; then
 fi
 
 if [[ ! " $targets " =~ " $target " ]]; then
-    echo "<target> must be on of staging, lab, prod or production"
+    echo "<target> must be on of staging, lab, dev, prod or production"
     exit 1;
 fi
 
