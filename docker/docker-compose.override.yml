@@ -30,7 +30,6 @@ services:
   frontend-nuxt:
     restart: '${DOCKER_COMPOSE_RESTART:-no}'
     command: ["bash", "-c", "yarn install && yarn dev"]
-    environment:
     volumes:
       - ../frontend-nuxt-3:/app
     ports:
