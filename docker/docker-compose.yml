@@ -40,8 +40,15 @@ services:
       POSTGRES_PASSWORD: "${DB_PASSWORD}"
       POSTGRES_DB: "${DB_NAME}"
       PGDATA: /var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     volumes:
       - "${DB_INIT_PATH}:/docker-entrypoint-initdb.d"
+      - "${DB_DATA_PATH}:/var/lib/postgresql/data/pgdata"
   elasticsearch:
     image: docker.ub.gu.se/databaser-elasticsearch:${GIT_REVISION}${PLATFORM:-}
     environment:

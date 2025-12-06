@@ -1,11 +1,17 @@
 ---
-- src: https://github.com/ub-digit/ub-ansible-deploy.git
-  version: master
-- src: https://github.com/ub-digit/ub-ansible-export-db.git
-  version: master
-- src: https://github.com/ub-digit/ub-ansible-import-db.git
-  version: master
-- src: https://github.com/ub-digit/ub-ansible-pull-data.git
-  version: master
-- src: https://github.com/ub-digit/ub-ansible-push-data.git
-  version: master
+roles:
+  - src: https://github.com/ub-digit/ub-ansible-deploy.git
+    version: master
+  - src: https://github.com/ub-digit/ub-ansible-deploy-export-db.git
+    version: master
+  - src: https://github.com/ub-digit/ub-ansible-deploy-import-db.git
+    version: master
+  - src: https://github.com/ub-digit/ub-ansible-import-db.git
+    version: master
+  - src: https://github.com/ub-digit/ub-ansible-pull-data.git
+    version: master
+  - src: https://github.com/ub-digit/ub-ansible-push-data.git
+    version: master
+
+collections:
+  - ansible.posix

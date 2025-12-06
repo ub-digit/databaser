@@ -1,5 +1,25 @@
 ---
-- import_playbook: local-docker-playbooks/decrypt-secrets-env.yml 
-- import_playbook: local-docker-playbooks/ensure-directories.yml 
-# - import_playbook: pull-db.yml
-# - import_playbook: pull-data.yml
+- name: Pull data
+  hosts: all
+  tags: [pull]
+  roles:
+  - role: ub-ansible-pull-data
+  - role: ub-ansible-deploy-export-db
+    vars:
+      db_service: db
+      database_variant: postgres
+      db_dump_filename: database.sql
+
+- name: Initialize local docker environment
+  hosts: localhost
+  tags: [init]
+  gather_facts: false
+  roles:
+  - role: ub-ansible-init-local-docker
+  - role: ub-ansible-import-db
+    vars:
+      docker_directory_path: "{{ [playbook_dir, '../docker'] | path_join }}"
+      docker_command: docker compose
+      db_service: db
+      database_variant: postgres
+      db_dump_filename: database.sql

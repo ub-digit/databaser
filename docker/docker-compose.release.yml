@@ -10,8 +10,6 @@ services:
       ADMIN_USERNAME: "${ADMIN_USERNAME}"
   db:
     restart: always
-    volumes:
-      - ${DB_DATA_PATH}:/var/lib/postgresql/data/pgdata
   frontend-nuxt:
     restart: always
   frontend-admin:
