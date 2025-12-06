@@ -2,7 +2,7 @@
 - name: Import database
   hosts: all
   roles:
-  - role: ub-ansible-import-db
+  - role: ub-ansible-deploy-import-db
     vars:
       db_service: db
       database_variant: postgres
