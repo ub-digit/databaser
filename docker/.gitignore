@@ -1,3 +1,4 @@
 pg_data
 elasticsearch-data
 alert-msg-data
+*.sql
