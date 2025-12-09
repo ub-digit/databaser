@@ -1,18 +1,24 @@
 version: '3.7'
 services:
-  backend:
+  frontend-admin:
     restart: always
+    ports:
+      - ${FRONTEND_ADMIN_HOST_PORT}:80
   backend-admin:
     restart: always
     env_file:
       - secrets.env
     environment:
       ADMIN_USERNAME: "${ADMIN_USERNAME}"
-  db:
-    restart: always
+    ports:
+      - "${BACKEND_ADMIN_HOST_PORT}:4000"
   frontend-nuxt:
     restart: always
-  frontend-admin:
+    ports:
+      - ${FRONTEND_HOST_PORT}:3000
+  backend:
+    restart: always
+  db:
     restart: always
   elasticsearch:
     restart: always

@@ -12,15 +12,14 @@ services:
       - ${FRONTEND_ADMIN_HOST_PORT}:3000
   backend-admin:
     restart: '${DOCKER_COMPOSE_RESTART:-no}'
-    ports:
-      - "${BACKEND_ADMIN_HOST_PORT}:4010"
     environment:
       MIX_ENV: dev
       DB_PORT: "${DB_PORT}"
       DB_HOST: "${DB_HOST}"
-
     volumes:
       - ../backend-admin:/release/backend-admin
+    ports:
+      - "${BACKEND_ADMIN_HOST_PORT}:4010"
     command:
       [
         "sh",
