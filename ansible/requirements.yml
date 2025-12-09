@@ -12,6 +12,11 @@ roles:
     version: master
   - src: https://github.com/ub-digit/ub-ansible-push-data.git
     version: master
+  - src: https://github.com/ub-digit/ub-ansible-decrypt-local-docker-secrets.git
+    version: master
+  - src: https://github.com/ub-digit/ub-ansible-sync-local-docker-data-dirs.git
+    version: master
+
 
 collections:
   - ansible.posix
