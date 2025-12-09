@@ -33,7 +33,7 @@
   - role: ub-ansible-sync-local-docker-data-dirs
     vars:
       docker_command: docker compose
-      data_dirs: '{{ hostvars[play_hosts[0]].data_dirs }}'
+      data_dirs: '{{ hostvars[ansible_play_batch[0]].data_dirs }}'
 
 - name: Import database
   hosts: localhost
