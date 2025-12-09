@@ -22,7 +22,7 @@ export const useLocaleStore = defineStore("locale", {
         "shared.access_information_code.available_to_the_university_of_gothenburg":
           "Accessible to students and employees of the University of Gothenburg.",
         "shared.access_information_code.available_to_the_university_of_gothenburg_on_campus_only_available_to_anyone":
-          "Accessible to students and employees at the University of Gothenburg on campus and to employees via a secure connection (VPN). Accessible to anyone using the libraries’ computers.",
+          "Accessible to students and employees at the University of Gothenburg on campus and to employees via the university’s VPN client. Accessible to anyone using the libraries’ computers.",
         "shared.access_information_code.available_to_the_university_of_gothenburg_available_to_anyone_using_the_libraries_computers":
           "Accessible to students and employees at the University of Gothenburg. Accessible to anyone using the libraries’ computers.",
         "shared.terms_of_use_code.print_article_chapter":
@@ -96,7 +96,7 @@ export const useLocaleStore = defineStore("locale", {
         "shared.access_information_code.available_to_the_university_of_gothenburg":
           "Tillgänglig för studenter och anställda vid Göteborgs universitet.",
         "shared.access_information_code.available_to_the_university_of_gothenburg_on_campus_only_available_to_anyone":
-          "Tillgänglig för studenter och anställda vid Göteborgs universitet på campus, och för anställda via säker förbindelse (VPN). Tillgänglig för alla från bibliotekets datorer.",
+          "Tillgänglig för studenter och anställda vid Göteborgs universitet på campus, och för anställda via universitetets VPN-klient. Tillgänglig för alla från bibliotekets datorer.",
         "shared.access_information_code.available_to_the_university_of_gothenburg_available_to_anyone_using_the_libraries_computers":
           "Tillgänglig för studenter och anställda vid Göteborgs universitet. Tillgänglig för alla från bibliotekets datorer.",
         "shared.terms_of_use_code.print_article_chapter":
