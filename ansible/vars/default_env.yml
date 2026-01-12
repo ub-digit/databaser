@@ -1,0 +1,11 @@
+---
+FRONTEND_ADMIN_HOST_PORT: '127.0.0.1:{{ frontend_admin_host_port }}'
+BACKEND_ADMIN_HOST_PORT: '127.0.0.1:{{ backend_admin_host_port }}'
+FRONTEND_HOST_PORT: '127.0.0.1:{{ frontend_host_port }}'
+BACKEND_HOST_PORT: '127.0.0.1:{{ backend_host_port }}'
+
+GIT_REVISION: '{{ git_revision }}'
+DB_DATA_PATH: '{{ data_dirs.postgres.path }}'
+HOST_ALERT_MESSAGE_FILE_PATH: '{{ data_dirs.host_alert_message.path }}'
+ELASTICSEARCH_DATA_PATH: '{{ data_dirs.elasticsearch.path }}'
+DATABASER_BACKEND_ADMIN_URL: http://backend-admin:4010

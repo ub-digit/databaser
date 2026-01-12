@@ -1,28 +1,30 @@
-version: "3.7"
+version: '3.7'
 name: "databaser"
+
 services:
   frontend-admin:
-    image: docker.ub.gu.se/databaser-frontend-admin:${GIT_REVISION}${PLATFORM}
+    image: docker.ub.gu.se/databaser-frontend-admin:${GIT_REVISION}${PLATFORM:-}
     environment:
       DATABASER_BACKEND_ADMIN_URL: "${DATABASER_BACKEND_ADMIN_URL}"
-  frontend-nuxt-3:
-    image: docker.ub.gu.se/databaser-frontend-nuxt-3:${GIT_REVISION}${PLATFORM}
-    environment:
-      NUXT_API_BASE_URL: "${DATABASER_BACKEND_URL}"
-  backend:
-    image: docker.ub.gu.se/databaser-backend:${GIT_REVISION}${PLATFORM}
+  backend-admin:
+    image: docker.ub.gu.se/databaser-backend-admin:${GIT_REVISION}${PLATFORM:-}
     environment:
       ELASTIC_SEARCH_URL: "${ELASTIC_SEARCH_URL}"
       ALERT_MESSAGE_FILE_PATH: "${ALERT_MESSAGE_FILE_PATH}"
-    restart: always
     volumes:
       - "${HOST_ALERT_MESSAGE_FILE_PATH}:${ALERT_MESSAGE_FILE_PATH}"
-  backend-admin:
-    image: docker.ub.gu.se/databaser-backend-admin:${GIT_REVISION}${PLATFORM}
+  frontend-nuxt:
+    image: docker.ub.gu.se/databaser-frontend-nuxt-3:${GIT_REVISION}${PLATFORM:-}
     environment:
-      ELASTIC_SEARCH_URL: "${ELASTIC_SEARCH_URL}"
+      NUXT_API_BASE_URL: ${DATABASER_BACKEND_URL}
+  backend:
+    image: docker.ub.gu.se/databaser-backend:${GIT_REVISION}${PLATFORM:-}
+    ports:
+      - "${BACKEND_HOST_PORT}:4000"
+    environment:
       ALERT_MESSAGE_FILE_PATH: "${ALERT_MESSAGE_FILE_PATH}"
-    restart: always
+      DEFAULT_SEARCH_FIELDS: "${DEFAULT_SEARCH_FIELDS}"
+      ELASTIC_SEARCH_URL: "${ELASTIC_SEARCH_URL}"
     volumes:
       - "${HOST_ALERT_MESSAGE_FILE_PATH}:${ALERT_MESSAGE_FILE_PATH}"
   db:
@@ -32,12 +34,18 @@ services:
       POSTGRES_PASSWORD: "${DB_PASSWORD}"
       POSTGRES_DB: "${DB_NAME}"
       PGDATA: /var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     volumes:
       - "${DB_INIT_PATH}:/docker-entrypoint-initdb.d"
-    restart: always
+      - "${DB_DATA_PATH}:/var/lib/postgresql/data/pgdata"
   elasticsearch:
-    image: docker.ub.gu.se/databaser-elasticsearch:${GIT_REVISION}${PLATFORM}
+    image: docker.ub.gu.se/databaser-elasticsearch:${GIT_REVISION}${PLATFORM:-}
     environment:
       - xpack.security.enabled=false
       - "discovery.type=single-node"
-      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g

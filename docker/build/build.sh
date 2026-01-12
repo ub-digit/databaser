@@ -1,2 +1,3 @@
 #!/bin/bash
-docker compose build $@
+source ./git_revision.sh
+docker compose build
