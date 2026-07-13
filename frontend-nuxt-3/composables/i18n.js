@@ -15,7 +15,7 @@ export const useLocaleStore = defineStore("locale", {
         "appheader.header_level1": "Gothenburg University Library",
         "appheader.header_level2": "Databases and e-resources",
 
-        "appfooter.contact_link": "https://www.ub.gu.se/node/189487/",
+        "appfooter.contact_link": "https://ub.gu.se/node/201",
         "appfooter.contact_link_text": "Contact us about databases",
 
         "shared.access_information_code.freely_available": "Freely accessible",
