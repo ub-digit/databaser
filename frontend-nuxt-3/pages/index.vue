@@ -5,7 +5,7 @@
         <div class="row justify-content-md-center">
           <div class="col-md-8 col-lg-6">
             <h1 class="page-title">{{ t("views.home.title") }}</h1>
-            <p class="lead">{{ t("views.home.desc") }}</p>
+            <p class="lead" v-html="t('views.home.desc')"></p>
           </div>
         </div>
       </div>
@@ -206,7 +206,7 @@ const database_list_to_render = computed(() => {
 const sub_topics = computed(() => {
   if (filters && filters.topic) {
     return databases.value.filters.topics.find(
-      (topic) => topic.id === filters.topic
+      (topic) => topic.id === filters.topic,
     ).sub_topics;
   }
 });
@@ -216,7 +216,7 @@ const mediatypes = computed(() => {
     return databases.value.filters.mediatypes;
   } else {
     return databases.value.filters.mediatypes.filter(
-      (mediatype) => mediatype.id === filters.mediatype
+      (mediatype) => mediatype.id === filters.mediatype,
     );
   }
 });
@@ -226,7 +226,7 @@ watch(
   () => {
     router.push({ query: { ...filters } });
   },
-  { deep: true }
+  { deep: true },
 );
 
 function setTopic(id) {
