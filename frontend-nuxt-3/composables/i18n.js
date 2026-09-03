@@ -57,7 +57,8 @@ export const useLocaleStore = defineStore("locale", {
 
         "views.home.title": "Databases and e-resources",
         "views.home.desc":
-          'Find databases to which the library subscribes and freely available resources selected by librarians. These resources will lead you to articles, statistics, business information, audio recordings, sheet music, video and more in your subject area. <br/><br/><span class="tou"><a href="https://ub.gu.se/node/52">Terms of use</a></span>',
+          "Find databases to which the library subscribes and freely available resources selected by librarians. These resources will lead you to articles, statistics, business information, audio recordings, sheet music, video and more in your subject area.",
+        "views.home.tou_link_text": "Terms of use",
         "views.home.primo_link_text": "Try searching in Supersearch instead",
         "views.home.no_result":
           "No database was found. Try one of the following: <ul><li>Check the spelling </li><li>Use fewer or more general search terms</li><li>Empty the search field and use the subject navigation to find a database</li></ul>",
@@ -132,7 +133,8 @@ export const useLocaleStore = defineStore("locale", {
 
         "views.home.title": "Databaser och e-resurser",
         "views.home.desc":
-          'Hitta databaser som biblioteket prenumererar på och fritt tillgängliga resurser utvalda av bibliotekarier. Resurserna leder dig till artiklar, statistik, företagsinformation, ljudupptagningar, noter, video och annat inom ditt ämnesområde. <br/><br/><span class="tou"><a href="https://ub.gu.se/node/52">Villkor för användning</a></span>',
+          "Hitta databaser som biblioteket prenumererar på och fritt tillgängliga resurser utvalda av bibliotekarier. Resurserna leder dig till artiklar, statistik, företagsinformation, ljudupptagningar, noter, video och annat inom ditt ämnesområde.",
+        "views.home.tou_link_text": "Villkor för användning",
         "views.home.primo_link_text": "Prova att söka i Supersök istället",
         "views.home.no_result":
           "Ingen databas hittades. Försök med något av följande: <ul><li>Kontrollera stavningen </li><li>Använd färre eller mer allmänna söktermer</li><li>Töm sökrutan och använd ämnesnavigeringen för att hitta en databas</li></ul>",

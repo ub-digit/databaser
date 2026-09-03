@@ -6,6 +6,10 @@
           <div class="col-md-8 col-lg-6">
             <h1 class="page-title">{{ t("views.home.title") }}</h1>
             <p class="lead" v-html="t('views.home.desc')"></p>
+            <a href="https://ub.gu.se/node/52" class="tou">
+              {{ t("views.home.tou_link_text") }}
+              <font-awesome-icon class="fa-xs" icon="arrow-right" />
+            </a>
           </div>
         </div>
       </div>
